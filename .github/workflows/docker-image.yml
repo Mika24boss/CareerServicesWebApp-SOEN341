@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag docker.registry.ampstudios.games/misc/soen341:latest
+    - name: Deploy
+      run: docker push docker.registry.ampstudios.games/misc/soen341:latest
+    - name: Webhook POST Action
+      uses: muinmomin/webhook-action@v1.0.0
+      with:
+        # URL of webhook to send post request to
+        url: https://firport.dynv6.net/api/webhooks/61354034-f9a4-4740-ab3d-bc01a831772e

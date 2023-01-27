@@ -1,0 +1,29 @@
+* a:link, a:visited, a:hover{
+    text-decoration: none;
+}
+
+body{
+    background-color: lightblue;
+}
+
+.centerBlock{
+    text-align: center;
+    display: block;
+    margin: 10px;
+    font-size: 30px;
+}
+
+.welcome, .signup-title{
+    padding-top: 80px;
+    padding-bottom: 50px;
+}
+
+.signin-form p a, .signup-form p a{
+    margin: 20px;
+}
+
+.btn-container, .user-type{
+    justify-content: center;
+    display: flex;
+    padding-top: 30px;
+}

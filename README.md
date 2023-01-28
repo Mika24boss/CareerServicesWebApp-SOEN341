@@ -11,30 +11,9 @@ Repository for the career website for the SOEN341 project - Winter 2023.
 <h2>Core Features</h2>
 <ul>
   <li>All users have a profile with their email as username and their own password.</li>
-  <li>Students: 
-      <ul>
-          <li>Can upload their CV to their profile</li>
-          <li>Can view all job offers</li>
-          <li>Can apply to one or more job offers</li>
-          <li>Receive notifications of upcoming interviews on their dashboard</li>
-      </ul>
-  </li>
-  <li>Employers:
-      <ul>
-          <li>Can create new job offers</li>
-          <li>Can view their job offers and how many candidates have applied</li>
-          <li>Can deactivate their active job offers to stop applications</li>
-          <li>Can reject candidates or schedule interviews</li>
-          <li>Receive notifications of new candidates on their dashboard</li>
-          <li>Can see their upcoming interviews on their dashboard</li>
-      </ul>
-  </li>
-  <li>Admins:
-      <ul>  
-          <li>Can see all users and delete anyone</li>
-          <li>Can see all job offers and delete anyone</li>
-      </ul>
-  </li>
+  <li>Students can view and apply to job offers, and see their upcoming interviews.</li>
+  <li>Employers can post job offers and select candidates.</li>
+  <li>Admins can manage and delete any user and any job offer.</li>
 </ul>
 <hr>
 
@@ -44,8 +23,7 @@ Repository for the career website for the SOEN341 project - Winter 2023.
         <li>Github for the project repository</li>
         <li>Frontend: 
             <ul>
-                <li>Programming Languages: HTML, CSS, JavaScript</li>
-                <li>Framework: React</li>
+                <li>Programming Languages: HTML, CSS, JavaScript</li>                
             </ul>
         </li>
         <li>Backend: 

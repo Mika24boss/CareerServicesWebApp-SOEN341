@@ -1,5 +1,5 @@
 # Career Services Application
-Repository for the career website for the SOEN341 project - Winter 2023.
+Repository for the career website for the SOEN 341 project - Winter 2023.
 <hr>
 
 <h2>Project Description</h2> 

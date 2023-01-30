@@ -17,11 +17,12 @@ function Dashboard() {
         if (!user) {
             navigate('/login')
         }
-        dispatch(getGoals())
-
+        if (user) {
+            dispatch(getGoals());
+        }
         return () => {
             dispatch(reset())
-        }
+        };
     }, [user, navigate, isError, message, dispatch])
     if (isLoading) {
         return <Spinner />

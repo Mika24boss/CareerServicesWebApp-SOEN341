@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag docker.registry.ampstudios.games/misc/soen341:latest
+      run: docker build "Sprint 1/frontend" --file Dockerfile --tag docker.registry.ampstudios.games/misc/soen341:latest
     - name: Deploy
       run: docker push docker.registry.ampstudios.games/misc/soen341:latest
     - name: Webhook POST Action

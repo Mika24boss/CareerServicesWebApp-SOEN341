@@ -11,7 +11,7 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		©AsianQuadPower
 	</footer>
 </div>
 
@@ -20,6 +20,7 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		background-color: lightblue;
 	}
 
 	main {

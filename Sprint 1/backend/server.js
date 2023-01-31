@@ -16,15 +16,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/goals', require('./routes/goalRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
-// Serve frontend
-// if (process.env.NODE_ENV === 'production') {
+// TOT-ADD HTML LOGIN PAGE
 //     app.use(express.static(path.join(__dirname, './frontend1/build')));
 
-//     app.get('*', (req, res) =>
+
+//     app.all('*', (req, res) =>
+//      res.status(404)
+//      if (req.accepts('html)){
 //         res.sendFile(
-//             path.resolve(__dirname, './', 'frontend1', 'build', 'index.html')
-//         )
-//     );
+//             path.resolve(__dirname, './', 'frontend1', 'build', 'index.html') //ADd the path later
+//         )}
+//      else if (req.accepts('json)){
+//      res.json({message: '404 not found'})
+//}
+// else {
+//      res.type('txt).send()  
+//}
+//     ); 
+
+// Serve frontend
+// if (process.env.NODE_ENV === 'production') {
+
+
 // } else {
 //     app.get('/', (req, res) => res.send('Please set to production'));
 // }

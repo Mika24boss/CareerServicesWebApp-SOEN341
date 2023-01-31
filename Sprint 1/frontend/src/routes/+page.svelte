@@ -18,7 +18,7 @@
 			</picture>
 		</span>
 
-		to your new<br />Asian app
+		to AsianQuadPower<br />Career Website!
 	</h1>
 
 	<h2>

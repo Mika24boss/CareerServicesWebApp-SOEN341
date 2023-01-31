@@ -5,7 +5,7 @@
 
 <div class="app">
 	<Header />
-	INSERT NAVBAR HERE
+
 	<main>
 		<slot />
 	</main>

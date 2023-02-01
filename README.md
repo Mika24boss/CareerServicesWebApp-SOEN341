@@ -24,7 +24,7 @@ Repository for the career website for the SOEN 341 project - Winter 2023.
         <li>Frontend: 
             <ul>
                 <li>Programming Languages: HTML, CSS, JavaScript</li>
-                <li>Framework: ReactJS</li>
+                <li>Framework: Node.js, SvelteKit</li>
             </ul>
         </li>
         <li>Backend: 

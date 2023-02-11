@@ -15,6 +15,15 @@ const userSchema = mongoose.Schema(
             type: String,
             required: [true, 'Please add a password'],
         },
+        roles: [{
+            type: String,
+            default: "Student"
+        }],
+        active: {
+            type: Boolean,
+            default: true
+        },
+
     },
     {
         timestamps: true,

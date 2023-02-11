@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose)
 
-const goalSchema = mongoose.Schema({
+const jobSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -24,9 +24,9 @@ const goalSchema = mongoose.Schema({
     timestamps: true,
 })
 
-goalSchema.plugin(AutoIncrement, {
+jobSchema.plugin(AutoIncrement, {
     inc_field: 'job',
     id: 'jobNums',
     start_seq: 500
 })
-module.exports = mongoose.model('Goal', goalSchema)
+module.exports = mongoose.model('Job', jobSchema)

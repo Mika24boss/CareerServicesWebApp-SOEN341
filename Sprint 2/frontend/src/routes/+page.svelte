@@ -1,40 +1,28 @@
 <script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import Inputs from '$lib/components/Inputs.svelte';
+
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>AsianQuadPower</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 
 <section>
 	<div class="welcome centerBlock">
-		<p style="font-size: 30px;">Welcome to CareerSENSE! </p>
-		<p>where you get a sense of your career...</p>
+		<p style="font-size: 30px;">Welcome to AsianQuadPower! </p>
 	</div>
-	<div class="signin-form centerBlock">
-		<p>Email: <input type="text" id="email" name="Email"></p>
-		<p>Password: <input type="text" id="pwd" name="Password"></p>
+	<Inputs/>
 		<div class="btn-container">
 			<button class="btn-signin centerBlock">Sign-In</button>
-			<button class="btn-signup centerBlock"><a href="">Sign-Up</a></button>
+			<button class="btn-signup centerBlock"><a href="/signup">Sign-Up</a></button>
 		</div>
-	</div>
 
 </section>
 
 
 <style>
-
-		section {
-		/*display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;*/
-	}
 
 	h1 {
 		width: 100%;
@@ -70,14 +58,6 @@
       margin: 10px;
       font-size: 20px;
   }
-
-  .signin-form p{
-      margin: 10px;
-  }
-
-	.signin-form{
-			padding-top: 30px;
-	}
 
   .btn-container{
       justify-content: center;

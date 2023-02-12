@@ -11,9 +11,9 @@ export const server_loads = [];
 
 export const dictionary = {
 	"/": [2],
-	"/about": [3],
-	"/sverdle": [~4],
-	"/sverdle/how-to-play": [5]
+	"/dashboard_employer": [3],
+	"/dashboard_student": [4],
+	"/signup": [5]
 };
 
 export const hooks = {

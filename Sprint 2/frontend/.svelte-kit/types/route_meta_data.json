@@ -4,5 +4,8 @@
 	],
 	"/postings": [
 		"src/routes/postings/+page.ts"
+	],
+	"/postings/[jobID]": [
+		"src/routes/postings/[jobID]/+page.js"
 	]
 }

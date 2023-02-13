@@ -18,7 +18,7 @@
             </button>
         </div>
         <div class="title">
-            <a href="">
+            <a href="/postings/{jobID}">
                 {jobTitle}<br/>
                 {companyName}
             </a>
@@ -31,11 +31,9 @@
 
 <style>
 
-    :root {
-        font-size: 1.3em;
-    }
     .gradient {
         background-image: linear-gradient(135deg, blue, darkblue);
+        font-size: 1.3em;
     }
 
     .posting {

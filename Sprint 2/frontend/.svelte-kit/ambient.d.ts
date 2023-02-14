@@ -44,7 +44,6 @@ declare module '$env/static/private' {
 	export const HOMEPATH: string;
 	export const IDEA_INITIAL_DIRECTORY: string;
 	export const INIT_CWD: string;
-	export const KMP_BLOCKTIME: string;
 	export const LOCALAPPDATA: string;
 	export const LOGONSERVER: string;
 	export const NODE: string;
@@ -71,11 +70,13 @@ declare module '$env/static/private' {
 	export const npm_package_name: string;
 	export const npm_package_version: string;
 	export const NUMBER_OF_PROCESSORS: string;
-	export const OMP_WAIT_POLICY: string;
 	export const OneDrive: string;
+	export const OneDriveConsumer: string;
+	export const OnlineServices: string;
 	export const OS: string;
 	export const Path: string;
 	export const PATHEXT: string;
+	export const platformcode: string;
 	export const PROCESSOR_ARCHITECTURE: string;
 	export const PROCESSOR_IDENTIFIER: string;
 	export const PROCESSOR_LEVEL: string;
@@ -86,6 +87,7 @@ declare module '$env/static/private' {
 	export const PROMPT: string;
 	export const PSModulePath: string;
 	export const PUBLIC: string;
+	export const RegionCode: string;
 	export const SESSIONNAME: string;
 	export const SystemDrive: string;
 	export const SystemRoot: string;
@@ -143,7 +145,6 @@ declare module '$env/dynamic/private' {
 		HOMEPATH: string;
 		IDEA_INITIAL_DIRECTORY: string;
 		INIT_CWD: string;
-		KMP_BLOCKTIME: string;
 		LOCALAPPDATA: string;
 		LOGONSERVER: string;
 		NODE: string;
@@ -170,11 +171,13 @@ declare module '$env/dynamic/private' {
 		npm_package_name: string;
 		npm_package_version: string;
 		NUMBER_OF_PROCESSORS: string;
-		OMP_WAIT_POLICY: string;
 		OneDrive: string;
+		OneDriveConsumer: string;
+		OnlineServices: string;
 		OS: string;
 		Path: string;
 		PATHEXT: string;
+		platformcode: string;
 		PROCESSOR_ARCHITECTURE: string;
 		PROCESSOR_IDENTIFIER: string;
 		PROCESSOR_LEVEL: string;
@@ -185,6 +188,7 @@ declare module '$env/dynamic/private' {
 		PROMPT: string;
 		PSModulePath: string;
 		PUBLIC: string;
+		RegionCode: string;
 		SESSIONNAME: string;
 		SystemDrive: string;
 		SystemRoot: string;

@@ -54,7 +54,7 @@ Repository for the career website for the SOEN 341 project - Winter 2023.
     <li>Anh-Tuan Nguyen (40177349)
         <ul>
             <li>Username: anhtuann</li>
-            <li>Role/Strength: Backend Developer</li>
+            <li>Role/Strength: Frontend Developer</li>
         </ul>
     </li>
     <li>Hoang Minh Khoi Pham (40162551)

@@ -27,7 +27,6 @@
  */
 declare module '$env/static/private' {
 	export const ALLUSERSPROFILE: string;
-	export const AMDRMPATH: string;
 	export const APPDATA: string;
 	export const ChocolateyInstall: string;
 	export const ChocolateyLastPathUpdate: string;
@@ -74,9 +73,11 @@ declare module '$env/static/private' {
 	export const NPM_PREFIX_NPM_CLI_JS: string;
 	export const NUMBER_OF_PROCESSORS: string;
 	export const OneDrive: string;
+	export const OnlineServices: string;
 	export const OS: string;
 	export const Path: string;
 	export const PATHEXT: string;
+	export const platformcode: string;
 	export const PROCESSOR_ARCHITECTURE: string;
 	export const PROCESSOR_IDENTIFIER: string;
 	export const PROCESSOR_LEVEL: string;
@@ -87,6 +88,7 @@ declare module '$env/static/private' {
 	export const PROMPT: string;
 	export const PSModulePath: string;
 	export const PUBLIC: string;
+	export const RegionCode: string;
 	export const SESSIONNAME: string;
 	export const SystemDrive: string;
 	export const SystemRoot: string;
@@ -96,7 +98,6 @@ declare module '$env/static/private' {
 	export const USERDOMAIN_ROAMINGPROFILE: string;
 	export const USERNAME: string;
 	export const USERPROFILE: string;
-	export const VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
 	export const windir: string;
 	export const __PSLockDownPolicy: string;
 }
@@ -129,7 +130,6 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		ALLUSERSPROFILE: string;
-		AMDRMPATH: string;
 		APPDATA: string;
 		ChocolateyInstall: string;
 		ChocolateyLastPathUpdate: string;
@@ -176,9 +176,11 @@ declare module '$env/dynamic/private' {
 		NPM_PREFIX_NPM_CLI_JS: string;
 		NUMBER_OF_PROCESSORS: string;
 		OneDrive: string;
+		OnlineServices: string;
 		OS: string;
 		Path: string;
 		PATHEXT: string;
+		platformcode: string;
 		PROCESSOR_ARCHITECTURE: string;
 		PROCESSOR_IDENTIFIER: string;
 		PROCESSOR_LEVEL: string;
@@ -189,6 +191,7 @@ declare module '$env/dynamic/private' {
 		PROMPT: string;
 		PSModulePath: string;
 		PUBLIC: string;
+		RegionCode: string;
 		SESSIONNAME: string;
 		SystemDrive: string;
 		SystemRoot: string;
@@ -198,7 +201,6 @@ declare module '$env/dynamic/private' {
 		USERDOMAIN_ROAMINGPROFILE: string;
 		USERNAME: string;
 		USERPROFILE: string;
-		VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
 		windir: string;
 		__PSLockDownPolicy: string;
 		[key: `PUBLIC_${string}`]: undefined;

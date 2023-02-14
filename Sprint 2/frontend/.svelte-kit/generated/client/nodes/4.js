@@ -1,3 +1,1 @@
-import * as universal from "../../../../src/routes/postings/[jobID]/+page.js";
-export { universal };
-export { default as component } from "../../../../src/routes/postings/[jobID]/+page.svelte";
+export { default as component } from "../../../../src/routes/dashboard_student/+page.svelte";

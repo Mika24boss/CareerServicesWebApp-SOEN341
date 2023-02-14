@@ -1,12 +1,10 @@
 <script>
-
 </script>
 
 <header>
 
-	<corner>
-		<a href="/">Home</a>
-	</corner>
+	<div>
+	</div>
 
 	<nav>
 		<svg viewBox="0 0 2 3">
@@ -18,6 +16,9 @@
 			</li>
 			<li>
 				<a href="/">Profile</a>
+			</li>
+			<li>
+				<a href="/postings">Postings</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3">
@@ -92,9 +93,5 @@
 		letter-spacing: 0.1em;
 		text-decoration: none;
 		transition: color 0.2s linear;
-	}
-
-	a:hover {
-		color: var(--color-theme-1);
 	}
 </style>

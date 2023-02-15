@@ -5,7 +5,6 @@
 
     function apply(e) {
         applyText = "Applied!";
-        console.log(e);
         document.getElementById(jobID).style.background = "linear-gradient(180deg, red, darkgreen)";
     }
 
@@ -19,7 +18,7 @@
         </div>
         <div class="title">
             <a href="/postings/{jobID}">
-                {jobTitle}<br/>
+                <b>{jobTitle}</b><br/>
                 {companyName}
             </a>
         </div>
@@ -33,7 +32,7 @@
 
     .gradient {
         background-image: linear-gradient(135deg, blue, darkblue);
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
 
     .posting {
@@ -69,12 +68,20 @@
     .title {
         line-height: calc(var(--line-height) / 2);
         padding: 1em;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .location {
         padding: 1em;
         text-align: center;
         line-height: var(--line-height);
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 </style>

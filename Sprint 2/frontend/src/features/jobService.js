@@ -1,22 +1,22 @@
 import axios from 'axios'
 
-const API_URL = '/api/goals/'
+const API_URL = '/api/jobs/'
 
-// Create new goal
-const createGoal = async (goalData, token) => {
+// Create new job
+const createJob = async (jobData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    const response = await axios.post(API_URL, goalData, config)
+    const response = await axios.post(API_URL, jobData, config)
 
     return response.data
 }
 
-// Get user goals
-const getGoals = async (token) => {
+// Get user jobs
+const getJobs = async (token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -28,23 +28,23 @@ const getGoals = async (token) => {
     return response.data
 }
 
-// Delete user goal
-const deleteGoal = async (goalId, token) => {
+// Delete job
+const deleteJob = async (jobID, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    const response = await axios.delete(API_URL + goalId, config)
+    const response = await axios.delete(API_URL + jobID, config)
 
     return response.data
 }
 
-const goalService = {
-    createGoal,
-    getGoals,
-    deleteGoal,
+const jobService = {
+    createJob,
+    getJobs,
+    deleteJob,
 }
 
-export default goalService
+export default jobService

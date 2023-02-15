@@ -1,5 +1,11 @@
 <script>
     import Posting from '$lib/components/Posting.svelte';
+    import jobService from "../../features/jobService.js";
+
+    let postings = [];
+
+    postings = jobService.getJobs("");
+
 
     let pkgs = [
         {

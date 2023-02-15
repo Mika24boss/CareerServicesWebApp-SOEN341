@@ -1,8 +1,10 @@
 <script>
-
 </script>
 
 <header>
+
+	<div>
+	</div>
 
 	<nav>
 		<svg viewBox="0 0 2 3">
@@ -91,9 +93,5 @@
 		letter-spacing: 0.1em;
 		text-decoration: none;
 		transition: color 0.2s linear;
-	}
-
-	a:hover {
-		color: var(--color-theme-1);
 	}
 </style>

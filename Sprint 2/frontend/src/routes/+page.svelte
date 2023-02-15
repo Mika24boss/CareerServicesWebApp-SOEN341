@@ -1,11 +1,10 @@
 <script>
 	import Inputs from '$lib/components/Inputs.svelte';
-
 </script>
 
 <svelte:head>
 	<title>AsianQuadPower</title>
-	<meta name="description" content="Svelte demo app" />
+	<meta name="description" content="Career website" />
 </svelte:head>
 
 
@@ -18,15 +17,10 @@
 			<button class="btn-signin centerBlock">Sign-In</button>
 			<button class="btn-signup centerBlock"><a href="/signup">Sign-Up</a></button>
 		</div>
-
 </section>
 
 
 <style>
-
-	h1 {
-		width: 100%;
-	}
 
 	.welcome{
 		display: block;

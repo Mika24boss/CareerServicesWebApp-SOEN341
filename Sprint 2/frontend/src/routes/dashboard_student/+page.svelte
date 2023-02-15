@@ -6,7 +6,7 @@
 
 	<h1>Upcoming Interviews</h1>
 
-	<div class='interviews-grid'>
+	<div class='interviews'>
 		<Interview />
 		<Interview />
 		<Interview />
@@ -19,7 +19,7 @@
 
 <style>
 
-    .interviews-grid {
+    .interviews {
 		display: grid;
 		grid-template-columns: 2fr 2fr;
 		grid-gap: 1em;

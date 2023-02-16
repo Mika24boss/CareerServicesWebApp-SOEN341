@@ -17,7 +17,7 @@
 				<a href='/dashboard_student'>Dashboard</a>
 			</li>
 			<li>
-				<a href="/">Profile</a>
+				<a href="/profile">Profile</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3">

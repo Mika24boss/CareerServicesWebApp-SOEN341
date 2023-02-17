@@ -15,7 +15,7 @@
 				<a href='/dashboard_student'>Dashboard</a>
 			</li>
 			<li>
-				<a href="/">Profile</a>
+				<a href="/profile">Profile</a>
 			</li>
 			<li>
 				<a href="/postings">Postings</a>

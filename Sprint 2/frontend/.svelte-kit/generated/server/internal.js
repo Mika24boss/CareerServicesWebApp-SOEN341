@@ -5,6 +5,7 @@ import { set_building, set_paths, set_private_env, set_public_env, set_version }
 set_paths({"base":"","assets":""});
 set_version("1676397294374");
 
+
 export const options = {
 	csp: {"mode":"auto","directives":{"upgrade-insecure-requests":false,"block-all-mixed-content":false},"reportOnly":{"upgrade-insecure-requests":false,"block-all-mixed-content":false}},
 	csrf_check_origin: true,

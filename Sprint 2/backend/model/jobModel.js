@@ -2,24 +2,43 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 const jobSchema = mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User',
-    },
-    text: {
-        type: String,
-        required: [true, 'Please add a text value'],
-    },
     title: {
         type: String,
         required: true
     },
-    applied: {
-        type: Boolean,
-        default: false
-    }
-
+    description: {
+        type: String,
+        required: true
+    },
+    location: {
+        type: String,
+        required: true
+    },
+    company: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    salary: {
+        type: Number,
+        required: true
+    },
+    postedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
 }, {
     timestamps: true,
 })

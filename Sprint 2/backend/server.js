@@ -2,6 +2,9 @@ const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
 const { errorHandler } = require('./middleware/errorMiddleware')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 const mongoose = require('mongoose')
 const connectDB = require('./config/db')
 const port = process.env.PORT || 5000;
@@ -10,39 +13,38 @@ const path = require('path');
 connectDB();
 
 const app = express();
-
+app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json());
+
+app.use(cookieParser())
+
 app.use(express.urlencoded({ extended: false }));
+app.use('/', express.static(path.join(__dirname, '..', 'frontend')));
 
 app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/goals', require('./routes/goalRoutes'));
+app.use('/api/jobs', require('./routes/jobRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
-// TOT-ADD HTML LOGIN PAGE
-//     app.use(express.static(path.join(__dirname, './frontend1/build')));
+app.use('/', require('./routes/root'))
+app.all('*', (req, res) => {
+    res.status(404)
+    if (req.accepts('json')) {
+        res.json({ message: '404 Not Found' })
+    } else {
+        res.type('txt').send('404 Not Found')
+    }
+});
 
 
-//     app.all('*', (req, res) =>
-//      res.status(404)
-//      if (req.accepts('html)){
-//         res.sendFile(
-//             path.resolve(__dirname, './', 'frontend1', 'build', 'index.html') //ADd the path later
-//         )}
-//      else if (req.accepts('json)){
-//      res.json({message: '404 not found'})
-//}
-// else {
-//      res.type('txt).send()  
-//}
-//     ); 
-
-// Serve frontend
-// if (process.env.NODE_ENV === 'production') {
-
-
-// } else {
-//     app.get('/', (req, res) => res.send('Please set to production'));
-// }
 app.use(errorHandler)
 
-app.listen(port, () => console.log(`Server is running at port ${port}`));
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB')
+    app.listen(port, () => console.log(`Server is running at port ${port}`));
+})
+
+mongoose.connection.on('error', err => {
+    console.log(err)
+    logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
+})

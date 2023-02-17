@@ -4,6 +4,11 @@
 	],
 	"/dashboard_employer": [],
 	"/dashboard_student": [],
-	"/profile": [],
+	"/postings": [
+		"src/routes/postings/+page.ts"
+	],
+	"/postings/[jobID]": [
+		"src/routes/postings/[jobID]/+page.js"
+	],
 	"/signup": []
 }

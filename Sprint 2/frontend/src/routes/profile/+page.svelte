@@ -1,4 +1,3 @@
-<head></head>
 <style>
 
     h3{margin:5px 5px 10px;}
@@ -14,7 +13,6 @@
         border: 1px solid;
         border-radius: 10px;
         padding:5px;
-
     }
 
     .btn{
@@ -31,7 +29,7 @@
         grid-gap: 10px;
     }
 
-    .avatar{
+    .profile-pic{
         background-color: aliceblue;
         display: flex;
         flex-direction: column;
@@ -41,7 +39,7 @@
         padding: 10px 20px 10px;
     }
 
-    .image-upload img {
+    .avatar img {
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -53,7 +51,7 @@
         transition: 0.5s ease;
     }
 
-    .image-upload img:hover{
+    .avatar img:hover{
         opacity:0.5;
         transition:0.5s ease;
     }
@@ -92,20 +90,16 @@
 
 </style>
 
-<script>
-
-</script>
-
 <h1 style="text-align: left;">Profile</h1>
-
 <div class="profile">
-    <form class="avatar">
+
+    <form class="profile-pic">
         <h3>Avatar</h3>
 
-        <div class="image-upload">
-            <label for="newAvatar">
-                <img id="defaultAvatar" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Avatar">
-                <input type="file" name="newAvatar" id="newAvatar" style="display: none;" accept="image/*">
+       <div class="avatar">
+            <label id="upload-btn" for="photo">
+                <img id="default-photo" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Avatar">
+                <input type="file" name="photo" id="photo" style="display: none;" accept="image/*" onchange="readURL(this);">
             </label>
         </div>
 
@@ -125,20 +119,20 @@
         <input type="password" id="password" name="password">
 
         <div class="btn">
-          <button class="edit">Edit</button>
+          <button class="save">Save</button>
         </div>
     </form>
 
-        <form class="resume" action="/"> <!-- is an action needed after uploading a file? -->
-            <h3>Resume</h3>
+    <form class="resume" action="/"> <!-- is an action needed after uploading a file? -->
+        <h3>Resume</h3>
 
-            <div class="btn" style="text-align: left;">
-                <input type="file" id="file" name="file" accept="application/pdf,application/msword,.doc,docx">
-            </div>
+        <div class="btn" style="text-align: left;">
+            <input type="file" id="file" name="file" accept="application/pdf,application/msword,.doc,docx">
+        </div>
 
-            <div class="btn">
-                <input type="submit" value="Upload" style="cursor: pointer; width: auto;">
-            </div>
-        </form>
+        <div class="btn">
+            <input type="submit" value="Upload" style="cursor: pointer; width: auto;">
+        </div>
+    </form>
 
 </div>

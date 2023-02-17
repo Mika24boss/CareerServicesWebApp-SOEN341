@@ -18,7 +18,7 @@
 				<a href='/dashboard_employer'>Dashboard_E</a>
 			</li>
 			<li>
-				<a href="/">Profile</a>
+				<a href="/profile">Profile</a>
 			</li>
 			<li>
 				<a href="/postings">Postings</a>

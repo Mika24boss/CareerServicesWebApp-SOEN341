@@ -2,19 +2,12 @@
 
 </script>
 
-<section>
 	<div class='inputs-form centerBlock'>
 		<p>Email: <input type="text" id="email" name="Email"></p>
 		<p>Password: <input type="text" id="pwd" name="Password"></p>
 	</div>
 
-</section>
-
 <style>
-
-    h1 {
-        width: 100%;
-    }
 
     * a:link, a:visited, a:hover{
         text-decoration: none;

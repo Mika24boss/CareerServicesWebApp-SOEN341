@@ -10,5 +10,6 @@
 	"/postings/[jobID]": [
 		"src/routes/postings/[jobID]/+page.js"
 	],
+	"/profile": [],
 	"/signup": []
 }

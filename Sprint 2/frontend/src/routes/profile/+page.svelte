@@ -99,7 +99,7 @@
        <div class="avatar">
             <label id="upload-btn" for="photo">
                 <img id="default-photo" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Avatar">
-                <input type="file" name="photo" id="photo" style="display: none;" accept="image/*" onchange="readURL(this);">
+                <input type="file" name="photo" id="photo" style="display: none;" accept="image/*">
             </label>
         </div>
 

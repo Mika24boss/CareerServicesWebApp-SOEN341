@@ -1,5 +1,5 @@
 <script>
-	import Inputs from '$lib/components/Inputs.svelte';
+
 </script>
 
 <svelte:head>
@@ -12,7 +12,10 @@
 	<div class="welcome centerBlock">
 		<p style="font-size: 30px;">Welcome to AsianQuadPower! </p>
 	</div>
-	<Inputs/>
+	<div class='inputs-form centerBlock'>
+		<p>Email: <input type="text" id="email" name="Email"></p>
+		<p>Password: <input type="text" id="pwd" name="Password"></p>
+	</div>
 		<div class="btn-container">
 			<button class="btn-signin centerBlock">Sign-In</button>
 			<button class="btn-signup centerBlock"><a href="/signup">Sign-Up</a></button>

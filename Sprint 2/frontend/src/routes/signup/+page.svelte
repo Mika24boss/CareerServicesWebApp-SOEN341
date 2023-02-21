@@ -3,9 +3,13 @@
     import {userService} from '$lib/userStore';
     import {get} from 'svelte/store';
     import {goto} from "$app/navigation";
+    import {env} from "$env/dynamic/public";
+
+    const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
     console.log(userService.UserState[get(userService.userState)]);
     let name, email, password;
+    let response;
 
     async function onSubmit() {
         name = 'John';
@@ -16,7 +20,7 @@
             email,
             password
         };
-        let response = await authService.register(userData);
+        response = await authService.register(userData);
         console.log('Response: ', response);
         //userID = response.something;
         userService.userState.set(userService.UserState.Student);
@@ -27,6 +31,8 @@
 <section>
     <div class="signup-title centerBlock" style="padding-bottom:0">
         <p style="font-size: 30px">Sign-Up as a ... </p>
+        {API_URL}<br/>
+        {response}
     </div>
     <div class="centerBlock">
         <button class="btn-student">Student</button>

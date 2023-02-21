@@ -1,4 +1,27 @@
 <script>
+    import {authService} from '$lib/features/authService.js';
+    import {userService} from '$lib/userStore';
+    import {get} from 'svelte/store';
+    import {goto} from "$app/navigation";
+
+    console.log(userService.UserState[get(userService.userState)]);
+    let name, email, password;
+
+    async function onSubmit() {
+        name = 'John';
+        email = document.getElementById("email").value;
+        password = document.getElementById("password").value;
+        const userData = {
+            name,
+            email,
+            password
+        };
+        let response = await authService.register(userData);
+        console.log('Response: ', response);
+        //userID = response.something;
+        userService.userState.set(userService.UserState.Student);
+        //await goto("/");
+    }
 </script>
 
 <section>
@@ -15,7 +38,7 @@
             <p>Password: <input type="password" id="password" required></p>
 
             <div class="btn-container">
-                <button class="btn-signup centerBlock" type="submit">Sign-Up</button>
+                <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
                 <button class="btn-back centerBlock"><a href="/">Back</a></button>
             </div>
         </form>

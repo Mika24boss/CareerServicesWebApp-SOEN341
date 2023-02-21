@@ -7,10 +7,13 @@ const jobSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     },
-    text: {
+    title: {
         type: String,
         required: [true, 'Please add a text value'],
     },
+        description: {
+        type: String,
+            required: true },
 },
     {
         timestamps: true,

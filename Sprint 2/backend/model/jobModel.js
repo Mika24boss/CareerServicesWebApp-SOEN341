@@ -14,6 +14,13 @@ const jobSchema = mongoose.Schema({
         description: {
         type: String,
             required: true },
+    location: {
+        type: String
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    }
 },
     {
         timestamps: true,

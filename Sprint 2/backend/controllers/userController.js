@@ -46,6 +46,52 @@ const registerUser = asyncHandler(async (req, res) => {
 }
 )
 
+// @desc Get new users
+// @route Get /api/users
+// @access Public
+const getUserById = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+        res.json(user);
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
+// @desc Update a user by ID
+// @route Patch /api/users/
+// @access Public
+const updateUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+        user.email = req.body.email || user.email;
+        user.password = req.body.password || user.password;
+        user.name = req.body.firstName || user.firstName;
+        user.profilePicture = req.body.profilePicture || user.profilePicture;
+        const updatedUser = await user.save();
+        res.json(updatedUser);
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
+// @desc Delete a user by ID
+// @route Patch /api/users/
+// @access Public
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+        await user.remove();
+        res.json({ message: 'User removed' });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
+
 // @desc Authenticate a user
 // @route Post /api/users/login
 // @access Public

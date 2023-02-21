@@ -23,7 +23,7 @@
 </script>
 
 <div class="pageHeader">
-    <h1>Job Postings {userID}</h1>
+    <h1>Job Postings</h1>
     <input type="search" class="search" placeholder="Type job or company name...">
 </div>
 

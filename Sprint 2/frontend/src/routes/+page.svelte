@@ -1,23 +1,40 @@
 <script>
-    import {login} from '../features/authService.js';
-    import {userID, userState, UserState} from '$lib/userStore';
+    import {authService} from '$lib/features/authService.js';
+    import {userService} from '$lib/userStore';
     import {get} from 'svelte/store';
 
-    console.log(UserState[get(userState)]);
+    console.log(userService.UserState[get(userService.userState)]);
     let email, password;
 
-    function onSubmit() {
+    async function onSubmit() {
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
-        const userData = {
-            email,
-            password
-        };
-        //let response = login(userData);
-        //userID = response.something;
-        userState.set(UserState.Student);
-        console.log(UserState[get(userState)]);
+        const response = await fetch('/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+        } else {
+            console.error('Failed to login');
+        }
     }
+    // function onSubmit() {
+    //     email = document.getElementById("email").value;
+    //     password = document.getElementById("password").value;
+    //     const userData = {
+    //         email,
+    //         password
+    //     };
+    //     let response = login(userData);
+    //     console.log(response);
+    //     //userID = response.something;
+    //     userState.set(UserState.Student);
+    // }
 
 </script>
 

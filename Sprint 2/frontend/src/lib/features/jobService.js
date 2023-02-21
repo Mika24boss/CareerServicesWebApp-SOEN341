@@ -3,7 +3,7 @@ import axios from 'axios'
 const API_URL = '/api/jobs/'
 
 // Create new job
-const createJob = async (jobData, token) => {
+const createJob = async (/** @type {any} */ jobData, /** @type {any} */ token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -16,7 +16,7 @@ const createJob = async (jobData, token) => {
 }
 
 // Get user jobs
-const getJobs = async (token) => {
+const getJobs = async (/** @type {any} */ token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ const getJobs = async (token) => {
 }
 
 // Delete job
-const deleteJob = async (jobID, token) => {
+const deleteJob = async (/** @type {string} */ jobID, /** @type {any} */ token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

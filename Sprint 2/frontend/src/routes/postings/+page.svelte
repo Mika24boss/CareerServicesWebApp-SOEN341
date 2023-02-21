@@ -1,9 +1,9 @@
 <script>
     import Posting from '$lib/components/Posting.svelte';
-    import {userID, userState, UserState} from '$lib/userStore';
+    import {userService} from '$lib/userStore';
     import {get} from 'svelte/store';
 
-    console.log(UserState[get(userState)]);
+    console.log(userService.UserState[get(userService.userState)]);
 
     const pkgs = [
         {

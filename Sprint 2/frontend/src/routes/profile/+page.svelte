@@ -1,3 +1,24 @@
+<script>
+    import { onMount } from 'svelte';
+
+    let previewUrl;
+
+    function handleImageChange(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    onMount(() => {
+        const input = document.querySelector('#image-upload');
+        const preview = document.querySelector('#previewImage');
+        input.addEventListener('change', handleImageChange);
+    });
+</script>
+
 <h1 style="text-align: left;">Profile</h1>
 <div class="profile">
 
@@ -134,27 +155,5 @@
         padding: 5px;
     }
 </style>
-
-<script>
-    import { onMount } from 'svelte';
-
-    let previewUrl;
-
-    function handleImageChange(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            previewUrl = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-
-    onMount(() => {
-        const input = document.querySelector('#image-upload');
-        const preview = document.querySelector('#previewImage');
-        input.addEventListener('change', handleImageChange);
-    });
-</script>
-
 
 

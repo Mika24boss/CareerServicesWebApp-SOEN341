@@ -6,9 +6,9 @@ const User = require('../model/userModel');
 // @route Post /api/users
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body
+    const { name, email, password, role } = req.body
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
         res.status(400)
         throw new Error('Please add all fields')
     }
@@ -29,6 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
         name,
         email,
         password: hashedPassword,
+        role,
     })
 
     if (user) {
@@ -37,6 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             token: generateToken(user._id),
+            role: user.role,
         })
     }
     else {

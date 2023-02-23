@@ -1,6 +1,37 @@
 <script>
+	import {authService} from '$lib/features/authService.js';
+	import {userService} from '$lib/userStore';
+	import {get} from 'svelte/store';
+	import {goto} from "$app/navigation";
+	import {env} from "$env/dynamic/public";
+
+	const API_URL = env.PUBLIC_API_URL + '/api/users/'
+
+	console.log(userService.UserState[get(userService.userState)]);
+	let name, email, password, role;
+	let response;
+
+	async function onSubmit() {
+		name = 'John';
+		role = 'Student'; // or Employer or Admin
+		email = document.getElementById("email").value;
+		password = document.getElementById("password").value;
+		const userData = {
+			name,
+			email,
+			password,
+			role
+		};
+		response = await authService.register(userData);
+		console.log('Response: ', response);
+		//userID = response.something;
+		userService.userState.set(userService.UserState.Student);
+		//await goto("/");
+	}
 
 </script>
+
+
 
 <section>
 	<div class="signup-title centerBlock" style="padding-bottom:0">

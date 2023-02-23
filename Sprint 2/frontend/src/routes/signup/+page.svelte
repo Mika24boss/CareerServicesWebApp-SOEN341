@@ -39,12 +39,13 @@
     <div class="centerBlock">
         <button class="btn-student">Student</button>
         <button class="btn-employer">Employer</button>
-        <button class="btn-admin">Admin</button>
 
         <form>
-            <p>Email: <input type="text" id="email" required></p>
-            <p>Password: <input type="password" id="password" required></p>
-
+            <div class='inputs-form centerBlock'>
+                <p>Full Name: <input type="text" id="name" name="Name"></p>
+                <p>Email: <input type="text" id="email" name="Email"></p>
+                <p>Password: <input type="text" id="pwd" name="Password"></p>
+            </div>
             <div class="btn-container">
                 <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
                 <button class="btn-back centerBlock"><a href="/">Back</a></button>
@@ -54,12 +55,18 @@
     </div>
 
 </section>
-
+        <button class="btn-test">Testing</button>
 
 <style>
 
     h1 {
         width: 100%;
+    }
+
+    .btn-test{
+        position: fixed;
+        bottom: 5px;
+        right: 10px;
     }
 
     .signup-title {

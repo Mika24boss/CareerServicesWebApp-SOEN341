@@ -8,17 +8,19 @@
     const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
     console.log(userService.UserState[get(userService.userState)]);
-    let name, email, password;
+    let name, email, password, role;
     let response;
 
     async function onSubmit() {
         name = 'John';
+        role = 'Student'; // or Employer or Admin
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
         const userData = {
             name,
             email,
-            password
+            password,
+            role
         };
         response = await authService.register(userData);
         console.log('Response: ', response);

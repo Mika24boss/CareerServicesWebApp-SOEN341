@@ -24,7 +24,7 @@ Repository for the career website for the SOEN 341 project - Winter 2023.
         <li>Frontend: 
             <ul>
                 <li>Programming Languages: HTML, CSS, JavaScript</li>
-                <li>Framework: ReactJS</li>
+                <li>Framework: Node.js, SvelteKit</li>
             </ul>
         </li>
         <li>Backend: 
@@ -54,7 +54,7 @@ Repository for the career website for the SOEN 341 project - Winter 2023.
     <li>Anh-Tuan Nguyen (40177349)
         <ul>
             <li>Username: anhtuann</li>
-            <li>Role/Strength: Backend Developer</li>
+            <li>Role/Strength: Frontend Developer</li>
         </ul>
     </li>
     <li>Hoang Minh Khoi Pham (40162551)
@@ -66,4 +66,6 @@ Repository for the career website for the SOEN 341 project - Winter 2023.
 </ul>
 <hr>
 Google Drive Folder : https://drive.google.com/drive/folders/19gJMnSu9UXPethGoDht5VrpiM35O2rA7?usp=share_link
+<br/>
+Website Link: https://firmic.dynv6.net/
 

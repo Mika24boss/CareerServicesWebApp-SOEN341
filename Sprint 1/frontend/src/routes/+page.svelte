@@ -9,45 +9,48 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+
 <section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
+	<div class="welcome centerBlock">
+		<p style="font-size: 30px;">Welcome to CareerSENSE! </p>
+		<p>where you get a sense of your career...</p>
+	</div>
+	<div class="signin-form centerBlock">
+		<p>Email: <input type="text" id="email" name="Email"></p>
+		<p>Password: <input type="text" id="pwd" name="Password"></p>
+		<div class="btn-container">
+			<button class="btn-signin centerBlock">Sign-In</button>
+			<button class="btn-signup centerBlock"><a href="">Sign-Up</a></button>
+		</div>
+	</div>
 
-		to AsianQuadPower<br />Career Website!
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
 </section>
 
+
 <style>
-	section {
-		display: flex;
+
+		section {
+		/*display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: center;
-		flex: 0.6;
+		align-items: center;*/
 	}
 
 	h1 {
 		width: 100%;
 	}
 
-	.welcome {
+	.welcome{
 		display: block;
 		position: relative;
 		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
+		padding-top: 30px;
 	}
+
+	.welcome p{
+			margin: 2px;
+	}
+
 
 	.welcome img {
 		position: absolute;
@@ -56,4 +59,29 @@
 		top: 0;
 		display: block;
 	}
+
+  * a:link, a:visited, a:hover{
+      text-decoration: none;
+  }
+
+  .centerBlock{
+      text-align: center;
+      display: block;
+      margin: 10px;
+      font-size: 20px;
+  }
+
+  .signin-form p{
+      margin: 10px;
+  }
+
+	.signin-form{
+			padding-top: 30px;
+	}
+
+  .btn-container{
+      justify-content: center;
+      display: flex;
+      padding-top: 20px;
+  }
 </style>

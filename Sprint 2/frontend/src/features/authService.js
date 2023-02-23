@@ -1,10 +1,9 @@
 import axios from 'axios'
-import { env } from '$env/dynamic/public'
 
-const API_URL = env.PUBLIC_API_URL + '/api/users/'
+const API_URL = '/api/users/'
 
 // Register user
-const register = async (/** @type {any} */ userData) => {
+const register = async (userData) => {
     const response = await axios.post(API_URL, userData)
 
     if (response.data) {
@@ -15,7 +14,7 @@ const register = async (/** @type {any} */ userData) => {
 }
 
 // Login user
-const login = async (/** @type {any} */ userData) => {
+const login = async (userData) => {
     const response = await axios.post(API_URL + 'login', userData)
 
     if (response.data) {
@@ -30,7 +29,7 @@ const logout = () => {
     localStorage.removeItem('user')
 }
 
-export const authService = {
+const authService = {
     register,
     logout,
     login,

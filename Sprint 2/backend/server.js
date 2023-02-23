@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const { errorHandler } = require('./middleware/errorMiddleware')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 const mongoose = require('mongoose')
 const connectDB = require('./config/db')
 const port = process.env.PORT || 5000;
@@ -12,7 +13,8 @@ const path = require('path');
 connectDB();
 
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json());
 
 app.use(cookieParser())

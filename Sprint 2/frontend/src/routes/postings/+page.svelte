@@ -1,34 +1,34 @@
 <script>
     import Posting from '$lib/components/Posting.svelte';
-    import {userService} from '$lib/userStore';
-    import {get} from 'svelte/store';
+    import jobService from "../../features/jobService.js";
 
-    console.log(userService.UserState[get(userService.userState)]);
+    let postings = [];
 
-    const pkgs = [
+    postings = jobService.getJobs("");
+
+
+    let pkgs = [
         {
             jobTitle: 'Professional gamer',
             companyName: 'Ubisoft',
             location: 'Montreal but also remote like very far away',
-            jobID: "1"
+            jobID: "1",
+            jobDesc: "This is an amazing opportunity for an amazing person. Free orange juice every morning! Minimum salary! Premium benefits! Apply now and hear from us in one to two business decades."
         },
         {
-            jobTitle: 'Semiprofessional gamer very god', companyName: 'Ubihard', location: 'Toronto', jobID: "2"
+            jobTitle: 'Semiprofessional gamer very god', companyName: 'Ubihard', location: 'Toronto', jobID: "2",
+            jobDesc: "We're almost pro! Join us on our journey to becoming pro. I mean, you become pro. We guide the best! Almost"
         },
         {
-            jobTitle: 'Streamer', companyName: 'Twitch', location: 'Remote', jobID: "3"
+            jobTitle: 'Streamer', companyName: 'Twitch', location: 'Remote', jobID: "3",
+            jobDesc: "Do you dream of becoming a successful streamer? Are you motivated, enthusiastic and have great interpersonal skills? Come work for us and we will promote you until we die! Or go to YouTube."
         }
     ];
 
 </script>
 
-<div class="pageHeader">
-    <h1>Job Postings</h1>
-    <input type="search" class="search" placeholder="Type job or company name...">
-</div>
-
 <div class="postings">
-    {#each pkgs as pkg}
+    {#each pkgs as pkg, i}
         <Posting {...pkg}/>
     {/each}
 </div>
@@ -37,25 +37,12 @@
 
     .postings {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        grid-template-columns: 1fr 1fr;
         grid-gap: 2em;
         justify-items: stretch;
         max-width: 80%;
         margin: 0 auto;
     }
 
-    .pageHeader {
-        margin-left: 10%;
-        max-width: 80%;
-        margin-bottom: 2em;
-        display: flex;
-        justify-content: space-between;
-    }
 
-    .search {
-        margin: auto 0;
-        font-size: 1em;
-        height: 40px;
-        width: 250px;
-    }
 </style>

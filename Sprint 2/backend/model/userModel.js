@@ -14,6 +14,15 @@ const userSchema = mongoose.Schema(
             type: String,
             required: [true, 'Please add a password'],
         },
+        role: {
+            type: String,
+            enum: ['Admin', 'Employer', 'Student'],
+            required: true
+        },
+        profilePicture: {
+            type: Buffer,
+        },
+
     },
     {
         timestamps: true,

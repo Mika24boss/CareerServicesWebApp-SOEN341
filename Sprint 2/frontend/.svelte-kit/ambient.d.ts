@@ -29,17 +29,12 @@ declare module '$env/static/private' {
 	export const ALLUSERSPROFILE: string;
 	export const APPDATA: string;
 	export const COLOR: string;
-	export const COLORTERM: string;
 	export const CommonProgramFiles: string;
 	export const CommonProgramW6432: string;
 	export const COMPUTERNAME: string;
 	export const ComSpec: string;
-	export const DEBUG_COLORS: string;
 	export const DriverData: string;
 	export const EDITOR: string;
-	export const FORCE_COLOR: string;
-	export const FPS_BROWSER_APP_PROFILE_STRING: string;
-	export const FPS_BROWSER_USER_PROFILE_STRING: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
 	export const HOMEPATH: string;
@@ -47,14 +42,12 @@ declare module '$env/static/private' {
 	export const INIT_CWD: string;
 	export const LOCALAPPDATA: string;
 	export const LOGONSERVER: string;
-	export const MOCHA_COLORS: string;
 	export const NODE: string;
 	export const NODE_ENV: string;
 	export const NODE_EXE: string;
 	export const NPM_CLI_JS: string;
 	export const npm_command: string;
 	export const npm_config_cache: string;
-	export const npm_config_color: string;
 	export const npm_config_engine_strict: string;
 	export const npm_config_globalconfig: string;
 	export const npm_config_global_prefix: string;
@@ -76,11 +69,11 @@ declare module '$env/static/private' {
 	export const NPM_PREFIX_NPM_CLI_JS: string;
 	export const NUMBER_OF_PROCESSORS: string;
 	export const OneDrive: string;
-	export const OnlineServices: string;
+	export const OneDriveCommercial: string;
+	export const OneDriveConsumer: string;
 	export const OS: string;
 	export const Path: string;
 	export const PATHEXT: string;
-	export const platformcode: string;
 	export const PROCESSOR_ARCHITECTURE: string;
 	export const PROCESSOR_IDENTIFIER: string;
 	export const PROCESSOR_LEVEL: string;
@@ -91,11 +84,12 @@ declare module '$env/static/private' {
 	export const PROMPT: string;
 	export const PSModulePath: string;
 	export const PUBLIC: string;
-	export const RegionCode: string;
 	export const SESSIONNAME: string;
 	export const SystemDrive: string;
 	export const SystemRoot: string;
 	export const TEMP: string;
+	export const TERMINAL_EMULATOR: string;
+	export const TERM_SESSION_ID: string;
 	export const TMP: string;
 	export const USERDOMAIN: string;
 	export const USERDOMAIN_ROAMINGPROFILE: string;
@@ -103,7 +97,8 @@ declare module '$env/static/private' {
 	export const USERPROFILE: string;
 	export const WebStorm: string;
 	export const windir: string;
-	export const __PSLockDownPolicy: string;
+	export const ZES_ENABLE_SYSMAN: string;
+	export const __INTELLIJ_COMMAND_HISTFILE__: string;
 }
 
 /**
@@ -136,17 +131,12 @@ declare module '$env/dynamic/private' {
 		ALLUSERSPROFILE: string;
 		APPDATA: string;
 		COLOR: string;
-		COLORTERM: string;
 		CommonProgramFiles: string;
 		CommonProgramW6432: string;
 		COMPUTERNAME: string;
 		ComSpec: string;
-		DEBUG_COLORS: string;
 		DriverData: string;
 		EDITOR: string;
-		FORCE_COLOR: string;
-		FPS_BROWSER_APP_PROFILE_STRING: string;
-		FPS_BROWSER_USER_PROFILE_STRING: string;
 		HOME: string;
 		HOMEDRIVE: string;
 		HOMEPATH: string;
@@ -154,14 +144,12 @@ declare module '$env/dynamic/private' {
 		INIT_CWD: string;
 		LOCALAPPDATA: string;
 		LOGONSERVER: string;
-		MOCHA_COLORS: string;
 		NODE: string;
 		NODE_ENV: string;
 		NODE_EXE: string;
 		NPM_CLI_JS: string;
 		npm_command: string;
 		npm_config_cache: string;
-		npm_config_color: string;
 		npm_config_engine_strict: string;
 		npm_config_globalconfig: string;
 		npm_config_global_prefix: string;
@@ -183,11 +171,11 @@ declare module '$env/dynamic/private' {
 		NPM_PREFIX_NPM_CLI_JS: string;
 		NUMBER_OF_PROCESSORS: string;
 		OneDrive: string;
-		OnlineServices: string;
+		OneDriveCommercial: string;
+		OneDriveConsumer: string;
 		OS: string;
 		Path: string;
 		PATHEXT: string;
-		platformcode: string;
 		PROCESSOR_ARCHITECTURE: string;
 		PROCESSOR_IDENTIFIER: string;
 		PROCESSOR_LEVEL: string;
@@ -198,11 +186,12 @@ declare module '$env/dynamic/private' {
 		PROMPT: string;
 		PSModulePath: string;
 		PUBLIC: string;
-		RegionCode: string;
 		SESSIONNAME: string;
 		SystemDrive: string;
 		SystemRoot: string;
 		TEMP: string;
+		TERMINAL_EMULATOR: string;
+		TERM_SESSION_ID: string;
 		TMP: string;
 		USERDOMAIN: string;
 		USERDOMAIN_ROAMINGPROFILE: string;
@@ -210,7 +199,8 @@ declare module '$env/dynamic/private' {
 		USERPROFILE: string;
 		WebStorm: string;
 		windir: string;
-		__PSLockDownPolicy: string;
+		ZES_ENABLE_SYSMAN: string;
+		__INTELLIJ_COMMAND_HISTFILE__: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: string]: string | undefined;
 	}

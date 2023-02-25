@@ -64,6 +64,9 @@
         <button class="btn-test" value='Admin'>Testing</button>
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
 
     h1 {
         width: 100%;
@@ -84,6 +87,7 @@
 
     .signup-title p {
         margin: 2px;
+        font-weight: bold;
     }
 
     * a:link, a:visited, a:hover {

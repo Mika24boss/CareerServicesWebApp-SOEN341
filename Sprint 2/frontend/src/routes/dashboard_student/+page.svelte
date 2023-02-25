@@ -19,6 +19,10 @@
 
 <style>
 
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
+
     .interviews {
 		display: grid;
 		grid-template-columns: 2fr 2fr;

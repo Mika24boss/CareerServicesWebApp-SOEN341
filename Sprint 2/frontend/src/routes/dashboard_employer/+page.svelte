@@ -35,6 +35,9 @@
 
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
 
 	.interviews, .notifications{
 		display: grid;

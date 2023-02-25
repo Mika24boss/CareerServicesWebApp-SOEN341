@@ -1,4 +1,7 @@
 <style>
+  *{
+    font-family: 'Barlow', sans-serif;
+  }
 
     h3{margin:5px 5px 10px;}
 

@@ -32,6 +32,10 @@
 </header>
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
+
 	header {
 		display: flex;
 		justify-content: space-between;

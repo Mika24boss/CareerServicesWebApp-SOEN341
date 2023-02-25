@@ -5,7 +5,9 @@
 
     console.log(userService.UserState[get(userService.userState)]);
     let email, password;
+    let response;
 
+    /*
     async function onSubmit() {
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
@@ -15,26 +17,27 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email, password })
-        });
+        })
         if (response.ok) {
-            const data = await response.json();
+            const data = await authService.login(response);
             console.log(data);
         } else {
             console.error('Failed to login');
         }
+    }*/
+
+    function onSubmit() {
+        email = document.getElementById("email").value;
+        password = document.getElementById("password").value;
+        const userData = {
+            email,
+            password
+        };
+        let response = authService.login(userData);
+        console.log(response);
+        //userID = response.something;
+        //userState.set(UserState.Student);
     }
-    // function onSubmit() {
-    //     email = document.getElementById("email").value;
-    //     password = document.getElementById("password").value;
-    //     const userData = {
-    //         email,
-    //         password
-    //     };
-    //     let response = login(userData);
-    //     console.log(response);
-    //     //userID = response.something;
-    //     userState.set(UserState.Student);
-    // }
 
 </script>
 
@@ -62,6 +65,9 @@
 
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
 
     .welcome {
         display: block;
@@ -72,6 +78,7 @@
 
     .welcome p {
         margin: 2px;
+        font-weight: bold;
     }
 
 

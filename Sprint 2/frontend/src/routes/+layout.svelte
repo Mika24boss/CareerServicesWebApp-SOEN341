@@ -1,6 +1,7 @@
 <script>
 	import Header from '../lib/components/Header.svelte';
 	import './styles.css';
+	import "@fontsource/barlow";
 </script>
 
 <div class="app">

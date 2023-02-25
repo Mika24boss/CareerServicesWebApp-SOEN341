@@ -22,6 +22,9 @@
 </div>
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
 
     h2 {
         line-height: 1em;

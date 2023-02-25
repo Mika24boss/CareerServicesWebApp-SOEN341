@@ -11,11 +11,12 @@
     let name, email, password, role;
     let response;
 
+
     async function onSubmit() {
-        name = 'John';
-        role = 'Student'; // or Employer or Admin
+        name = document.getElementById('name').value;
+        role = role;
         email = document.getElementById("email").value;
-        password = document.getElementById("password").value;
+        password = document.getElementById("pwd").value;
         const userData = {
             name,
             email,
@@ -24,10 +25,12 @@
         };
         response = await authService.register(userData);
         console.log('Response: ', response);
+
         //userID = response.something;
         userService.userState.set(userService.UserState.Student);
-        //await goto("/");
+        await goto("/");
     }
+
 </script>
 
 <section>
@@ -37,14 +40,17 @@
         {response}
     </div>
     <div class="centerBlock">
-        <button class="btn-student">Student</button>
-        <button class="btn-employer">Employer</button>
 
         <form>
+            <input type='radio' id='student' name='user-type' value='Student' bind:group={role}>
+            <label for='student'>Student</label>
+            <input type='radio' id='employer' name='user-type' value='Employer' bind:group={role}>
+            <label for='employer'>Employer</label>
+
             <div class='inputs-form centerBlock'>
-                <p>Full Name: <input type="text" id="name" name="Name"></p>
-                <p>Email: <input type="text" id="email" name="Email"></p>
-                <p>Password: <input type="text" id="pwd" name="Password"></p>
+                <p>Full Name: <input type="text" id="name" name="Name" required></p>
+                <p>Email: <input type="text" id="email" name="Email" required></p>
+                <p>Password: <input type="password" id="pwd" name="Password" required></p>
             </div>
             <div class="btn-container">
                 <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
@@ -55,7 +61,7 @@
     </div>
 
 </section>
-        <button class="btn-test">Testing</button>
+        <button class="btn-test" value='Admin'>Testing</button>
 
 <style>
 

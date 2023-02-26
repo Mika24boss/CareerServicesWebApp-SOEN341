@@ -2,41 +2,28 @@
     import {authService} from '$lib/features/authService.js';
     import {userService} from '$lib/userStore';
     import {get} from 'svelte/store';
+    import {goto} from '$app/navigation';
+    import {env} from "$env/dynamic/public";
+
+    const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
     console.log(userService.UserState[get(userService.userState)]);
     let email, password;
     let response;
 
-    /*
-    async function onSubmit() {
-        email = document.getElementById("email").value;
-        password = document.getElementById("password").value;
-        const response = await fetch('/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        })
-        if (response.ok) {
-            const data = await authService.login(response);
-            console.log(data);
-        } else {
-            console.error('Failed to login');
-        }
-    }*/
 
-    function onSubmit() {
+    async function onSubmit(){
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
         const userData = {
             email,
             password
         };
-        let response = authService.login(userData);
-        console.log(response);
-        //userID = response.something;
-        //userState.set(UserState.Student);
+        response = await authService.login(userData);
+        console.log('Response: ', response);
+        userService.userState.set(userService.UserState.Student);
+        console.log(response)
+        await goto(API_URL);
     }
 
 </script>
@@ -54,9 +41,10 @@
     <form class='centerBlock'>
         <p>Email: <input type="text" id="email" placeholder="Email" required></p>
         <p>Password: <input type="password" id="password" placeholder="Password" required></p>
-
-        <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
-        <a class="signup centerBlock" href="/signup">Don't have an account? Sign-Up</a>
+        <div class='btn-container'>
+            <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
+        </div>
+        <a class="signup centerBlock" href="/signup">Don't have an account? Click here to Sign-Up</a>
     </form>
 
 
@@ -101,8 +89,17 @@
         display: block;
     }
 
-    * a:link, a:visited, a:hover {
+    * a:link, a:visited {
         text-decoration: none;
+    }
+
+    * a:hover{
+        color: rgb(148,0,211);
+        transition: 0.7s;
+    }
+
+    * a:focus{
+        color: rgb(48, 213, 200);
     }
 
     .centerBlock {
@@ -113,7 +110,6 @@
     }
 
     .btn-signin{
-        position: relative;
         background-color: black;
         color: white;
         width: 30%;
@@ -121,10 +117,27 @@
         margin: auto;
         padding: 5px 5px;
         border-radius: 1em;
+        box-shadow: 0 1px 1px 1px rgba(255,255,255, 0.2);
+    }
+
+    .btn-signin:hover {
+        background-color: white;
+        color: black;
+        transition: 0.7s;
+    }
+
+    .btn-signin:focus{
+        font-weight: bold;
+        color: white;
+    }
+
+    .btn-signin:active{
+        background-color: rgb(75,0,130);
     }
 
     .signup{
-        padding-top: 2em;
+        margin-top: 5em;
+        font-size: 12px;
     }
 
     .centerBlock input{
@@ -132,5 +145,6 @@
         color: black;
         padding: 0.5em;
     }
+
 
 </style>

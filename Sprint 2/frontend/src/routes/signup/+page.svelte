@@ -16,7 +16,7 @@
         name = document.getElementById('name').value;
         role = role;
         email = document.getElementById("email").value;
-        password = document.getElementById("pwd").value;
+        password = document.getElementById("password").value;
         const userData = {
             name,
             email,
@@ -39,25 +39,24 @@
         {API_URL}<br/>
         {response}
     </div>
-    <div class="centerBlock">
 
-        <form>
-            <input type='radio' id='student' name='user-type' value='Student' bind:group={role}>
+    <div class="centerBlock">
+        <div class='signup-form'>
+            <input type='radio' id='student' name='user-type' value='Student' required bind:group={role}>
             <label for='student'>Student</label>
-            <input type='radio' id='employer' name='user-type' value='Employer' bind:group={role}>
+            <input type='radio' id='employer' name='user-type' value='Employer' required bind:group={role}>
             <label for='employer'>Employer</label>
 
             <div class='inputs-form centerBlock'>
                 <p>Full Name: <input type="text" id="name" name="Name" placeholder="Full Name" required></p>
                 <p>Email: <input type="text" id="email" name="Email" placeholder="Email" required></p>
-                <p>Password: <input type="password" id="pwd" name="Password" placeholder="Password" required></p>
+                <p>Password: <input type="password" id="password" name="Password" placeholder="Password" required></p>
             </div>
             <div class="btn-container">
                 <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
-                <button class="btn-back centerBlock"><a href="/">Back</a></button>
+                <a href="/"><button class="btn-back centerBlock">Back</button></a>
             </div>
-        </form>
-
+        </div>
     </div>
 
 </section>
@@ -130,8 +129,26 @@
 
     .btn-signup, .btn-back{
         border-radius: 1em;
+        box-shadow: 0 1px 1px 1px rgba(255,255,255, 0.2);
         background: black;
         padding: 5px 5px 5px 5px;
         width: 10em;
     }
+
+    .btn-signup:hover, .btn-back:hover, .btn-back a:hover{
+        background-color: white;
+        color: black;
+        transition: 0.7s;
+    }
+
+    .btn-signup:focus, .btn-back:focus {
+        font-weight: bold;
+        color: white;
+    }
+
+    .btn-signup:active, .btn-back:active {
+        background-color: rgb(75,0,130);
+    }
+
+
 </style>

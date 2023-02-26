@@ -44,7 +44,7 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: aliceblue;
+		--background: #141414;
 		width: 100%;
 	}
 
@@ -76,24 +76,12 @@
 		height: 100%;
 	}
 
-	li[aria-current='page']::before {
-		--size: 6px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: 0;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--color-theme-1);
-	}
-
 	nav a {
 		display: flex;
 		height: 100%;
 		align-items: center;
 		padding: 0 0.5rem;
-		color: var(--color-text);
+		color: white;
 		font-weight: 700;
 		font-size: 0.8rem;
 		text-transform: uppercase;

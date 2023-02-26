@@ -52,14 +52,13 @@
     </div>
 
     <form class='centerBlock'>
-        <p>Email: <input type="text" id="email" required></p>
-        <p>Password: <input type="password" id="password" required></p>
+        <p>Email: <input type="text" id="email" placeholder="Email" required></p>
+        <p>Password: <input type="password" id="password" placeholder="Password" required></p>
 
-        <div class="btn-container">
-            <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
-            <button class="btn-signup centerBlock"><a href="/signup">Sign-Up</a></button>
-        </div>
+        <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
+        <a class="signup centerBlock" href="/signup">Don't have an account? Sign-Up</a>
     </form>
+
 
 </section>
 
@@ -67,13 +66,25 @@
 <style>
     *{
         font-family: 'Barlow', sans-serif;
+        color: white;
+    }
+
+    section{
+        width: 60%;
+        height: auto;
+        position: relative;
+        text-align: center;
+        margin: 5em auto auto;
+        border-radius: 1em;
+        background: #141414;
+        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);
     }
 
     .welcome {
         display: block;
         position: relative;
         width: 100%;
-        padding-top: 30px;
+        padding-top: 1em;
     }
 
     .welcome p {
@@ -101,9 +112,25 @@
         font-size: 20px;
     }
 
-    .btn-container {
-        justify-content: center;
-        display: flex;
-        padding-top: 20px;
+    .btn-signin{
+        position: relative;
+        background-color: black;
+        color: white;
+        width: 30%;
+        text-align: center;
+        margin: auto;
+        padding: 5px 5px;
+        border-radius: 1em;
     }
+
+    .signup{
+        padding-top: 2em;
+    }
+
+    .centerBlock input{
+        border-radius: 1em;
+        color: black;
+        padding: 0.5em;
+    }
+
 </style>

@@ -48,9 +48,9 @@
             <label for='employer'>Employer</label>
 
             <div class='inputs-form centerBlock'>
-                <p>Full Name: <input type="text" id="name" name="Name" required></p>
-                <p>Email: <input type="text" id="email" name="Email" required></p>
-                <p>Password: <input type="password" id="pwd" name="Password" required></p>
+                <p>Full Name: <input type="text" id="name" name="Name" placeholder="Full Name" required></p>
+                <p>Email: <input type="text" id="email" name="Email" placeholder="Email" required></p>
+                <p>Password: <input type="password" id="pwd" name="Password" placeholder="Password" required></p>
             </div>
             <div class="btn-container">
                 <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
@@ -61,11 +61,23 @@
     </div>
 
 </section>
-        <button class="btn-test" value='Admin'>Testing</button>
+        <button class="btn-test" value='Admin' style='background-color: rgb(8,14,14)'>Testing</button>
 
 <style>
     *{
         font-family: 'Barlow', sans-serif;
+        color: white;
+    }
+
+    section{
+        width: 60%;
+        height: auto;
+        position: relative;
+        text-align: center;
+        margin: 5em auto auto;
+        border-radius: 1em;
+        background: #141414;
+        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);
     }
 
     h1 {
@@ -76,6 +88,8 @@
         position: fixed;
         bottom: 5px;
         right: 10px;
+        background-color: black;
+        border-radius: 1em;
     }
 
     .signup-title {
@@ -101,9 +115,23 @@
         font-size: 20px;
     }
 
+    .centerBlock input{
+        border-radius: 1em;
+        color: black;
+        padding: 0.5em;
+    }
+
     .btn-container {
         justify-content: center;
         display: flex;
         padding-top: 20px;
+
+    }
+
+    .btn-signup, .btn-back{
+        border-radius: 1em;
+        background: black;
+        padding: 5px 5px 5px 5px;
+        width: 10em;
     }
 </style>

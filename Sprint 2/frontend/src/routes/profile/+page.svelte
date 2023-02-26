@@ -3,6 +3,10 @@
     font-family: 'Barlow', sans-serif;
   }
 
+    h1{
+      color: white;
+    }
+
     h3{margin:5px 5px 10px;}
 
     button{

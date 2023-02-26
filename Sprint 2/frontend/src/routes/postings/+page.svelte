@@ -41,6 +41,10 @@
         font-family: 'Barlow', sans-serif;
     }
 
+    h1{
+        color: white;
+    }
+
     .postings {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));

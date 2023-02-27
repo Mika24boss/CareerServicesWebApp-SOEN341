@@ -11,7 +11,7 @@
         <h3>{data.location}</h3>
     </div>
     <button class="apply">
-        <b>Apply</b>
+        <b style='color: black'>Apply</b>
     </button>
 </div>
 
@@ -22,6 +22,10 @@
 </div>
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+        color: white;
+    }
 
     h2 {
         line-height: 1em;

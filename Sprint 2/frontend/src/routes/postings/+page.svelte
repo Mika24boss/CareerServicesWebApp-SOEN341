@@ -33,7 +33,17 @@
     {/each}
 </div>
 
+
+
 <style>
+
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
+
+    h1{
+        color: white;
+    }
 
     .postings {
         display: grid;

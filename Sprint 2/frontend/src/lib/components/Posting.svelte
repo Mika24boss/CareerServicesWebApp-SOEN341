@@ -30,6 +30,10 @@
 
 <style>
 
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
+
     .gradient {
         background-image: linear-gradient(135deg, blue, darkblue);
         font-size: 1.1em;

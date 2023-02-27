@@ -7,31 +7,26 @@ const jobSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     },
-    jobID: {
-        type: Number
-    },
-    title: {
+    text: {
         type: String,
         required: [true, 'Please add a text value'],
     },
-    description: {
+    title: {
         type: String,
         required: true
     },
-    location: {
-        type: String
-    },
-    isActive: {
+    applied: {
         type: Boolean,
-        default: true
-    },
-    applicants: [{
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User',
-    }],
-},
-    {
-        timestamps: true,
-    })
+        default: false
+    }
+
+}, {
+    timestamps: true,
+})
+
+jobSchema.plugin(AutoIncrement, {
+    inc_field: 'job',
+    id: 'jobNums',
+    start_seq: 500
+})
 module.exports = mongoose.model('Job', jobSchema)

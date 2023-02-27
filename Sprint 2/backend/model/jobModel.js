@@ -7,20 +7,29 @@ const jobSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     },
+    jobID: {
+        type: Number
+    },
     title: {
         type: String,
         required: [true, 'Please add a text value'],
     },
-        description: {
+    description: {
         type: String,
-            required: true },
+        required: true
+    },
     location: {
         type: String
     },
     isActive: {
         type: Boolean,
         default: true
-    }
+    },
+    applicants: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    }],
 },
     {
         timestamps: true,

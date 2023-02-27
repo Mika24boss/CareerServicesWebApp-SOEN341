@@ -50,7 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route Get /api/users
 // @access Public
 const getUserById = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.body.id);
     if (user) {
         res.json(user);
     } else {
@@ -63,11 +63,14 @@ const getUserById = asyncHandler(async (req, res) => {
 // @route Patch /api/users/
 // @access Public
 const updateUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.body.id);
+    //Hash password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(req.body.password, salt)
     if (user) {
         user.email = req.body.email || user.email;
-        user.password = req.body.password || user.password;
-        user.name = req.body.firstName || user.firstName;
+        user.password = hashedPassword || user.password;
+        user.name = req.body.name || user.name;
         user.profilePicture = req.body.profilePicture || user.profilePicture;
         const updatedUser = await user.save();
         res.json(updatedUser);
@@ -78,10 +81,10 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 // @desc Delete a user by ID
-// @route Patch /api/users/
+// @route Delete /api/users/
 // @access Public
 const deleteUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.body.id);
     if (user) {
         await user.remove();
         res.json({ message: 'User removed' });
@@ -118,11 +121,29 @@ const loginUser = asyncHandler(async (req, res) => {
 
 })
 
-// @desc Get user data
-// @route GET /api/users/me
-// @access Private
-const getMe = asyncHandler(async (req, res) => {
-    res.status(200).json(req.user)
+// @desc Logout a user
+// @route Post /api/users/logout
+// @access Public
+const logout = asyncHandler(async (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        console.log(token);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(decoded.id);
+        const user = await User.findById(decoded.id);
+
+        // Handle user not found or expired token error
+        if (!user) {
+            return res.status(401).send({ error: 'Invalid token' });
+        }
+
+        // Remove the token from the user's list of active tokens
+        user.token = null;
+
+        res.json(user);
+    } catch (e) {
+        res.status(500).send({ error: e.message });
+    }
 })
 
 // Generate JWT
@@ -135,5 +156,8 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
-    getMe,
+    deleteUser,
+    updateUser,
+    getUserById,
+    logout
 }

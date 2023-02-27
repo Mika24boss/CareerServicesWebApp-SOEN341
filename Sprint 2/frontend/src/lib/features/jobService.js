@@ -28,6 +28,19 @@ const getJobs = async (/** @type {any} */ token) => {
     return response.data
 }
 
+// Get user jobs
+const getJobByID = async (/** @type {any} */ token,/** @type {any} */ jobID) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.get(API_URL + '/jobID', config, jobID)
+
+    return response.data
+}
+
 // Delete job
 const deleteJob = async (/** @type {string} */ jobID, /** @type {any} */ token) => {
     const config = {

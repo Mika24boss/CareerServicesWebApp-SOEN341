@@ -32,6 +32,7 @@ const setJobs = asyncHandler(async (req, res) => {
     }
     const job = await Job.create({
         title: req.body.title,
+        companyName: req.body.companyName,
         description: req.body.description,
         location: req.body.location,
         isActive: req.body.isActive,
@@ -112,11 +113,9 @@ const deleteJobs = asyncHandler(async (req, res) => {
     }
 
     // make sure the logged in user matches the job user
-    if (req.user.role == 'Student') {
-        if (job.user.toString() !== req.user.id) {
-            res.status(401)
-            throw new Error('User not authorized')
-        }
+    if (job.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error('User not authorized')
     }
     await job.remove()
     res.status(200).json({ id: req.params.id })

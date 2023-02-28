@@ -1,35 +1,23 @@
 <script>
-    import {authService} from '$lib/features/authService.js';
-    import {jobService} from '$lib/features/jobService.js';
-
-    export let jobID;
-    let jobData;
-    const user = authService.getUser();
-    //jobData = await jobService.getJobByID(jobID, user.token);
-
-    console.log(jobID)
+    export let data;
 </script>
 
-{#await jobData}
-{:then jobData}
-    <div class="title">
-        <div class="topInfo">
-            <h1>{jobData.jobTitle} (#{jobData.jobID})</h1>
-            <h2>{jobData.companyName}</h2>
-            <h3>{jobData.location}</h3>
-        </div>
-        <button class="apply">
-            <b style='color: black'>Apply</b>
-        </button>
+<div class="title">
+    <div class="topInfo">
+        <h1>{data.title} (#{data.jobID})</h1>
+        <h2>{data.companyName}</h2>
+        <h3>{data.location}</h3>
     </div>
+    <button class="apply">
+        <b style='color: black'>Apply</b>
+    </button>
+</div>
 
-    <div class="desc">
-        <p>
-            {@html jobData.jobDesc}
-        </p>
-    </div>
-
-{/await}
+<div class="desc">
+    <p>
+        {@html data.description}
+    </p>
+</div>
 
 <style>
     * {

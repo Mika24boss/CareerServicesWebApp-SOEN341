@@ -7,13 +7,13 @@
     async function onSubmit(){
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
-        console.log({email, password})
         const userData = {
             email,
             password
         };
         response = await authService.login(userData);
         console.log('Response: ', response);
+        if (!response) console.log("Invalid credentials") //and flash some bright red signs on screen that the world is ending
         //await goto(API_URL);
     }
 

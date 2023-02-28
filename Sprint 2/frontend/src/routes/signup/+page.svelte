@@ -22,7 +22,7 @@
         };
         response = await authService.register(userData);
         console.log('Response: ', response);
-        //await goto("/");
+        await goto("/");
     }
 
 </script>
@@ -53,9 +53,9 @@
             </div>
         </div>
     </div>
-
 </section>
 <button class="btn-test" value='Admin' style='background-color: rgb(8,14,14)'>Testing</button>
+
 
 <style>
     * {

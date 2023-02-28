@@ -1,8 +1,10 @@
 <script>
 	import Interview from '$lib/components/Interview.svelte';
+	import Signout from '$lib/components/Signout.svelte';
 
 </script>
 
+	<Signout />
 
 	<h1>Upcoming Interviews</h1>
 

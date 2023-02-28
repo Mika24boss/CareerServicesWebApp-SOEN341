@@ -6,7 +6,7 @@ const User = require("../model/userModel")
 // @route Get /api/jobs/jobsID
 // @access Private
 const getJobsID = asyncHandler(async (req, res) => {
-    const jobs = await Job.find({ jobID: { $eq: parseInt(req.body.jobID) } });
+    const jobs = await Job.find({ jobID: { $eq: parseInt(req.params.id) } });
     res.status(200).json(jobs)
 })
 
@@ -26,7 +26,7 @@ const setJobs = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Please add title and description fields')
     }
-    if (req.user.role == 'Student') {
+    if (req.user.role === 'Student') {
         res.status(400)
         throw new Error('Student cannot create jobs')
     }
@@ -45,7 +45,7 @@ const setJobs = asyncHandler(async (req, res) => {
 // @route Put /api/jobs
 // @access Private
 const updateJobs = asyncHandler(async (req, res) => {
-    const jobID = req.body.jobID
+    const jobID = req.params.id
     const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
 
     if (!job) {
@@ -79,7 +79,7 @@ const updateJobs = asyncHandler(async (req, res) => {
 // @route Put /api/jobs/jobsApplicant
 // @access Private
 const updateJobsApplicant = asyncHandler(async (req, res) => {
-    const jobID = req.body.jobID
+    const jobID = req.params.id
     const job = await Job.findOne({ jobID });
     if (!job) {
         res.status(400)
@@ -87,7 +87,7 @@ const updateJobsApplicant = asyncHandler(async (req, res) => {
     }
 
     const updatedJobs = await Job.findOneAndUpdate(
-        req.body.jobID,
+        req.params.id,
         { $addToSet: { 'applicants': req.user.id } }, {
         new: true,
     })
@@ -99,7 +99,7 @@ const updateJobsApplicant = asyncHandler(async (req, res) => {
 // @route Delete /api/jobs
 // @access Private
 const deleteJobs = asyncHandler(async (req, res) => {
-    const jobID = req.body.jobID
+    const jobID = req.params.id
     const job = await Job.findOne({ jobID });
 
     if (!job) {

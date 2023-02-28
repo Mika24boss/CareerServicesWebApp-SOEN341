@@ -1,28 +1,38 @@
 <script>
-    /** @type {import('./$types').PageData} */
-    export let data;
-    //jobTitle, companyName, location, jobID, jobDesc
+    import {authService} from '$lib/features/authService.js';
+    import {jobService} from '$lib/features/jobService.js';
+
+    export let jobID;
+    let jobData;
+    const user = authService.getUser();
+    //jobData = await jobService.getJobByID(jobID, user.token);
+
+    console.log(jobID)
 </script>
 
-<div class="title">
-    <div class="topInfo">
-        <h1>{data.jobTitle} (#{data.jobID})</h1>
-        <h2>{data.companyName}</h2>
-        <h3>{data.location}</h3>
+{#await jobData}
+{:then jobData}
+    <div class="title">
+        <div class="topInfo">
+            <h1>{jobData.jobTitle} (#{jobData.jobID})</h1>
+            <h2>{jobData.companyName}</h2>
+            <h3>{jobData.location}</h3>
+        </div>
+        <button class="apply">
+            <b style='color: black'>Apply</b>
+        </button>
     </div>
-    <button class="apply">
-        <b style='color: black'>Apply</b>
-    </button>
-</div>
 
-<div class="desc">
-    <p>
-        {@html data.jobDesc}
-    </p>
-</div>
+    <div class="desc">
+        <p>
+            {@html jobData.jobDesc}
+        </p>
+    </div>
+
+{/await}
 
 <style>
-    *{
+    * {
         font-family: 'Barlow', sans-serif;
         color: white;
     }

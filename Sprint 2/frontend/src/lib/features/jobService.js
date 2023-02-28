@@ -1,6 +1,7 @@
 import axios from 'axios'
+import {env} from '$env/dynamic/public'
 
-const API_URL = '/api/jobs/'
+const API_URL = env.PUBLIC_API_URL + '/api/jobs/'
 
 // Create new job
 const createJob = async (/** @type {any} */ jobData, /** @type {any} */ token) => {
@@ -22,21 +23,20 @@ const getJobs = async (/** @type {any} */ token) => {
             Authorization: `Bearer ${token}`,
         },
     }
-
     const response = await axios.get(API_URL, config)
 
     return response.data
 }
 
-// Get user jobs
-const getJobByID = async (/** @type {any} */ token,/** @type {any} */ jobID) => {
+// Get job by ID
+const getJobByID = async (/** @type {string} */ jobID, /** @type {any} */ token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    const response = await axios.get(API_URL + '/jobID', config, jobID)
+    const response = await axios.get(API_URL + jobID, config)
 
     return response.data
 }
@@ -54,10 +54,11 @@ const deleteJob = async (/** @type {string} */ jobID, /** @type {any} */ token) 
     return response.data
 }
 
-const jobService = {
+export const jobService = {
     createJob,
     getJobs,
     deleteJob,
+    getJobByID,
 }
 
 export default jobService

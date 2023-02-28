@@ -1,29 +1,20 @@
 <script>
     import {authService} from '$lib/features/authService.js';
-    import {userService} from '$lib/userStore';
-    import {get} from 'svelte/store';
-    import {goto} from '$app/navigation';
-    import {env} from "$env/dynamic/public";
 
-    const API_URL = env.PUBLIC_API_URL + '/api/users/'
-
-    console.log(userService.UserState[get(userService.userState)]);
     let email, password;
     let response;
-
 
     async function onSubmit(){
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
+        console.log({email, password})
         const userData = {
             email,
             password
         };
         response = await authService.login(userData);
         console.log('Response: ', response);
-        userService.userState.set(userService.UserState.Student);
-        console.log(response)
-        await goto(API_URL);
+        //await goto(API_URL);
     }
 
 </script>

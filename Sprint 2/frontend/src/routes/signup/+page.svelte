@@ -1,13 +1,10 @@
 <script>
     import {authService} from '$lib/features/authService.js';
-    import {userService} from '$lib/userStore';
-    import {get} from 'svelte/store';
     import {goto} from "$app/navigation";
     import {env} from "$env/dynamic/public";
 
     const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
-    console.log(userService.UserState[get(userService.userState)]);
     let name, email, password, role;
     let response;
 
@@ -25,10 +22,7 @@
         };
         response = await authService.register(userData);
         console.log('Response: ', response);
-
-        //userID = response.something;
-        userService.userState.set(userService.UserState.Student);
-        await goto("/");
+        //await goto("/");
     }
 
 </script>
@@ -36,8 +30,7 @@
 <section>
     <div class="signup-title centerBlock" style="padding-bottom:0">
         <p style="font-size: 30px">Sign-Up as a ... </p>
-        {API_URL}<br/>
-        {response}
+        {API_URL}
     </div>
 
     <div class="centerBlock">
@@ -54,21 +47,23 @@
             </div>
             <div class="btn-container">
                 <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
-                <a href="/"><button class="btn-back centerBlock">Back</button></a>
+                <a href="/">
+                    <button class="btn-back centerBlock">Back</button>
+                </a>
             </div>
         </div>
     </div>
 
 </section>
-        <button class="btn-test" value='Admin' style='background-color: rgb(8,14,14)'>Testing</button>
+<button class="btn-test" value='Admin' style='background-color: rgb(8,14,14)'>Testing</button>
 
 <style>
-    *{
+    * {
         font-family: 'Barlow', sans-serif;
         color: white;
     }
 
-    section{
+    section {
         width: 60%;
         height: auto;
         position: relative;
@@ -83,7 +78,7 @@
         width: 100%;
     }
 
-    .btn-test{
+    .btn-test {
         position: fixed;
         bottom: 5px;
         right: 10px;
@@ -114,7 +109,7 @@
         font-size: 20px;
     }
 
-    .centerBlock input{
+    .centerBlock input {
         border-radius: 1em;
         color: black;
         padding: 0.5em;
@@ -127,15 +122,15 @@
 
     }
 
-    .btn-signup, .btn-back{
+    .btn-signup, .btn-back {
         border-radius: 1em;
-        box-shadow: 0 1px 1px 1px rgba(255,255,255, 0.2);
+        box-shadow: 0 1px 1px 1px rgba(255, 255, 255, 0.2);
         background: black;
         padding: 5px 5px 5px 5px;
         width: 10em;
     }
 
-    .btn-signup:hover, .btn-back:hover, .btn-back a:hover{
+    .btn-signup:hover, .btn-back:hover, .btn-back a:hover {
         background-color: white;
         color: black;
         transition: 0.7s;
@@ -147,7 +142,7 @@
     }
 
     .btn-signup:active, .btn-back:active {
-        background-color: rgb(75,0,130);
+        background-color: rgb(75, 0, 130);
     }
 
 

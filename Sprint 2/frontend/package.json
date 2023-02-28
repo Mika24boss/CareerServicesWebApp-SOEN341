@@ -15,7 +15,7 @@
 		"@neoconfetti/svelte": "^1.0.0",
 		"@sveltejs/adapter-auto": "^1.0.0",
 		"@sveltejs/adapter-node": "^1.1.4",
-		"@sveltejs/kit": "^1.0.0",
+		"@sveltejs/kit": "^1.8.7",
 		"@types/cookie": "^0.5.1",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.8.1",

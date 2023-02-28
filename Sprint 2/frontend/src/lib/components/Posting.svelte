@@ -1,5 +1,5 @@
 <script>
-    export var jobTitle, companyName, location, jobID;
+    export var title, companyName, location, jobID;
 
     var applyText = "Apply";
 
@@ -17,8 +17,8 @@
             </button>
         </div>
         <div class="title">
-            <a href="/postings/{jobID}">
-                <b>{jobTitle}</b><br/>
+            <a href="/postings/{jobID}/">
+                <b>{title}</b><br/>
                 {companyName}
             </a>
         </div>
@@ -29,6 +29,10 @@
 </div>
 
 <style>
+
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
 
     .gradient {
         background-image: linear-gradient(135deg, blue, darkblue);

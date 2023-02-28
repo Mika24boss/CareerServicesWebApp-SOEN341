@@ -1,40 +1,21 @@
 <script>
     import {authService} from '$lib/features/authService.js';
-    import {userService} from '$lib/userStore';
-    import {get} from 'svelte/store';
 
-    console.log(userService.UserState[get(userService.userState)]);
     let email, password;
+    let response;
 
-    async function onSubmit() {
+    async function onSubmit(){
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
-        const response = await fetch('/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-        } else {
-            console.error('Failed to login');
-        }
+        const userData = {
+            email,
+            password
+        };
+        response = await authService.login(userData);
+        console.log('Response: ', response);
+        if (!response) console.log("Invalid credentials") //and flash some bright red signs on screen that the world is ending
+        //await goto(API_URL);
     }
-    // function onSubmit() {
-    //     email = document.getElementById("email").value;
-    //     password = document.getElementById("password").value;
-    //     const userData = {
-    //         email,
-    //         password
-    //     };
-    //     let response = login(userData);
-    //     console.log(response);
-    //     //userID = response.something;
-    //     userState.set(UserState.Student);
-    // }
 
 </script>
 
@@ -49,29 +30,45 @@
     </div>
 
     <form class='centerBlock'>
-        <p>Email: <input type="text" id="email" required></p>
-        <p>Password: <input type="password" id="password" required></p>
-
-        <div class="btn-container">
+        <p>Email: <input type="text" id="email" placeholder="Email" required></p>
+        <p>Password: <input type="password" id="password" placeholder="Password" required></p>
+        <div class='btn-container'>
             <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
-            <button class="btn-signup centerBlock"><a href="/signup">Sign-Up</a></button>
         </div>
+        <a class="signup centerBlock" href="/signup">Don't have an account? Click here to Sign-Up</a>
     </form>
+
 
 </section>
 
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+        color: white;
+    }
+
+    section{
+        width: 60%;
+        height: auto;
+        position: relative;
+        text-align: center;
+        margin: 5em auto auto;
+        border-radius: 1em;
+        background: #141414;
+        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);
+    }
 
     .welcome {
         display: block;
         position: relative;
         width: 100%;
-        padding-top: 30px;
+        padding-top: 1em;
     }
 
     .welcome p {
         margin: 2px;
+        font-weight: bold;
     }
 
 
@@ -83,8 +80,17 @@
         display: block;
     }
 
-    * a:link, a:visited, a:hover {
+    * a:link, a:visited {
         text-decoration: none;
+    }
+
+    * a:hover{
+        color: rgb(148,0,211);
+        transition: 0.7s;
+    }
+
+    * a:focus{
+        color: rgb(48, 213, 200);
     }
 
     .centerBlock {
@@ -94,9 +100,42 @@
         font-size: 20px;
     }
 
-    .btn-container {
-        justify-content: center;
-        display: flex;
-        padding-top: 20px;
+    .btn-signin{
+        background-color: black;
+        color: white;
+        width: 30%;
+        text-align: center;
+        margin: auto;
+        padding: 5px 5px;
+        border-radius: 1em;
+        box-shadow: 0 1px 1px 1px rgba(255,255,255, 0.2);
     }
+
+    .btn-signin:hover {
+        background-color: white;
+        color: black;
+        transition: 0.7s;
+    }
+
+    .btn-signin:focus{
+        font-weight: bold;
+        color: white;
+    }
+
+    .btn-signin:active{
+        background-color: rgb(75,0,130);
+    }
+
+    .signup{
+        margin-top: 5em;
+        font-size: 12px;
+    }
+
+    .centerBlock input{
+        border-radius: 1em;
+        color: black;
+        padding: 0.5em;
+    }
+
+
 </style>

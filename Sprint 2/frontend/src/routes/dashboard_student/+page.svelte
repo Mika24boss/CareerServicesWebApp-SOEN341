@@ -19,6 +19,14 @@
 
 <style>
 
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
+
+		h1{
+        color: white;
+		}
+
     .interviews {
 		display: grid;
 		grid-template-columns: 2fr 2fr;

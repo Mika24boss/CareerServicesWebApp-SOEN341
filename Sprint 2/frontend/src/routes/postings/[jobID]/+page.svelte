@@ -1,27 +1,29 @@
 <script>
-    /** @type {import('./$types').PageData} */
     export let data;
-    //jobTitle, companyName, location, jobID, jobDesc
 </script>
 
 <div class="title">
     <div class="topInfo">
-        <h1>{data.jobTitle} (#{data.jobID})</h1>
+        <h1>{data.title} (#{data.jobID})</h1>
         <h2>{data.companyName}</h2>
         <h3>{data.location}</h3>
     </div>
     <button class="apply">
-        <b>Apply</b>
+        <b style='color: black'>Apply</b>
     </button>
 </div>
 
 <div class="desc">
     <p>
-        {@html data.jobDesc}
+        {@html data.description}
     </p>
 </div>
 
 <style>
+    * {
+        font-family: 'Barlow', sans-serif;
+        color: white;
+    }
 
     h2 {
         line-height: 1em;

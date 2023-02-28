@@ -35,6 +35,13 @@
 
 
 <style>
+    *{
+        font-family: 'Barlow', sans-serif;
+    }
+
+		h1{
+        color: white;
+		}
 
 	.interviews, .notifications{
 		display: grid;

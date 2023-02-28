@@ -1,25 +1,29 @@
 <script>
     import Posting from '$lib/components/Posting.svelte';
-    import {userService} from '$lib/userStore';
-    import {get} from 'svelte/store';
+    import {authService} from '$lib/features/authService.js';
+    import {jobService} from '$lib/features/jobService.js';
 
-    console.log(userService.UserState[get(userService.userState)]);
+    const user = authService.getUser();
+    const pkgs = loadJobs();
 
-    const pkgs = [
-        {
-            jobTitle: 'Professional gamer',
-            companyName: 'Ubisoft',
-            location: 'Montreal but also remote like very far away',
-            jobID: "1"
-        },
-        {
-            jobTitle: 'Semiprofessional gamer very god', companyName: 'Ubihard', location: 'Toronto', jobID: "2"
-        },
-        {
-            jobTitle: 'Streamer', companyName: 'Twitch', location: 'Remote', jobID: "3"
-        }
-    ];
+    /*if (user.role === 'Student') {
+        alert('Welcome student!');
+    } else {
+        alert('You\'re logged out :(');
+        //throw error(401, 'Please log in.');
+    }*/
 
+    async function loadJobs() {
+        const jobs = await jobService.getJobs(user.token);
+        return jobs.map(function (job) {
+            return {
+                title: job.title,
+                companyName: job.companyName,
+                location: job.location,
+                jobID: job.jobID
+            }
+        });
+    }
 </script>
 
 <div class="pageHeader">
@@ -28,12 +32,24 @@
 </div>
 
 <div class="postings">
-    {#each pkgs as pkg}
-        <Posting {...pkg}/>
-    {/each}
+    {#await pkgs}
+    {:then pkgs}
+        {#each pkgs as pkg}
+            <Posting {...pkg}/>
+        {/each}
+    {/await}
 </div>
 
+
 <style>
+
+    * {
+        font-family: 'Barlow', sans-serif;
+    }
+
+    h1 {
+        color: white;
+    }
 
     .postings {
         display: grid;

@@ -148,7 +148,7 @@ a.svelte-1u9z1tp.svelte-1u9z1tp:hover {
     --color-bg-2: hsl(224, 44%, 95%);
     --color-theme-1: #002aff;
     --color-theme-2: #4075a6;
-    --color-text: rgba(0, 0, 0, .7);
+    --color-text: rgba(255,255,255,1);
     --column-width: 42rem;
     --column-margin-top: 4rem;
     font-family: var(--font-body);

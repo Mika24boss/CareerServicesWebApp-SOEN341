@@ -5,7 +5,7 @@
 
     function apply(e) {
         applyText = "Applied!";
-        document.getElementById(jobID).style.background = "linear-gradient(180deg, red, darkgreen)";
+        document.getElementById(jobID).style.background = "linear-gradient(180deg, lightgreen, mediumslateblue)";
     }
 
 </script>
@@ -44,7 +44,7 @@
         grid-template-columns: 1fr 2fr 1fr;
         justify-items: stretch;
         margin: 0.3em;
-        background-image: linear-gradient(135deg, lightblue, turquoise);
+        background-image: linear-gradient(135deg, darkgray, darkslateblue);
 
         --line-height: 3em;
     }
@@ -66,7 +66,7 @@
 
     a:hover {
         text-decoration: underline;
-        color: blue;
+        color: mediumblue;
     }
 
     .title {

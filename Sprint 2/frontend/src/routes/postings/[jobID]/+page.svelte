@@ -1,5 +1,6 @@
 <script>
     export let data;
+
 </script>
 
 <div class="title">
@@ -15,7 +16,7 @@
 
 <div class="desc">
     <p>
-        {@html data.description}
+        {@html data.description.replace(/\n/g, "<br>")}
     </p>
 </div>
 

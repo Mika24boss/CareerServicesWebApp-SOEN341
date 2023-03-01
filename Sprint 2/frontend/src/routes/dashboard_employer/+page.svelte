@@ -2,10 +2,20 @@
 	import Interview from '$lib/components/Interview.svelte';
 	import Notification from '$lib/components/Notification.svelte';
 	import Signout from '$lib/components/Signout.svelte';
+	import authService from "$lib/features/authService.js";
+	import {goto} from "$app/navigation";
 
+	async function auth() {
+		const user = authService.getUser();
+		if (user === null || user === undefined || user.role !== "Employer") {
+			await goto('/');
+		}
+	}
+
+	auth();
 </script>
 
-<Signout />
+<!--<Signout />-->
 <!-- Notifications Section-->
 <div class="notif-section">
 	<div class="notif">

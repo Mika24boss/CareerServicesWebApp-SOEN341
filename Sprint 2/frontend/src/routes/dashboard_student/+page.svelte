@@ -1,10 +1,21 @@
 <script>
 	import Interview from '$lib/components/Interview.svelte';
 	import Signout from '$lib/components/Signout.svelte';
+	import {goto} from "$app/navigation";
+	import authService from "$lib/features/authService.js";
+
+	async function auth() {
+		const user = authService.getUser();
+		if (user === null || user === undefined || user.role !== "Student") {
+			await goto('/');
+		}
+	}
+
+	auth();
 
 </script>
 
-	<Signout />
+	<!--<Signout />-->
 
 	<h1>Upcoming Interviews</h1>
 

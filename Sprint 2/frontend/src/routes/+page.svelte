@@ -1,8 +1,10 @@
 <script>
     import {authService} from '$lib/features/authService.js';
+    import {goto} from "$app/navigation";
 
     let email, password;
     let response;
+    let hasInvalidCredentials = false;
 
     async function onSubmit(){
         email = document.getElementById("email").value;
@@ -13,8 +15,18 @@
         };
         response = await authService.login(userData);
         console.log('Response: ', response);
-        if (!response) console.log("Invalid credentials") //and flash some bright red signs on screen that the world is ending
-        //await goto(API_URL);
+
+        if (!response){
+            hasInvalidCredentials = true;
+            console.log("Invalid credentials")
+        }
+        else if(response.role === 'Student'){
+            await goto('/dashboard_student');
+        }
+        else if(response.role === 'Employer'){
+            await goto('/dashboard_employer');
+        }
+
     }
 
 </script>
@@ -35,6 +47,13 @@
         <div class='btn-container'>
             <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
         </div>
+
+        {#if hasInvalidCredentials}
+            <div class='invalidCredentials-box'>
+                <p>Incorrect email or password! Please try again.</p>
+            </div>
+        {/if}
+
         <a class="signup centerBlock" href="/signup">Don't have an account? Click here to Sign-Up</a>
     </form>
 
@@ -136,6 +155,18 @@
         color: black;
         padding: 0.5em;
     }
+
+    .invalidCredentials-box > p{
+        width: 40%;
+        color: black;
+        font-weight: bold;
+        background-color: red;
+        text-align: center;
+        margin: 1em auto;
+        padding: 0.5em;
+
+    }
+
 
 
 </style>

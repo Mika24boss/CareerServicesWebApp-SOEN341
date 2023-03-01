@@ -14,7 +14,6 @@
 
     onMount(() => {
         const input = document.querySelector('#image-upload');
-        const preview = document.querySelector('#previewImage');
         input.addEventListener('change', handleImageChange);
     });
 </script>
@@ -52,7 +51,7 @@
         </div>
     </form>
 
-    <form class="resume"> <!-- action needed after uploading a file? -->
+    <form class="resume">
         <h3>Resume</h3>
 
         <div class="btn" style="text-align: left;">
@@ -67,11 +66,9 @@
 </div>
 
 <style>
-  *{
-    font-family: 'Barlow', sans-serif;
-  }
-    h1{
-      color: white;}
+  *{font-family: 'Barlow', sans-serif;}
+
+    h1{color: white;}
       
     h3{margin:5px 5px 10px;}
 

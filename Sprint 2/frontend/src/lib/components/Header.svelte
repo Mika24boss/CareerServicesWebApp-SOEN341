@@ -12,6 +12,9 @@
 		</svg>
 		<ul>
 			<li>
+				<a href='/'>Login</a>
+			</li>
+			<li>
 				<a href='/dashboard_student'>Dashboard_S</a>
 			</li>
 			<li>

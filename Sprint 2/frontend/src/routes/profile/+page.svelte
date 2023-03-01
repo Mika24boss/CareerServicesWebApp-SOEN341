@@ -1,7 +1,16 @@
 <script>
     import { onMount } from 'svelte';
+    import {goto} from "$app/navigation";
+    import {authService} from '$lib/features/authService.js';
+    async function auth() {
+        const user = authService.getUser();
+        if (user === null || user === undefined) {
+            await goto('/');
+        }
+    }
 
     let previewUrl;
+    auth();
 
     function handleImageChange(event) {
         const file = event.target.files[0];

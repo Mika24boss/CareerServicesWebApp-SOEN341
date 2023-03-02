@@ -2,6 +2,9 @@
 Repository for the career website for the SOEN 341 project - Winter 2023.
 <hr>
 
+<h2>Demo video for sprint 2</h2>
+https://youtu.be/I_gJ_B7XvvU
+
 <h2>Project Description</h2> 
 <ul>
   <li>In this project, we will develop a career service website where core features will be implemented. Students will be able to post their portfolio      and employers will be able to create the job offers.</li>

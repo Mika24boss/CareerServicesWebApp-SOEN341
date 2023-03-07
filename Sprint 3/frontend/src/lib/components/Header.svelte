@@ -30,10 +30,10 @@
                 <a href='/dashboard_employer'>Dashboard_E</a>
             </li>
             <li>
-                <a href="/profile">Profile</a>
+                <a href="/postings">Postings</a>
             </li>
             <li>
-                <a href="/postings">Postings</a>
+            <a href="/profile">Profile</a>
             </li>
         </ul>
         <svg viewBox="0 0 2 3">

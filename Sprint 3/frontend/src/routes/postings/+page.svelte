@@ -3,11 +3,16 @@
     import {authService} from '$lib/features/authService.js';
     import {jobService} from '$lib/features/jobService.js';
     import {goto} from "$app/navigation";
+    import {onMount} from "svelte";
 
-    const user = authService.getUser();
     const pkgs = loadJobs();
+    var user;
 
     async function loadJobs() {
+        await onMount(() => {
+            user = authService.getUser();
+        })
+
         if (user === null || user === undefined) {
             await goto('/');
         }
@@ -32,6 +37,7 @@
         }
         const response = await jobService.createJob(jobData, user.token);
         console.log(response);
+
     }
 </script>
 

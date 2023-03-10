@@ -25,6 +25,22 @@ const login = async (/** @type {any} */ userData) => {
         })
 }
 
+// Edit user
+const edit = async (/** @type {any} */ userData, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.patch(API_URL, userData, config)
+
+    if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+    }
+
+    return response.data
+}
+
 // Logout user
 const logout = () => {
     localStorage.removeItem('user')
@@ -43,6 +59,7 @@ export const authService = {
     logout,
     login,
     getUser,
+    edit,
 }
 
 export default authService

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 const jobSchema = mongoose.Schema({
     user: {

@@ -129,10 +129,11 @@ const loginUser = asyncHandler(async (req, res) => {
             _id: user.id,
             name: user.name,
             email: user.email,
+            role: user.role,
             token: generateToken(user._id),
         })
     } else {
-        res.status(400)
+        res.status(401)
         throw new Error('Invalid credentials')
     }
 

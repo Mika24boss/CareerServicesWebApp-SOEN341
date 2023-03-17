@@ -30,14 +30,14 @@
     }
 
     async function editUser() {
-        /*const userData = {
+        const userData = {
             id: user.id,
-            name: document.getElementById('companyName').value,
-            email: document.getElementById('location').value,
-            password: document.getElementById('description').value
+            name: user.name,
+            email: user.email,
+            password: user.password
         }
         const response = await authService.edit(userData, user.token);
-        console.log(response);*/
+        console.log(response);
     }
 
 </script>
@@ -45,7 +45,7 @@
 <h1 style="text-align: left;">Profile</h1>
 <div class="profile">
 
-    <div class="profile-pic">
+    <form class="profile-pic">
         <h3>Avatar</h3>
 
         <div class="image-container">
@@ -60,24 +60,24 @@
         <div class="btn" style="padding-top: 10px;">
             <button>Change</button>
         </div>
-    </div>
+    </form>
 
-    <div class="information">
+    <form class="information" method="POST">
         <h3>Information</h3>
 
         <label for="name">Full Name</label>
-        <input type="text" id="name" name="name">
+        <input type="text" id="name" name="name" value={loadUser().name}>
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email">
+        <input type="email" id="email" name="email" value={loadUser().email} >
         <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" value={loadUser().password}>
 
         <div class="btn">
             <button class="save" on:click={editUser}>Save</button>
         </div>
-    </div>
+    </form>
 
-    <div class="resume">
+    <form class="resume">
         <h3>Resume</h3>
 
         <div class="btn" style="text-align: left;">
@@ -87,7 +87,7 @@
         <div class="btn">
             <input type="submit" value="Upload" style="cursor: pointer; width: auto;">
         </div>
-    </div>
+    </form>
 
 </div>
 

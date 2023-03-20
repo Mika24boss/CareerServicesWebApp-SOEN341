@@ -13,7 +13,10 @@
 	<div class='users'>
 		<User/>
 		<User/>
+		<User/>
 	</div>
+
+	<button type="button" class="deleteUser-btn">Delete</button>
 
 </div>
 
@@ -53,6 +56,23 @@
         height: 40px;
         width: 250px;
         background: lightgray;
+    }
+
+    .deleteUser-btn{
+        display: block;
+        width: 20%;
+        border: solid;
+        border-color: black;
+        background-color: blue;
+        color: white;
+        padding: 14px 28px;
+        font-size: 2em;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 1em;
+        position: relative;
+        right: 20px;
+        float: right;
     }
 
 </style>

@@ -66,12 +66,13 @@ const getUserById = asyncHandler(async (req, res) => {
 // @access Public
 const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.body.id);
-    //Hash password
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
     if (user) {
         user.email = req.body.email || user.email;
-        user.password = hashedPassword || user.password;
+        if (req.body.password) {
+            const salt = await bcrypt.genSalt(10)
+            const hashedPassword = await bcrypt.hash(req.body.password, salt)
+            user.password = hashedPassword || user.password;
+        }
         user.name = req.body.name || user.name;
         user.profilePicture = req.body.profilePicture || user.profilePicture;
         const updatedUser = await user.save();

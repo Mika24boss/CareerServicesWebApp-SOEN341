@@ -42,8 +42,8 @@
     </div>
 
     <form class='centerBlock'>
-        <p>Email: <input type="text" id="email" placeholder="Email" required></p>
-        <p>Password: <input type="password" id="password" placeholder="Password" required></p>
+        <div class='formGroup'><input type="text" id="email" placeholder="Email" required></div>
+        <div class='formGroup'><input type="password" id="password" placeholder="Password" required></div>
         <div class='btn-container'>
             <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
         </div>
@@ -74,8 +74,8 @@
         text-align: center;
         margin: 5em auto auto;
         border-radius: 1em;
-        background: #141414;
-        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);
+        background: rgba(41, 39, 39, 0.2);
+        box-shadow: 0 5px 30px black;
     }
 
     .welcome {
@@ -119,10 +119,26 @@
         font-size: 20px;
     }
 
+    .formGroup input, .formGroup input:focus{
+        border: none;
+        width: 45%;
+        border-bottom: 1px solid white;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: transparent;
+        color: white;
+    }
+
+    .formGroup input::placeholder{
+        color: white;
+    }
+
+
     .btn-signin{
         background-color: black;
         color: white;
-        width: 30%;
+        width: 25%;
         text-align: center;
         margin: auto;
         padding: 5px 5px;
@@ -151,7 +167,6 @@
     }
 
     .centerBlock input{
-        border-radius: 1em;
         color: black;
         padding: 0.5em;
     }

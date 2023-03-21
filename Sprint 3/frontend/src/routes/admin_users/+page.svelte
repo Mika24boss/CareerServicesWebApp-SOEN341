@@ -1,5 +1,32 @@
 <script>
 	import User from '$lib/components/User.svelte';
+	import {authService} from '$lib/features/authService.js';
+	import {goto} from "$app/navigation";
+	import {onMount} from "svelte";
+
+	const usersPack = loadAllUsers();
+	var user;
+
+
+	async function loadAllUsers(){
+		/*await onMount(() => {
+			user = authService.getUser();
+		})
+
+		if (user === null || user === undefined) {
+			await goto('/');
+		}*/
+
+		const users = await authService.getAllUsers(user.token);
+		console.log(users)
+		return users.map(function (user) {
+			return {
+				name: user.name,
+				email: user.email,
+			} // todo: add profilePicture and CV
+		});
+
+	}
 
 </script>
 
@@ -10,14 +37,18 @@
 		<input type="search" class="search" placeholder="Type a name...">
 	</div>
 
+	{#await usersPack}
+	{:then usersPack}
+
 	<div class='users'>
-		<User/>
-		<User/>
-		<User/>
+		{#each usersPack as user}
+			<User {...user}/>
+		{/each}
 	</div>
 
 	<button type="button" class="deleteUser-btn">Delete</button>
 
+	{/await}
 </div>
 
 

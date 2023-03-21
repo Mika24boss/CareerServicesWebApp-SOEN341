@@ -1,19 +1,20 @@
 <script>
 	import Profile from '$lib/images/profile-logo.png';
+	export var name, email, userID, profilePicture; // todo: Add CV
 
 </script>
 
 
-<div class='user'>
+<div class='user' id='{userID}'>
 	<div class='profile'>
-		<img src={Profile} alt='profile-logo' />
+		<img src={Profile} alt='profile-logo' /> <!-- to change -->
 	</div>
 	<div class='user-info'>
-		<p>Mic Goog</p>
-		<p>yolo@gmail.com</p>
+		<p>{name}</p>
+		<p>{email}</p>
 	</div>
 	<div class='resume'>
-		<button class='btn-resume'>CV</button>
+		<button class='btn-resume'>CV</button> <!-- to change -->
 	</div>
 	<div class='checkbox'>
 		<input type='checkbox'>

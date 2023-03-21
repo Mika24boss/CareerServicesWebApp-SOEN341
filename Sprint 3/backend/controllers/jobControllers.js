@@ -37,6 +37,7 @@ const setJobs = asyncHandler(async (req, res) => {
         location: req.body.location,
         isActive: req.body.isActive,
         user: req.user.id,
+        interviewDate: req.body.interviewDate,
     })
     res.status(200).json(job)
 })

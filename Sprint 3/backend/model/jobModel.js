@@ -34,6 +34,10 @@ const jobSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     }],
+    interviewDate: {
+        type: Date,
+        require: true
+    }
 },
     {
         timestamps: true,

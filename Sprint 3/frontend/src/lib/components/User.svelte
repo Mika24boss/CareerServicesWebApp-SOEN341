@@ -14,7 +14,7 @@
 		<p>{email}</p>
 	</div>
 	<div class='resume'>
-		<button class='btn-resume'>CV</button> <!-- to change -->
+		<button class='btn-resume'>CV</button>
 	</div>
 	<div class='checkbox'>
 		<input type='checkbox'>
@@ -35,7 +35,7 @@
         justify-items: stretch;
         margin: 0.3em;
         background: #141414;
-        outline: 1px solid white;
+        outline: 1px solid white; /* to remove */
 
     }
 
@@ -49,8 +49,11 @@
         height: 100%;
     }
 
-    .user-info {
+    .user-info{
         padding: 1.5em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .resume {
@@ -62,6 +65,8 @@
         height: 100%;
         font-size: 1em;
         color: black;
+        background: #3A98B9;
+        border-radius: 0.5em;
     }
 
     .checkbox input {

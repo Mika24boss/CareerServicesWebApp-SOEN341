@@ -9,13 +9,13 @@
 
 
 	async function loadAllUsers(){
-		/*await onMount(() => {
+		await onMount(() => {
 			user = authService.getUser();
 		})
 
 		if (user === null || user === undefined) {
 			await goto('/');
-		}*/
+		}
 
 		const users = await authService.getAllUsers(user.token);
 		console.log(users)
@@ -50,8 +50,6 @@
 
 	{/await}
 </div>
-
-
 
 
 <style>
@@ -94,8 +92,8 @@
         width: 20%;
         border: solid;
         border-color: black;
-        background-color: blue;
-        color: white;
+        background-color: #3A98B9;
+        color: black;
         padding: 14px 28px;
         font-size: 2em;
         cursor: pointer;

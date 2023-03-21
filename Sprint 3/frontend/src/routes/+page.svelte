@@ -26,6 +26,9 @@
         else if(response.role === 'Employer'){
             await goto('/dashboard_employer');
         }
+        else if(response.role === 'Admin'){
+            await goto('/admin_users');
+        }
 
     }
 

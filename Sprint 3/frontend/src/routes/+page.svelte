@@ -16,6 +16,7 @@
         response = await authService.login(userData);
         console.log('Response: ', response);
 
+        //location.reload();
         if (!response){
             hasInvalidCredentials = true;
             console.log("Invalid credentials")

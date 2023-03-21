@@ -2,10 +2,17 @@
     import Header from '../lib/components/Header.svelte';
     import './styles.css';
     import "@fontsource/barlow";
+    import {authService} from '$lib/features/authService.js';
+    import {onMount} from "svelte";
+
+    let user;
+    onMount(() => {
+        user = authService.getUser();
+    });
 </script>
 
 <div class="app">
-    <Header/>
+    <Header {user}/>
 
     <main>
         <slot/>

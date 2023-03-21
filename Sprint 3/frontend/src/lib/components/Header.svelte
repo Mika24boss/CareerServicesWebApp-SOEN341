@@ -1,46 +1,68 @@
 <script>
     import {authService} from '$lib/features/authService.js';
-    function logoutAndAlert(){
+    import {onMount} from "svelte";
+
+    export let user;
+    let isLoggedOut = true
+    let isStudent = false
+    let isEmployer = false
+    let isAdmin = false
+
+    function logoutAndAlert() {
         authService.logout()
         console.log("Logged out")
-        alert("Logged out")
+        location.reload()
     }
+
+    onMount(() => {
+        if (user) {
+            isLoggedOut = false;
+            if (user.role === "Student") isStudent = true;
+            else if (user.role === "Employer") isEmployer = true;
+            else if (user.role === "Admin") isAdmin = true;
+        }
+    });
 </script>
 
 <header>
+    {#await user}
+    {:then user}
+        <div>
+        </div>
 
-    <div>
-    </div>
+        <nav>
+            <svg viewBox="0 0 2 3">
+                <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>
+            </svg>
+            <ul>
+                {#if user}
+                    <li>
+                        <a href='/' on:click="{logoutAndAlert}">Logout</a>
+                    </li>
+                {:else}
+                    <li>
+                        <a href='/'>Login</a>
+                    </li>
+                {/if}
+                <li visible={isStudent}>
+                    <a href='/dashboard_student'>Dashboard_S</a>
+                </li>
+                <li visible={isEmployer}>
+                    <a href='/dashboard_employer'>Dashboard_E</a>
+                </li>
+                <li visible={isStudent || isEmployer}>
+                    <a href="/profile">Profile</a>
+                </li>
+                <li>
+                    <a href="/postings">Postings</a>
+                </li>
 
-    <nav>
-        <svg viewBox="0 0 2 3">
-            <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>
-        </svg>
-        <ul>
-            <li>
-                <a href='/'>Login</a>
-            </li>
-            <li>
-                <a href='/' on:click="{logoutAndAlert}">Logout</a>
-            </li>
-            <li>
-                <a href='/dashboard_student'>Dashboard_S</a>
-            </li>
-            <li>
-                <a href='/dashboard_employer'>Dashboard_E</a>
-            </li>
-            <li>
-                <a href="/profile">Profile</a>
-            </li>
-            <li>
-                <a href="/postings">Postings</a>
-            </li>
-        </ul>
-        <svg viewBox="0 0 2 3">
-            <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>
-        </svg>
-    </nav>
-
+            </ul>
+            <svg viewBox="0 0 2 3">
+                <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>
+            </svg>
+        </nav>
+    {/await}
 </header>
 
 <style>

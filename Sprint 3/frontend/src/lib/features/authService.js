@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {env} from '$env/dynamic/public'
+import { env } from '$env/dynamic/public'
 
 const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
@@ -13,6 +13,18 @@ const register = async (/** @type {any} */ userData) => {
 
     return response.data
 }
+// Get all users
+const getAllUsers = async (/** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.get(API_URL, config)
+
+    return response.data
+}
+
 
 // Login user
 const login = async (/** @type {any} */ userData) => {
@@ -60,6 +72,7 @@ export const authService = {
     login,
     getUser,
     edit,
+    getAllUsers,
 }
 
 export default authService

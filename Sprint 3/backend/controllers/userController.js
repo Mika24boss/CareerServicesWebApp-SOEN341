@@ -49,10 +49,10 @@ const registerUser = asyncHandler(async (req, res) => {
 )
 
 // @desc Get new users
-// @route Get /api/users
+// @route Get /api/users/userID
 // @access Public
 const getUserById = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.body.id);
+    const user = await User.findById(req.params.id);
     if (user) {
         res.json(user);
     } else {
@@ -60,6 +60,14 @@ const getUserById = asyncHandler(async (req, res) => {
         throw new Error('User not found');
     }
 });
+
+// @desc Get jobs
+// @route Get /api/jobs
+// @access Private
+const getAllUsers = asyncHandler(async (req, res) => {
+    const user = await User.find({});
+    res.status(200).json(user)
+})
 
 // @desc Update a user by ID
 // @route Patch /api/users/
@@ -163,5 +171,6 @@ module.exports = {
     deleteUser,
     updateUser,
     getUserById,
+    getAllUsers,
     logout
 }

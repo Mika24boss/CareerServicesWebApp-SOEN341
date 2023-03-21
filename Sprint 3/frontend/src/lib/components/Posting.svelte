@@ -5,7 +5,8 @@
 
     function apply(e) {
         applyText = "Applied!";
-        document.getElementById(jobID).style.background = "linear-gradient(180deg, lightgreen, mediumslateblue)";
+        document.getElementById(jobID).style.background = "linear-gradient(180deg, #AEE2FF, #86C8BC)";
+        document.getElementById(jobID).style.borderRadius = "1em";
     }
 
 </script>
@@ -32,25 +33,35 @@
 
     *{
         font-family: 'Barlow', sans-serif;
+        color: white;
     }
 
+    /*
     .gradient {
         background-image: linear-gradient(135deg, blue, darkblue);
         font-size: 1.1em;
-    }
+    }*/
 
     .posting {
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
         justify-items: stretch;
         margin: 0.3em;
-        background-image: linear-gradient(135deg, darkgray, darkslateblue);
+        /*background-image: linear-gradient(135deg, darkgray, darkslateblue);*/
+        background: #141414;
+        border-radius: 1em;
 
-        --line-height: 3em;
+        --line-height: 4em;
     }
 
     .apply-button {
         padding: 0.5em;
+    }
+
+    .apply-button button{
+        color: black;
+        background: #3A98B9;
+        border-radius: 0.5em;
     }
 
     button {
@@ -64,15 +75,13 @@
         color: inherit;
     }
 
-    a:hover {
-        text-decoration: underline;
-        color: mediumblue;
+    a b:hover, a:hover{
+        color: #3A98B9;
     }
 
     .title {
         line-height: calc(var(--line-height) / 2);
         padding: 1em;
-
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

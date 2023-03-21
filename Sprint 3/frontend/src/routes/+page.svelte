@@ -42,8 +42,8 @@
     </div>
 
     <form class='centerBlock'>
-        <div class='formGroup'><input type="text" id="email" placeholder="Email" required></div>
-        <div class='formGroup'><input type="password" id="password" placeholder="Password" required></div>
+        <div class='formGroup'><input type="text" id="email" placeholder="Email" required style='color:white'></div>
+        <div class='formGroup'><input type="password" id="password" placeholder="Password" required style='color:white'></div>
         <div class='btn-container'>
             <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
         </div>
@@ -68,35 +68,26 @@
     }
 
     section{
-        width: 60%;
+        width: 70%;
         height: auto;
         position: relative;
         text-align: center;
         margin: 5em auto auto;
-        border-radius: 1em;
-        background: rgba(41, 39, 39, 0.2);
-        box-shadow: 0 5px 30px black;
+        /*border-radius: 1em;
+        background: rgba(41, 39, 39, 0.2);*/
+
     }
 
     .welcome {
         display: block;
         position: relative;
         width: 100%;
-        padding-top: 1em;
     }
 
     .welcome p {
         margin: 2px;
         font-weight: bold;
-    }
-
-
-    .welcome img {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        display: block;
+        padding-bottom: 1em;
     }
 
     * a:link, a:visited {
@@ -104,12 +95,12 @@
     }
 
     * a:hover{
-        color: rgb(148,0,211);
+        color: white;
         transition: 0.7s;
     }
 
     * a:focus{
-        color: rgb(48, 213, 200);
+        color: #3A98B9;
     }
 
     .centerBlock {
@@ -122,7 +113,7 @@
     .formGroup input, .formGroup input:focus{
         border: none;
         width: 45%;
-        border-bottom: 1px solid white;
+        border-bottom: 2px solid #3A98B9;
         margin-bottom: 20px;
         font-size: 14px;
         font-weight: bold;
@@ -134,9 +125,8 @@
         color: white;
     }
 
-
     .btn-signin{
-        background-color: black;
+        background-color: #3A98B9;
         color: white;
         width: 25%;
         text-align: center;
@@ -147,23 +137,24 @@
     }
 
     .btn-signin:hover {
-        background-color: white;
+        background-color: #3A98B9;
         color: black;
         transition: 0.7s;
     }
 
     .btn-signin:focus{
         font-weight: bold;
-        color: white;
+        color: #3A98B9;
     }
 
     .btn-signin:active{
-        background-color: rgb(75,0,130);
+        background-color: white;
     }
 
     .signup{
         margin-top: 5em;
         font-size: 12px;
+        color: #3A98B9;
     }
 
     .centerBlock input{
@@ -175,13 +166,10 @@
         width: 40%;
         color: black;
         font-weight: bold;
-        background-color: red;
+        background-color: #cc0000;
         text-align: center;
         margin: 1em auto;
         padding: 0.5em;
-
     }
-
-
 
 </style>

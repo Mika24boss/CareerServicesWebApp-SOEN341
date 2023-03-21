@@ -41,9 +41,9 @@
             <label for='employer'>Employer</label>
 
             <div class='inputs-form centerBlock'>
-                <p>Full Name: <input type="text" id="name" name="Name" placeholder="Full Name" required></p>
-                <p>Email: <input type="text" id="email" name="Email" placeholder="Email" required></p>
-                <p>Password: <input type="password" id="password" name="Password" placeholder="Password" required></p>
+                <div class='formGroup'><input type="text" id="name" name="Name" placeholder="Full Name" required style='color:white'></div>
+                <div class='formGroup'><input type="text" id="email" name="Email" placeholder="Email" required style='color:white'></div>
+                <div class='formGroup'><input type="password" id="password" name="Password" placeholder="Password" required style='color:white'></div>
             </div>
             <div class="btn-container">
                 <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
@@ -66,14 +66,14 @@
     }
 
     section {
-        width: 60%;
+        width: 70%;
         height: auto;
         position: relative;
         text-align: center;
         margin: 5em auto auto;
-        border-radius: 1em;
+        /*border-radius: 1em;
         background: #141414;
-        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);
+        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);*/
     }
 
     h1 {
@@ -92,7 +92,6 @@
         display: block;
         position: relative;
         width: 100%;
-        padding-top: 30px;
     }
 
     .signup-title p {
@@ -111,10 +110,19 @@
         font-size: 20px;
     }
 
-    .centerBlock input {
-        border-radius: 1em;
-        color: black;
-        padding: 0.5em;
+    .formGroup input, .formGroup input:focus{
+        border: none;
+        width: 45%;
+        border-bottom: 2px solid #3A98B9;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: transparent;
+        color: white;
+    }
+
+    .formGroup input::placeholder{
+        color: white;
     }
 
     .btn-container {
@@ -127,24 +135,24 @@
     .btn-signup, .btn-back {
         border-radius: 1em;
         box-shadow: 0 1px 1px 1px rgba(255, 255, 255, 0.2);
-        background: black;
+        background: #3A98B9;
         padding: 5px 5px 5px 5px;
         width: 10em;
     }
 
     .btn-signup:hover, .btn-back:hover, .btn-back a:hover {
-        background-color: white;
+        background-color: #3A98B9;
         color: black;
         transition: 0.7s;
     }
 
     .btn-signup:focus, .btn-back:focus {
         font-weight: bold;
-        color: white;
+        color: #3A98B9;
     }
 
     .btn-signup:active, .btn-back:active {
-        background-color: rgb(75, 0, 130);
+        background-color: white;
     }
 
 

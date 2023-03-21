@@ -63,7 +63,6 @@
 		justify-items: stretch;
 		position: relative;
 		left: 2em;
-
 	}
 
 	.notif{
@@ -81,23 +80,22 @@
 
 		align-items: center;
 		text-align: center;
-		background: blue;
+		background: #3A98B9;
 		color: white;
 	}
 
 	.clear-btn{
 		display: block;
 		width: 20%;
-		border: solid;
-		border-color: black;
-		background-color: blue;
+    border: solid black;
+		border-radius: 1em;
+    background-color: #3A98B9;
 		color: white;
 		padding: 14px 28px;
 		font-size: 2em;
 		cursor: pointer;
 		text-align: center;
 		margin-top: 1em;
-		position: relative;
 		right: 20px;
 		float: right;
 	}
@@ -105,8 +103,7 @@
 	.interviews-section{
 		margin-bottom: 2em;
 	}
-
-
+	
 </style>
 
 

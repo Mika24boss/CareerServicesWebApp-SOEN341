@@ -93,7 +93,7 @@
         height: 100%;
         align-items: center;
         padding: 0 0.5rem;
-        color: white;
+        color: #3A98B9;
         font-weight: 700;
         font-size: 0.8rem;
         text-transform: uppercase;

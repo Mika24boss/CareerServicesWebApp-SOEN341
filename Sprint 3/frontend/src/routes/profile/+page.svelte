@@ -24,7 +24,7 @@
 
     async function loadUser() {
         user = authService.getUser();
-        if (user === null || user === undefined || user.role === 'Admin') {
+        if (user == null || user.role === 'Admin') {
             await goto('/');
         }
     }

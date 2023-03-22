@@ -1,13 +1,13 @@
 <script>
-    import {authService} from '$lib/features/authService.js';
+    import authService from '$lib/features/authService.js';
     import {goto} from "$app/navigation";
     import {env} from "$env/dynamic/public";
+    import {hasUpdated} from "../../lib/stores/updateUser.js";
 
     const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
     let name, email, password, role;
     let response;
-
 
     async function onSubmit() {
         name = document.getElementById('name').value;
@@ -21,8 +21,13 @@
             role
         };
         response = await authService.register(userData);
+        hasUpdated.set(true);
         console.log('Response: ', response);
-        await goto("/");
+        if (response.role === 'Student') {
+            await goto('/dashboard_student');
+        } else if (response.role === 'Employer') {
+            await goto('/dashboard_employer');
+        }
     }
 
 </script>

@@ -1,37 +1,72 @@
 <script>
+    import jobService from '$lib/features/jobService.js';
+    import authService from '$lib/features/authService.js';
+    import {onMount} from "svelte";
+    import {goto} from "$app/navigation";
+
     export var title, companyName, location, jobID;
 
-    var applyText = "Apply";
+    let job, user;
+    let applyText = "Apply";
+    loadJob();
 
-    function apply(e) {
+    async function loadJob() {
+        await onMount(() => {
+            user = authService.getUser();
+        })
+        job = (await jobService.getJobByID(jobID, user.token))[0];
+        //console.log(job)
+        if (user == null || job == null) {
+            await goto('/');
+        }
+
+        if (job.applicants.includes(user._id))
+            appliedUI();
+    }
+
+    async function apply(e) {
+        if (applyText === "Applied!") return;
+        let response = await jobService.applyToJob(jobID, user, user.token);
+        console.log(response);
+        if (!response) {
+            alert("Failed to apply")
+        } else {
+            appliedUI();
+        }
+    }
+
+    function appliedUI() {
         applyText = "Applied!";
         document.getElementById(jobID).style.background = "linear-gradient(180deg, #AEE2FF, #86C8BC)";
         document.getElementById(jobID).style.borderRadius = "1em";
     }
 
 </script>
-<div class="gradient" id={jobID}>
-    <div class="posting">
-        <div class="apply-button">
-            <button on:click={apply}>
-                {applyText}
-            </button>
-        </div>
-        <div class="title">
-            <a href="/postings/{jobID}/">
-                <b>{title}</b><br/>
-                {companyName}
-            </a>
-        </div>
-        <div class="location">
-            {location}
+{#await job}
+{:then job}
+    <div class="gradient" id={jobID}>
+        <div class="posting">
+            <div class="apply-button">
+                <button on:click={apply}>
+                    {applyText}
+                </button>
+            </div>
+            <div class="title">
+                <a href="/postings/{jobID}/">
+                    <b>{title}</b><br/>
+                    {companyName}
+                </a>
+            </div>
+            <div class="location">
+                {location}
+            </div>
         </div>
     </div>
-</div>
+{/await}
 
 <style>
 
-    *{
+    * {
         font-family: 'Barlow', sans-serif;
         color: white;
     }

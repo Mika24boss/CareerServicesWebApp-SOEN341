@@ -60,8 +60,7 @@ const applyToJob = async (/** @type {string} */ jobID, /** @type {any} */ userAp
             Authorization: `Bearer ${token}`,
         },
     }
-    const data = {params: {id: jobID}, user: userApplicant}
-    const response = await axios.put(API_URL + '/jobsApplicant', data, config)
+    const response = await axios.put(API_URL + 'jobsApplicant/' + jobID, userApplicant, config)
 
     return response.data
 }

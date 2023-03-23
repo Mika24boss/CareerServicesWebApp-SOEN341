@@ -66,11 +66,11 @@
         <h3>Information</h3>
 
         <label for="name">Full Name</label>
-        <input type="text" id="name" name="name">
+        <div class='formGroup'><input type="text" id="name" name="name"></div>
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email">
+        <div class='formGroup'><input type="email" id="email" name="email"></div>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+        <div class='formGroup'><input type="password" id="password" name="password"></div>
 
         <div class="btn">
             <button class="save" on:click={editUser}>Save</button>
@@ -85,7 +85,7 @@
         </div>
 
         <div class="btn">
-            <input type="submit" value="Upload" style="cursor: pointer; width: auto;">
+            <input type="submit" value="Upload" style="cursor: pointer; width: auto; border-radius: 10px;">
         </div>
     </div>
 
@@ -94,6 +94,7 @@
 <style>
     * {
         font-family: 'Barlow', sans-serif;
+        color: white;
     }
 
     h1 {
@@ -112,8 +113,7 @@
     }
 
     input {
-        border: 1px solid;
-        border-radius: 10px;
+        border: 2px solid;
         padding: 5px;
     }
 
@@ -121,22 +121,28 @@
         text-align: center;
     }
 
+    .btn input, .btn button {
+        color: #3A98B9;
+    }
+
     .profile {
+        width: 80%;
         display: grid;
         grid-template-columns: 1fr 2fr;
-        grid-template-rows: 300px 1fr;
+        grid-template-rows: 340px 2fr;
         grid-template-areas:
                 'aside main'
                 'footer footer';
-        grid-gap: 10px;
+        grid-gap: 1em;
+        margin: auto;
     }
 
+
     .profile-pic {
-        background-color: aliceblue;
+        background-color: #141414;
         display: flex;
         flex-direction: column;
-        border: 1px solid;
-        border-radius: 10px;
+        border-radius: 1em;
         grid-area: aside;
         padding: 10px 20px 10px;
     }
@@ -159,22 +165,34 @@
     }
 
     .information {
-        background-color: aliceblue;
+        background-color: #141414;
         display: flex;
         flex-direction: column;
-        border: 1px solid;
-        border-radius: 10px;
+        border-radius: 1em;
         grid-area: main;
         grid-gap: 10px;
         padding: 10px 30px 10px;
     }
 
+    .formGroup input, .formGroup input:focus{
+        border: none;
+        width: 100%;
+        border-bottom: 2px solid #3A98B9;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: transparent;
+        color: white;
+    }
+
+    .formGroup input::placeholder{
+        color: white;
+    }
+
     .resume {
-        background-color: aliceblue;
+        background-color: #141414;
         display: flex;
         flex-direction: column;
-        border: 1px solid;
-        border-radius: 10px;
+        border-radius: 1em;
         grid-area: footer;
         padding: 10px 30px 10px;
     }

@@ -34,14 +34,18 @@
     }
 
     .apply {
-        width: 10em;
-        height: 5em;
+        width: 8em;
+        height: 4em;
+        background: #3A98B9;
         font-size: 1.1em;
         margin-top: 1.5em;
+        border-radius: 0.5em;
     }
 
     .desc {
-        outline: solid;
+        width: 85%;
         padding: 1em;
+        background: #141414;
+        border-radius: 1em;
     }
 </style>

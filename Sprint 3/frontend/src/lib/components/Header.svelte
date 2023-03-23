@@ -59,7 +59,7 @@
                 {:else}
                     {#if isStudent}
                         <li>
-                            <a href='/dashboard_student'>Dashboard_S</a>
+                            <a href='/dashboard_student'>Dashboard</a>
                         </li>
                         <li>
                             <a href="/postings">Postings</a>
@@ -69,7 +69,7 @@
                         </li>
                     {:else if isEmployer}
                         <li>
-                            <a href='/dashboard_employer'>Dashboard_E</a>
+                            <a href='/dashboard_employer'>Dashboard</a>
                         </li>
                         <li>
                             <a href="/postings">Postings</a>
@@ -80,6 +80,9 @@
                     {:else if isAdmin}
                         <li>
                             <a href="/postings">Postings</a>
+                        </li>
+                        <li>
+                            <a href="/admin_users">Users</a>
                         </li>
                     {/if}
                     <li>

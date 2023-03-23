@@ -26,6 +26,9 @@
         } else if (response.role === 'Employer') {
             await goto('/dashboard_employer');
         }
+        else if(response.role === 'Admin'){
+            await goto('/admin_users');
+        }
 
     }
 
@@ -42,8 +45,8 @@
     </div>
 
     <form class='centerBlock'>
-        <p>Email: <input type="text" id="email" placeholder="Email" required></p>
-        <p>Password: <input type="password" id="password" placeholder="Password" required></p>
+        <div class='formGroup'><input type="text" id="email" placeholder="Email" required style='color:white'></div>
+        <div class='formGroup'><input type="password" id="password" placeholder="Password" required style='color:white'></div>
         <div class='btn-container'>
             <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
         </div>
@@ -67,49 +70,39 @@
         color: white;
     }
 
-    section {
-        width: 60%;
+    section{
+        width: 70%;
         height: auto;
         position: relative;
         text-align: center;
         margin: 5em auto auto;
-        border-radius: 1em;
-        background: #141414;
-        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);
+        /*border-radius: 1em;
+        background: rgba(41, 39, 39, 0.2);*/
     }
 
     .welcome {
         display: block;
         position: relative;
         width: 100%;
-        padding-top: 1em;
     }
 
     .welcome p {
         margin: 2px;
         font-weight: bold;
-    }
-
-
-    .welcome img {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        display: block;
+        padding-bottom: 1em;
     }
 
     * a:link, a:visited {
         text-decoration: none;
     }
 
-    * a:hover {
-        color: rgb(148, 0, 211);
+    * a:hover{
+        color: white;
         transition: 0.7s;
     }
 
-    * a:focus {
-        color: rgb(48, 213, 200);
+    * a:focus{
+        color: #3A98B9;
     }
 
     .centerBlock {
@@ -119,10 +112,24 @@
         font-size: 20px;
     }
 
-    .btn-signin {
-        background-color: black;
+    .formGroup input, .formGroup input:focus {
+        border: none;
+        width: 45%;
+        border-bottom: 2px solid #3A98B9;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: transparent;
+    }
+
+    .formGroup input::placeholder{
         color: white;
-        width: 30%;
+    }
+
+    .btn-signin{
+        background-color: #3A98B9;
+        color: white;
+        width: 25%;
         text-align: center;
         margin: auto;
         padding: 5px 5px;
@@ -131,27 +138,27 @@
     }
 
     .btn-signin:hover {
-        background-color: white;
+        background-color: #3A98B9;
         color: black;
         transition: 0.7s;
     }
 
     .btn-signin:focus {
         font-weight: bold;
-        color: white;
+        color: #3A98B9;
     }
 
-    .btn-signin:active {
-        background-color: rgb(75, 0, 130);
+    .btn-signin:active{
+        background-color: white;
     }
 
     .signup {
         margin-top: 5em;
         font-size: 12px;
+        color: #3A98B9;
     }
 
-    .centerBlock input {
-        border-radius: 1em;
+    .centerBlock input{
         color: black;
         padding: 0.5em;
     }
@@ -160,12 +167,9 @@
         width: 40%;
         color: black;
         font-weight: bold;
-        background-color: red;
+        background-color: #cc0000;
         text-align: center;
         margin: 1em auto;
         padding: 0.5em;
-
     }
-
-
 </style>

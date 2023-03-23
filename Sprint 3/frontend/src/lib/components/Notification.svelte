@@ -5,7 +5,7 @@
 
 <div class='notification'>
     <div class='details'>
-        <p>Job title at Location (123)</p>
+        <p style='font-weight: bold;'>Job title at Location (123)</p>
         <p>Student Name</p>
     </div>
 </div>
@@ -14,15 +14,16 @@
 <style>
     *{
         font-family: 'Barlow', sans-serif;
+        color: white;
     }
 
     .notification {
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: #141414;
+        border-radius: 1em;
         width: 90%;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        outline: black solid 2px;
     }
 
     .details{

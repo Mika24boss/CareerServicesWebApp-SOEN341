@@ -44,13 +44,12 @@
     }
 
     .interviews {
-        display: grid;
-        grid-template-columns: 2fr 2fr;
-        grid-gap: 1em;
-        justify-items: stretch;
-        position: relative;
-        left: 2em;
-
+				display: grid;
+				grid-template-columns: 2fr 2fr;
+				grid-gap: 1em;
+				justify-items: stretch;
+				position: relative;
+				left: 2em;
     }
 
 </style>

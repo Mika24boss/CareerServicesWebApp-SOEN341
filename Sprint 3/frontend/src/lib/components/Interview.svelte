@@ -5,11 +5,11 @@
 
 	<div class='interview'>
 		<div class='details'>
-			<p>Job title at Location (123)</p>
+			<p style='font-weight: bold'>Job title at Location (123)</p>
 			<p>Date at Time</p>
 		</div>
 		<div class='platform'>
-			<p>via Zoom</p>
+			<p style='color: #3A98B9;'>via Zoom</p>
 			<img src={Zoom} alt='zoom_image'/>
 		</div>
 	</div>
@@ -19,15 +19,17 @@
 
     *{
         font-family: 'Barlow', sans-serif;
+				color: white;
     }
 
     .interview {
-        background-color: rgba(255, 255, 255, 0.8);
-        width: 90%;
-        display: flex;
+    /*background-color: rgba(255, 255, 255, 0.8);*/
+		background: #141414;
+    width: 90%;
+    display: flex;
 		flex-direction: row;
 		justify-content: space-evenly;
-		outline: black solid 2px;
+		border-radius: 1em;
 	}
 
 	.details{

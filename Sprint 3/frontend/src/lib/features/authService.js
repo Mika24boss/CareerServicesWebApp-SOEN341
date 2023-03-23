@@ -92,6 +92,7 @@ export const authService = {
     getUser,
     edit,
     getAllUsers,
+    deleteUser
 }
 
 export default authService

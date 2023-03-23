@@ -81,14 +81,14 @@ const updateJobs = asyncHandler(async (req, res) => {
 // @access Private
 const updateJobsApplicant = asyncHandler(async (req, res) => {
     const jobID = req.params.id
-    const job = await Job.findOne({ jobID });
+    const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
     if (!job) {
         res.status(400)
         throw new Error('Job not found')
     }
 
     const updatedJobs = await Job.findOneAndUpdate(
-        req.params.id,
+        { jobID },
         { $addToSet: { 'applicants': req.user.id } }, {
         new: true,
     })

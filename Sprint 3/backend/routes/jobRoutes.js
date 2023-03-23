@@ -11,6 +11,6 @@ router.route('/:id')
     .get(protect, getJobsID)
     .delete(protect, deleteJobs)
     .put(protect, updateJobs)
-router.route('/jobsApplicant')
+router.route('/jobsApplicant/:id')
     .put(protect, updateJobsApplicant)
 module.exports = router

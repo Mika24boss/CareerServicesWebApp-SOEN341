@@ -45,7 +45,7 @@ const setJobs = asyncHandler(async (req, res) => {
 // @desc Update jobs
 // @route Put /api/jobs
 // @access Private
-const updateJobs = asyncHandler(async (req, res) => {
+const updateJobsID = asyncHandler(async (req, res) => {
     const jobID = req.params.id
     const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
 
@@ -67,13 +67,13 @@ const updateJobs = asyncHandler(async (req, res) => {
         }
     }
 
-    const updatedJobs = await Job.findOneAndUpdate(
+    const updatedJobsID = await Job.findOneAndUpdate(
         { jobID },
         req.body, {
         new: true,
     })
     console.log(req.body);
-    res.status(200).json(updatedJobs)
+    res.status(200).json(updatedJobsID)
 })
 
 // @desc Update Applicant
@@ -126,7 +126,7 @@ module.exports = {
     getAllJobs,
     getJobsID,
     setJobs,
-    updateJobs,
+    updateJobsID,
     updateJobsApplicant,
     deleteJobs,
 }

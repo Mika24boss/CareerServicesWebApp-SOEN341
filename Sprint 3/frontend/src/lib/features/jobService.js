@@ -54,11 +54,23 @@ const deleteJob = async (/** @type {string} */ jobID, /** @type {any} */ token) 
     return response.data
 }
 
+const applyToJob = async (/** @type {string} */ jobID, /** @type {any} */ userApplicant, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.put(API_URL + 'jobsApplicant/' + jobID, userApplicant, config)
+
+    return response.data
+}
+
 export const jobService = {
     createJob,
     getJobs,
     deleteJob,
     getJobByID,
+    applyToJob,
 }
 
 export default jobService

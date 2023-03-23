@@ -1,12 +1,13 @@
 <script>
     import {authService} from '$lib/features/authService.js';
     import {goto} from "$app/navigation";
+    import {hasUpdated} from "../lib/stores/updateUser.js";
 
     let email, password;
     let response;
     let hasInvalidCredentials = false;
 
-    async function onSubmit(){
+    async function onSubmit() {
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
         const userData = {
@@ -16,14 +17,13 @@
         response = await authService.login(userData);
         console.log('Response: ', response);
 
-        if (!response){
+        hasUpdated.set(true);
+        if (!response) {
             hasInvalidCredentials = true;
             console.log("Invalid credentials")
-        }
-        else if(response.role === 'Student'){
+        } else if (response.role === 'Student') {
             await goto('/dashboard_student');
-        }
-        else if(response.role === 'Employer'){
+        } else if (response.role === 'Employer') {
             await goto('/dashboard_employer');
         }
         else if(response.role === 'Admin'){
@@ -65,7 +65,7 @@
 
 
 <style>
-    *{
+    * {
         font-family: 'Barlow', sans-serif;
         color: white;
     }
@@ -78,7 +78,6 @@
         margin: 5em auto auto;
         /*border-radius: 1em;
         background: rgba(41, 39, 39, 0.2);*/
-
     }
 
     .welcome {
@@ -113,7 +112,7 @@
         font-size: 20px;
     }
 
-    .formGroup input, .formGroup input:focus{
+    .formGroup input, .formGroup input:focus {
         border: none;
         width: 45%;
         border-bottom: 2px solid #3A98B9;
@@ -121,7 +120,6 @@
         font-size: 14px;
         font-weight: bold;
         background-color: transparent;
-        color: white;
     }
 
     .formGroup input::placeholder{
@@ -136,7 +134,7 @@
         margin: auto;
         padding: 5px 5px;
         border-radius: 1em;
-        box-shadow: 0 1px 1px 1px rgba(255,255,255, 0.2);
+        box-shadow: 0 1px 1px 1px rgba(255, 255, 255, 0.2);
     }
 
     .btn-signin:hover {
@@ -145,7 +143,7 @@
         transition: 0.7s;
     }
 
-    .btn-signin:focus{
+    .btn-signin:focus {
         font-weight: bold;
         color: #3A98B9;
     }
@@ -154,7 +152,7 @@
         background-color: white;
     }
 
-    .signup{
+    .signup {
         margin-top: 5em;
         font-size: 12px;
         color: #3A98B9;
@@ -165,7 +163,7 @@
         padding: 0.5em;
     }
 
-    .invalidCredentials-box > p{
+    .invalidCredentials-box > p {
         width: 40%;
         color: black;
         font-weight: bold;
@@ -174,5 +172,4 @@
         margin: 1em auto;
         padding: 0.5em;
     }
-
 </style>

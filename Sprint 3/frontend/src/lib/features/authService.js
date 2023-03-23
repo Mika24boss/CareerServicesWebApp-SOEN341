@@ -25,6 +25,18 @@ const getAllUsers = async (/** @type {any} */ token) => {
     return response.data
 }
 
+// Delete User
+// Delete an user
+const deleteUser = async (/** @type {any} */userData, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.delete(API_URL, userData, config)
+
+    return response.data
+}
 
 // Login user
 const login = async (/** @type {any} */ userData) => {
@@ -54,8 +66,15 @@ const edit = async (/** @type {any} */ userData, /** @type {any} */ token) => {
 }
 
 // Logout user
-const logout = () => {
+const logout = async (/** @type {any} */userData, /** @type {any} */token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.post(API_URL + '/logout', userData, config)
     localStorage.removeItem('user')
+
 }
 
 const getUser = () => {

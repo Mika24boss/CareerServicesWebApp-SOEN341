@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../model/userModel');
+const File = require('../model/fileModel');
 // @desc Register new users
 // @route Post /api/users
 // @access Public
@@ -62,10 +63,11 @@ const getUserById = asyncHandler(async (req, res) => {
 });
 
 // @desc Update a user by ID
-// @route Patch /api/users/
+// @route Put /api/users/
 // @access Public
 const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.body.id);
+    const fileName = await req.file.fileName;
     //Hash password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
@@ -73,7 +75,20 @@ const updateUser = asyncHandler(async (req, res) => {
         user.email = req.body.email || user.email;
         user.password = hashedPassword || user.password;
         user.name = req.body.name || user.name;
-        user.profilePicture = req.body.profilePicture || user.profilePicture;
+        user.profilePicture = Image.create({
+            name: req.body.name,
+            image: {
+                data: req.file.filename,
+                contentType: 'image/png'
+            }
+        }) || user.profilePicture;
+        user.resume = Image.create({
+            name: req.body.name,
+            image: {
+                data: req.file.filename,
+                contentType: 'pdf'
+            }
+        }) || user.resume;
         const updatedUser = await user.save();
         res.json(updatedUser);
     } else {

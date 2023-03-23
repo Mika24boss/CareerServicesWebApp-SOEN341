@@ -1,44 +1,47 @@
 <script>
-	import Interview from '$lib/components/Interview.svelte';
-	import Signout from '$lib/components/Signout.svelte';
-	import {goto} from "$app/navigation";
-	import authService from "$lib/features/authService.js";
+    import Interview from '$lib/components/Interview.svelte';
+    import authService from "$lib/features/authService.js";
+    import {goto} from "$app/navigation";
+    import {onMount} from "svelte";
 
-	async function auth() {
-		const user = authService.getUser();
-		if (user === null || user === undefined || user.role !== "Student") {
-			await goto('/');
-		}
-	}
+    const okToLoad = auth();
+    let user;
 
-	auth();
+    async function auth() {
+        await onMount(() => {
+            user = authService.getUser();
+        })
+        if (user == null || user.role !== "Student") {
+            await goto('/');
+        }
+        return "";
+    }
 
 </script>
 
-	<!--<Signout />-->
+{#await okToLoad}
+{:then load}
+    <h1>Upcoming Interviews</h1>
 
-	<h1>Upcoming Interviews</h1>
-
-	<div class='interviews'>
-		<Interview />
-		<Interview />
-		<Interview />
-		<Interview />
-		<Interview />
-		<Interview />
-
-	</div>
-
+    <div class='interviews'>
+        <Interview/>
+        <Interview/>
+        <Interview/>
+        <Interview/>
+        <Interview/>
+        <Interview/>
+    </div>
+{/await}
 
 <style>
 
-    *{
+    * {
         font-family: 'Barlow', sans-serif;
     }
 
-		h1{
+    h1 {
         color: white;
-		}
+    }
 
     .interviews {
 				display: grid;

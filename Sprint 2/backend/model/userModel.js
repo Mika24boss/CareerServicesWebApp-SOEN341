@@ -20,9 +20,15 @@ const userSchema = mongoose.Schema(
             required: true
         },
         profilePicture: {
-            type: Buffer,
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'File'
         },
-
+        resume: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'File'
+        }
     },
     {
         timestamps: true,

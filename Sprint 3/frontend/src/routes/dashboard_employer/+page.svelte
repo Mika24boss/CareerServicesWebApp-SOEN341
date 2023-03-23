@@ -1,60 +1,67 @@
 <script>
-	import Interview from '$lib/components/Interview.svelte';
-	import Notification from '$lib/components/Notification.svelte';
-	import Signout from '$lib/components/Signout.svelte';
-	import authService from "$lib/features/authService.js";
-	import {goto} from "$app/navigation";
+    import Interview from '$lib/components/Interview.svelte';
+    import Notification from '$lib/components/Notification.svelte';
+    import authService from '$lib/features/authService.js';
+    import {goto} from "$app/navigation";
+    import {onMount} from "svelte";
 
-	async function auth() {
-		const user = authService.getUser();
-		if (user === null || user === undefined || user.role !== "Employer") {
-			await goto('/');
-		}
-	}
+    const okToLoad = auth();
+    let user;
 
-	auth();
+    async function auth() {
+        await onMount(() => {
+            user = authService.getUser();
+        })
+        if (user == null || user.role !== "Employer") {
+            await goto('/');
+        }
+        return "";
+    }
+
 </script>
 
-<!--<Signout />-->
-<!-- Notifications Section-->
-<div class="notif-section">
-	<div class="notif">
-		<h1 class="badge">3</h1>
-		<h1 class="label">Notification(s)</h1>
-	</div>
+{#await okToLoad}
+{:then load}
 
-	<div class="notifications">
-		<Notification />
-		<Notification />
-		<Notification />
-		<Notification />
-	</div>
+    <!-- Notifications Section-->
+    <div class="notif-section">
+        <div class="notif">
+            <h1 class="badge">3</h1>
+            <h1 class="label">Notification(s)</h1>
+        </div>
 
-	<button type="button" class="clear-btn">Clear</button>
-</div>
+        <div class="notifications">
+            <Notification/>
+            <Notification/>
+            <Notification/>
+            <Notification/>
+        </div>
+        <button type="button" class="clear-btn">Clear</button>
+    </div>
 
-<!-- Interviews Section -->
-<div class="interviews-section">
-	<h1>Upcoming Interviews</h1>
-	<div class='interviews'>
-		<Interview />
-		<Interview />
-		<Interview />
-		<Interview />
-		<Interview />
-		<Interview />
-	</div>
-</div>
 
+    <!-- Interviews Section -->
+    <div class="interviews-section">
+        <h1>Upcoming Interviews</h1>
+        <div class='interviews'>
+            <Interview/>
+            <Interview/>
+            <Interview/>
+            <Interview/>
+            <Interview/>
+            <Interview/>
+        </div>
+    </div>
+{/await}
 
 <style>
-    *{
+    * {
         font-family: 'Barlow', sans-serif;
     }
 
-		h1{
+    h1 {
         color: white;
-		}
+    }
 
 	.interviews, .notifications{
 		display: grid;
@@ -65,18 +72,18 @@
 		left: 2em;
 	}
 
-	.notif{
-		text-align: left;
-		margin-bottom: 1em;
-	}
+    .notif {
+        text-align: left;
+        margin-bottom: 1em;
+    }
 
-	.badge, .label{
-		display: inline;
-	}
+    .badge, .label {
+        display: inline;
+    }
 
-	.badge{
-		border-radius: 50%;
-		padding: 0.4em;
+    .badge {
+        border-radius: 50%;
+        padding: 0.4em;
 
 		align-items: center;
 		text-align: center;
@@ -105,5 +112,3 @@
 	}
 	
 </style>
-
-

@@ -1,11 +1,12 @@
 <script>
 	import Profile from '$lib/images/profile-logo.png';
-	export var name, email, userID, profilePicture; // todo: Add CV
+	export let name, email, userID, profilePicture, CV; // todo: Add CV
+
 
 </script>
 
 
-<div class='user' id='{userID}'>
+<div class='user' id={userID}>
 	<div class='profile'>
 		<img src={Profile} alt='profile-logo' /> <!-- to change -->
 	</div>
@@ -16,9 +17,9 @@
 	<div class='resume'>
 		<button class='btn-resume'>CV</button>
 	</div>
-	<div class='checkbox'>
-		<input type='checkbox'>
-	</div>
+	<!--<div class='checkbox'>
+		<input type='checkbox' value={userID}>
+	</div>-->
 </div>
 
 
@@ -31,7 +32,7 @@
 
     .user {
         display: grid;
-        grid-template-columns: 1fr 2fr 1fr 3fr;
+        grid-template-columns: 1fr 4fr 1fr;
         justify-items: stretch;
         margin: 0.3em;
         background: #141414;

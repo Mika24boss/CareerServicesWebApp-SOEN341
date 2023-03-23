@@ -15,9 +15,7 @@
 </div>
 
 <div class="desc">
-    <p>
-        {@html data.description.replace(/\n/g, "<br>")}
-    </p>
+    <pre>{@html data.description}</pre>
 </div>
 
 <style>

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../model/userModel');
+
 // @desc Register new users
 // @route Post /api/users
 // @access Public

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { env } from '$env/dynamic/public'
+import {env} from '$env/dynamic/public'
 
 const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
@@ -40,10 +40,11 @@ const deleteUser = async (/** @type {any} */userData, /** @type {any} */ token) 
 
 // Login user
 const login = async (/** @type {any} */ userData) => {
-    return await axios.post(API_URL + 'login/', userData).then((response) => {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        return response.data
-    })
+    return await axios.post(API_URL + 'login/', userData)
+        .then((response) => {
+            localStorage.setItem('user', JSON.stringify(response.data))
+            return response.data
+        })
         .catch((reason) => {
             return null
         })
@@ -72,9 +73,8 @@ const logout = async (/** @type {any} */userData, /** @type {any} */token) => {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.post(API_URL + '/logout', userData, config)
     localStorage.removeItem('user')
-
+    const response = await axios.post(API_URL + 'logout', userData, config)
 }
 
 const getUser = () => {

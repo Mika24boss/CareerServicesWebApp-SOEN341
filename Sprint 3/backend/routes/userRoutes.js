@@ -10,7 +10,7 @@ const Image = require('../model/fileModel');
 router.route('/')
     .post(registerUser)
     .get(protect, getAllUsers)
-    .patch(protect, updateUser)
+    .put(protect, updateUser)
     .delete(protect, deleteUser)
 router.route('/:id').get(protect, getUserById)
 router.post('/login', loginUser)

@@ -83,7 +83,8 @@
 
     .badge {
         border-radius: 50%;
-        padding: 0.4em;
+        padding-left: 0.3em;
+        padding-right: 0.3em;
 
 		align-items: center;
 		text-align: center;

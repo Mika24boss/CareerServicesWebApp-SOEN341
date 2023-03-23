@@ -20,7 +20,12 @@ const userSchema = mongoose.Schema(
             required: true
         },
         profilePicture: {
-            type: Buffer,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'File',
+        },
+        resume: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'File',
         },
 
     },

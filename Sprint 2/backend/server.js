@@ -1,6 +1,7 @@
 const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
+const multer = require('multer')
 const { errorHandler } = require('./middleware/errorMiddleware')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
@@ -15,11 +16,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const storage = multer.diskStorage({
+    destination: 'uploads',
+    filename: (req, file, cb) => {
+        cb(null, file.originalName)
+    },
+});
+
+const upload = multer({
+    storage: Storage
+}).single('testImage')
+
 app.use(cookieParser())
 
 app.use(express.urlencoded({ extended: false }));
-app.use('/', express.static(path.join(__dirname, '..', 'frontend')));
+app.use('/', express.static(path.join(__dirname, '..', 'frontend', 'public')));
 
+app.use('/api/file', require('./routes/fileRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/jobs', require('./routes/jobRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));

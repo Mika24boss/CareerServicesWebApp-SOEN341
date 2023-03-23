@@ -1,31 +1,32 @@
 <script>
     import Posting from '$lib/components/Posting.svelte';
-    import {authService} from '$lib/features/authService.js';
-    import {jobService} from '$lib/features/jobService.js';
+    import authService from '$lib/features/authService.js';
+    import jobService from '$lib/features/jobService.js';
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
 
     const pkgs = loadJobs();
-    var user;
+    let user;
 
     async function loadJobs() {
         await onMount(() => {
             user = authService.getUser();
         })
 
-        if (user === null || user === undefined) {
+        if (user == null) {
             await goto('/');
-        }
+        } else {
 
-        const jobs = await jobService.getJobs(user.token);
-        return jobs.map(function (job) {
-            return {
-                title: job.title,
-                companyName: job.companyName,
-                location: job.location,
-                jobID: job.jobID
-            }
-        });
+            const jobs = await jobService.getJobs(user.token);
+            return jobs.map(function (job) {
+                return {
+                    title: job.title,
+                    companyName: job.companyName,
+                    location: job.location,
+                    jobID: job.jobID
+                }
+            });
+        }
     }
 
     async function createJob() {
@@ -41,14 +42,15 @@
     }
 </script>
 
-<div class="postingsPage">
-    <div class="pageHeader">
-        <h1>Job Postings</h1>
-        <input type="search" class="search" placeholder="Type job or company name...">
-    </div>
+{#await pkgs}
+{:then pkgs}
 
-    {#await pkgs}
-    {:then pkgs}
+    <div class="postingsPage">
+
+        <div class="pageHeader">
+            <h1>Job Postings</h1>
+            <input type="search" class="search" placeholder="Type job or company name...">
+        </div>
         <div class="postings">
 
             {#each pkgs as pkg}
@@ -65,8 +67,9 @@
             <textarea class="textBoxTesting" id="description" placeholder="Description"></textarea><br/>
             <button class="createJobButton" on:click="{createJob}">Create job</button>
         </div>
-    {/await}
-</div>
+
+    </div>
+{/await}
 
 <style>
 

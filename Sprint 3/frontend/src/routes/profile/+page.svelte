@@ -20,6 +20,8 @@
         input.addEventListener('change', handleImageChange);
 
         loadUser();
+        document.getElementById('name').value = user.name;
+        document.getElementById('email').value = user.email;
     });
 
     async function loadUser() {
@@ -30,14 +32,15 @@
     }
 
     async function editUser() {
-        /*const userData = {
-            id: user.id,
-            name: document.getElementById('companyName').value,
-            email: document.getElementById('location').value,
-            password: document.getElementById('description').value
+
+        const userData = {
+            id: user._id,
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
         }
         const response = await authService.edit(userData, user.token);
-        console.log(response);*/
+        console.log(response);
     }
 
 </script>
@@ -45,7 +48,7 @@
 <h1 style="text-align: left;">Profile</h1>
 <div class="profile">
 
-    <div class="profile-pic">
+    <form class="profile-pic">
         <h3>Avatar</h3>
 
         <div class="image-container">
@@ -60,9 +63,9 @@
         <div class="btn" style="padding-top: 10px;">
             <button>Change</button>
         </div>
-    </div>
+    </form>
 
-    <div class="information">
+    <form class="information">
         <h3>Information</h3>
 
         <label for="name">Full Name</label>
@@ -70,14 +73,14 @@
         <label for="email">Email Address</label>
         <div class='formGroup'><input type="email" id="email" name="email"></div>
         <label for="password">Password</label>
-        <div class='formGroup'><input type="password" id="password" name="password"></div>
+        <div class='formGroup'><input type="new-password" id="password" name="password" placeholder="Leave empty if no change"></div>
 
         <div class="btn">
             <button class="save" on:click={editUser}>Save</button>
         </div>
-    </div>
+    </form>
 
-    <div class="resume">
+    <form class="resume">
         <h3>Resume</h3>
 
         <div class="btn" style="text-align: left;">
@@ -87,7 +90,7 @@
         <div class="btn">
             <input type="submit" value="Upload" style="cursor: pointer; width: auto; border-radius: 10px;">
         </div>
-    </div>
+    </form>
 
 </div>
 

@@ -18,6 +18,15 @@
         return "";
     }
 
+        // Clear notifications
+        function clearNotifications() {
+            const notificationList = document.getElementById("notificationList");
+            while (notificationList.firstChild) {
+                notificationList.removeChild(notificationList.firstChild);
+            }
+        document.getElementById("notificationBadge").textContent = "0";
+    }
+
 </script>
 
 {#await okToLoad}
@@ -26,17 +35,17 @@
     <!-- Notifications Section-->
     <div class="notif-section">
         <div class="notif">
-            <h1 class="badge">3</h1>
+            <h1 class="badge" id="notificationBadge">4</h1>
             <h1 class="label">Notification(s)</h1>
         </div>
 
-        <div class="notifications">
+        <div class="notifications" id="notificationList">
             <Notification/>
             <Notification/>
             <Notification/>
             <Notification/>
         </div>
-        <button type="button" class="clear-btn">Clear</button>
+        <button type="button" class="clear-btn" on:click={clearNotifications}>Clear</button>
     </div>
 
 

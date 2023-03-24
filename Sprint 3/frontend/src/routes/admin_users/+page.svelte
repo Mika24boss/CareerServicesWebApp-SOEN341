@@ -21,21 +21,26 @@
 
 		let users;
 		users = await authService.getAllUsers(user.token);
-		console.log('Users: '+ users)
+		//console.log('Users: '+ users)
 
 		usersPack = users.map(function (user) {
 			return {
 				name: user.name,
 				email: user.email,
+				id: user._id
 			} // todo: add profilePicture and CV
 		});
-		console.log('usersPack: '+	usersPack)
+		//console.log('usersPack: '+	usersPack)
 	}
 
 	async function deleteUsers(){
-		for(let i=0; i<arrayLength;i++){
-			authService.deleteUser();
+		console.log(selectedUsersArray.length)
+		for(let i=0; i<selectedUsersArray.length;i++){
+			console.log('in the loop');
+			let hello = await authService.deleteUser(selectedUsersArray[i].id.valueOf(), user.token);
+			//console.log(selectedUsersArray)
 		}
+		selectedUsersArray = [];
 	}
 
 	async function consoleUsersPack(){
@@ -55,15 +60,15 @@
 	{:then usersPack}
 
 	<div class='users'>
-		{#each usersPack as userID, i}
-			<User {...userID} userID={userID}/>
+		{#each usersPack as userA, i}
+			<User {...userA} userID={userA}/>
 			<input type='checkbox' style='float: right;' bind:checked={boolArray[i]} on:change={()=> {
 				if (boolArray[i]) {
-					selectedUsersArray.push(userID)
-					console.log(selectedUsersArray)
+					selectedUsersArray.push(userA)
+					console.log('asd' + selectedUsersArray)
 				}
 				else {
-					if (selectedUsersArray.indexOf(userID) !== -1) selectedUsersArray.splice(selectedUsersArray.indexOf(userID), 1);
+					if (selectedUsersArray.indexOf(userA) !== -1) selectedUsersArray.splice(selectedUsersArray.indexOf(userA), 1);
 					console.log(selectedUsersArray)
 				}
 			}
@@ -71,9 +76,9 @@
 		{/each}
 	</div>
 
-	<button type="button" class="deleteUser-btn" on:click={deleteUsers}>Delete</button>
-
+	<button type="button" class="deleteUser-btn" on:click='{deleteUsers}'>Delete</button>
 	{/await}
+
 </div>
 
 

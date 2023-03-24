@@ -28,13 +28,20 @@ const getAllUsers = async (/** @type {any} */ token) => {
 // Delete User
 // Delete an user
 const deleteUser = async (/** @type {any} */userData, /** @type {any} */ token) => {
-    const config = {
+    /*const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        body: {
+            id: userData,
+        }
+    }*/
+    const req = {
+        data: {
+            id: userData,
+        }
     }
-    const response = await axios.delete(API_URL, userData, config)
-
+    const response = await axios.delete(API_URL, req)
     return response.data
 }
 
@@ -77,12 +84,26 @@ const logout = async (/** @type {any} */userData, /** @type {any} */token) => {
     const response = await axios.post(API_URL + 'logout', userData, config)
 }
 
+// Get user
 const getUser = () => {
     const userState = localStorage.getItem('user')
     if (userState === null)
         return null
     else
         return JSON.parse(userState)
+}
+
+// Get user by ID
+const getUserByID = async (/** @type {string} */ userID, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.get(API_URL + userID, config)
+
+    return response.data
 }
 
 export const authService = {
@@ -92,7 +113,8 @@ export const authService = {
     getUser,
     edit,
     getAllUsers,
-    deleteUser
+    deleteUser,
+    getUserByID
 }
 
 export default authService

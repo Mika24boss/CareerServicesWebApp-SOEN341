@@ -36,7 +36,6 @@
 	async function deleteUsers(){
 		console.log(selectedUsersArray.length)
 		for(let i=0; i<selectedUsersArray.length;i++){
-			console.log('in the loop');
 			let hello = await authService.deleteUser(selectedUsersArray[i], user.token);
 			//console.log(selectedUsersArray)
 		}
@@ -58,8 +57,6 @@
 		}
 		console.log(selectedUsersArray);
 	}
-
-
 </script>
 
 

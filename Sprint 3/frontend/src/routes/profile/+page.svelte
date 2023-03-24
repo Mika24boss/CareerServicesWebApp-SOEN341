@@ -32,8 +32,9 @@
     }
 
     async function editUser() {
+
         const userData = {
-            id: user.id,
+            id: user._id,
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             password: document.getElementById('password').value
@@ -64,7 +65,7 @@
         </div>
     </form>
 
-    <form class="information" >
+    <form class="information">
         <h3>Information</h3>
 
         <label for="name">Full Name</label>
@@ -72,7 +73,7 @@
         <label for="email">Email Address</label>
         <div class='formGroup'><input type="email" id="email" name="email"></div>
         <label for="password">Password</label>
-        <div class='formGroup'><input type="password" id="password" name="password" required></div>
+        <div class='formGroup'><input type="new-password" id="password" name="password" placeholder="Leave empty if no change"></div>
 
         <div class="btn">
             <button class="save" on:click={editUser}>Save</button>

@@ -96,6 +96,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // @route Delete /api/users/
 // @access Public
 const deleteUser = asyncHandler(async (req, res) => {
+    console.log('id:'+ req.body.id)
     const user = await User.findById(req.body.id);
     if (user) {
         await user.remove();

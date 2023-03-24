@@ -59,10 +59,6 @@
         </div>
     </div>
 </section>
-<a href="/admin_users">
-    <button class="btn-test" value='Admin' style='background-color: rgb(8,14,14)'>Testing</button>
-</a>
-
 
 <style>
     * {

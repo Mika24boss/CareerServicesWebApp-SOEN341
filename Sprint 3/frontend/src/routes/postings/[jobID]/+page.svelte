@@ -1,22 +1,45 @@
 <script>
-    export let data;
+    import {error} from '@sveltejs/kit';
+    import {authService} from '$lib/features/authService.js';
+    import {jobService} from '$lib/features/jobService.js';
+    import {page} from '$app/stores';
+    import {onMount} from "svelte";
+    import {goto} from "$app/navigation";
 
+    const jobID = $page.url.pathname.split('/').pop();
+    let data;
+
+    onMount(async () => {
+            const user = authService.getUser();
+            if (user == null) {
+                await goto('/');
+                return;
+            }
+            data = (await jobService.getJobByID(jobID, user.token))[0];
+
+            if (data == null) alert("No job has an ID #" + jobID + ".");
+            //throw error(404, 'Not found');
+        }
+    )
 </script>
 
-<div class="title">
-    <div class="topInfo">
-        <h1>{data.title} (#{data.jobID})</h1>
-        <h2>{data.companyName}</h2>
-        <h3>{data.location}</h3>
+{#if data}
+    <div class="title">
+        <div class="topInfo">
+            <h1>{data.title} (#{data.jobID})</h1>
+            <h2>{data.companyName}</h2>
+            <h3>{data.location}</h3>
+        </div>
+        <button class="apply">
+            <b style='color: black'>Apply</b>
+        </button>
     </div>
-    <button class="apply">
-        <b style='color: black'>Apply</b>
-    </button>
-</div>
 
-<div class="desc">
-    <pre>{@html data.description}</pre>
-</div>
+    <div class="desc">
+        <pre>{@html data.description}</pre>
+    </div>
+{/if}
+
 
 <style>
     * {

@@ -71,7 +71,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 })
 
 // @desc Update a user by ID
-// @route Patch /api/users/
+// @route Put /api/users/
 // @access Public
 const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.body.id);

@@ -7,6 +7,7 @@
 
     const pkgs = loadJobs();
     let user;
+    let selectedJobs = []
 
     async function loadJobs() {
         await onMount(() => {
@@ -16,16 +17,35 @@
         if (user == null) {
             await goto('/');
         } else {
-
             const jobs = await jobService.getJobs(user.token);
             return jobs.map(function (job) {
                 return {
+                    jobID: job.jobID,
                     title: job.title,
                     companyName: job.companyName,
                     location: job.location,
-                    jobID: job.jobID
+                    applicants: job.applicants,
                 }
             });
+        }
+    }
+
+    function toggleSelected(event) {
+        let id = event.detail;
+        const index = selectedJobs.indexOf(id);
+        if (index > -1) { // only splice array when item is found
+            selectedJobs.splice(index, 1); // 2nd parameter means remove one item only
+        } else {
+            selectedJobs.push(id);
+        }
+        console.log(selectedJobs);
+    }
+
+    async function deleteJobs() {
+        let response;
+        while (selectedJobs.length > 0) {
+            response = await jobService.deleteJob(selectedJobs.pop(), user.token);
+            console.log(response);
         }
     }
 
@@ -38,13 +58,10 @@
         }
         const response = await jobService.createJob(jobData, user.token);
         console.log(response);
-
     }
 </script>
 
-{#await pkgs}
-{:then pkgs}
-
+{#await pkgs then pkgs}
     <div class="postingsPage">
 
         <div class="pageHeader">
@@ -54,20 +71,23 @@
         <div class="postings">
 
             {#each pkgs as pkg}
-                <Posting {...pkg}/>
+                <Posting {...pkg} on:toggle={toggleSelected}/>
             {/each}
-
         </div>
 
-        <div class="jobCreationTesting">
-            <h2>For testing purposes</h2>
-            <input type="text" class="textBoxTesting" id="jobTitle" placeholder="Job title"><br/>
-            <input type="text" class="textBoxTesting" id="companyName" placeholder="Company name"><br/>
-            <input type="text" class="textBoxTesting" id="location" placeholder="Location"><br/>
-            <textarea class="textBoxTesting" id="description" placeholder="Description"></textarea><br/>
-            <button class="createJobButton" on:click="{createJob}">Create job</button>
-        </div>
-
+        {#if user.role === "Admin"}
+            <br/>
+            <button on:click={deleteJobs}>Delete selected</button>
+        {:else if user.role === "Employer"}
+            <div class="jobCreationTesting">
+                <h2>For testing purposes</h2>
+                <input type="text" class="textBoxTesting" id="jobTitle" placeholder="Job title"><br/>
+                <input type="text" class="textBoxTesting" id="companyName" placeholder="Company name"><br/>
+                <input type="text" class="textBoxTesting" id="location" placeholder="Location"><br/>
+                <textarea class="textBoxTesting" id="description" placeholder="Description"></textarea><br/>
+                <button class="createJobButton" on:click="{createJob}">Create job</button>
+            </div>
+        {/if}
     </div>
 {/await}
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {env} from '$env/dynamic/public'
+import { env } from '$env/dynamic/public'
 
 const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
@@ -106,6 +106,37 @@ const getUserByID = async (/** @type {string} */ userID, /** @type {any} */ toke
     return response.data
 }
 
+const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    try {
+        const response = await axios.patch(API_URL + '/uploadProfileImage', userData, config);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Server error');
+    }
+}
+
+const uploadCV = async (/** @type {string} */ userData, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    try {
+        const response = await axios.patch(API_URL + '/uploadResume', userData, config);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Server error');
+    }
+}
+
+
 export const authService = {
     register,
     logout,
@@ -114,7 +145,9 @@ export const authService = {
     edit,
     getAllUsers,
     deleteUser,
-    getUserByID
+    getUserByID,
+    uploadProfileImage,
+    uploadCV
 }
 
 export default authService

@@ -7,7 +7,7 @@
 
     const pkgs = loadJobs();
     let user;
-    let selectedJobs = []
+    let selectedJobs = [];
 
     async function loadJobs() {
         await onMount(() => {
@@ -49,15 +49,16 @@
         }
     }
 
-    async function createJob() {
-        const jobData = {
+    function createJob() {
+        goto("/postings/new");
+        /*const jobData = {
             title: document.getElementById('jobTitle').value,
             companyName: document.getElementById('companyName').value,
             location: document.getElementById('location').value,
             description: document.getElementById('description').value
         }
         const response = await jobService.createJob(jobData, user.token);
-        console.log(response);
+        console.log(response);*/
     }
 </script>
 
@@ -68,8 +69,12 @@
             <h1>Job Postings</h1>
             <input type="search" class="search" placeholder="Type job or company name...">
         </div>
-        <div class="postings">
 
+        {#if user.role === "Employer"}
+            <button on:click={createJob}>Create new posting</button>
+        {/if}
+
+        <div class="postings">
             {#each pkgs as pkg}
                 <Posting {...pkg} on:toggle={toggleSelected}/>
             {/each}

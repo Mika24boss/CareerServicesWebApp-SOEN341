@@ -1,12 +1,17 @@
 <script>
 	import Zoom from '$lib/images/zoom.png';
+	export var title, location, companyName, jobID, date_time;
+	let  user, job;
+
+
+
+
 </script>
 
-
-	<div class='interview'>
+	<div class='interview' id='jobID'>
 		<div class='details'>
-			<p style='font-weight: bold'>Job title at Location (123)</p>
-			<p>Date at Time</p>
+			<p style='font-weight: bold'>{title} with {companyName} ({jobID})</p>
+			<p>{date_time}</p>
 		</div>
 		<div class='platform'>
 			<p style='color: #3A98B9;'>via Zoom</p>

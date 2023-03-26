@@ -54,6 +54,19 @@ const deleteJob = async (/** @type {string} */ jobID, /** @type {any} */ token) 
     return response.data
 }
 
+// Update job
+const updateJob = async (/** @type {string} */ jobID, /** @type {any} */ jobData, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.put(API_URL + jobID, jobData, config)
+
+    return response.data
+}
+
 const applyToJob = async (/** @type {string} */ jobID, /** @type {any} */ userApplicant, /** @type {any} */ token) => {
     const config = {
         headers: {
@@ -71,6 +84,7 @@ export const jobService = {
     deleteJob,
     getJobByID,
     applyToJob,
+    updateJob,
 }
 
 export default jobService

@@ -4,12 +4,18 @@
     import jobService from '$lib/features/jobService.js';
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
+    import {redirect} from "@sveltejs/kit";
+    import {browser} from '$app/environment'
 
-    const pkgs = loadJobs();
+    let jobsActive = [], jobsDeactivated = [], jobsOther = [];
     let user;
     let selectedJobs = [];
+    let isLoaded = false;
+
+    loadJobs();
 
     async function loadJobs() {
+        if (!browser) return;
         await onMount(() => {
             user = authService.getUser();
         })
@@ -18,6 +24,35 @@
             await goto('/');
         } else {
             const jobs = await jobService.getJobs(user.token);
+            jobs.forEach((job) => {
+                let newJob = {
+                    jobID: job.jobID,
+                    title: job.title,
+                    companyName: job.companyName,
+                    location: job.location,
+                    applicants: job.applicants,
+                    isActive: job.isActive,
+                };
+                switch (user.role) {
+                    case "Student":
+                        if (newJob.isActive) jobsOther.push(newJob);
+                        break;
+                    case "Admin":
+                        jobsOther.push(newJob);
+                        break;
+                    case "Employer":
+                        if (newJob.isActive)
+                            if (job.user === user._id)
+                                jobsActive.push(newJob);
+                            else
+                                jobsOther.push(newJob);
+                        else if (job.user === user._id)
+                            jobsDeactivated.push(newJob);
+                        break;
+                }
+                isLoaded = true;
+            });
+
             return jobs.map(function (job) {
                 return {
                     jobID: job.jobID,
@@ -25,6 +60,7 @@
                     companyName: job.companyName,
                     location: job.location,
                     applicants: job.applicants,
+                    isActive: job.isActive,
                 }
             });
         }
@@ -38,7 +74,6 @@
         } else {
             selectedJobs.push(id);
         }
-        console.log(selectedJobs);
     }
 
     async function deleteJobs() {
@@ -51,18 +86,12 @@
 
     function createJob() {
         goto("/postings/new");
-        /*const jobData = {
-            title: document.getElementById('jobTitle').value,
-            companyName: document.getElementById('companyName').value,
-            location: document.getElementById('location').value,
-            description: document.getElementById('description').value
-        }
-        const response = await jobService.createJob(jobData, user.token);
-        console.log(response);*/
     }
 </script>
 
-{#await pkgs then pkgs}
+{#if isLoaded && jobsActive.length === 0 && jobsDeactivated.length === 0 && jobsOther.length === 0}
+    No job postings available. Check again soon!
+{:else if isLoaded}
     <div class="postingsPage">
 
         <div class="pageHeader">
@@ -71,30 +100,43 @@
         </div>
 
         {#if user.role === "Employer"}
-            <button on:click={createJob}>Create new posting</button>
+            <button class="actionButton" on:click={createJob}>Create new posting</button>
+        {:else if user.role === "Admin"}
+            <button class="actionButton" on:click={deleteJobs}>Delete selected</button>
         {/if}
 
-        <div class="postings">
-            {#each pkgs as pkg}
-                <Posting {...pkg} on:toggle={toggleSelected}/>
-            {/each}
-        </div>
+        <br/>
 
-        {#if user.role === "Admin"}
+        {#if user.role !== "Employer"}
             <br/>
-            <button on:click={deleteJobs}>Delete selected</button>
-        {:else if user.role === "Employer"}
-            <div class="jobCreationTesting">
-                <h2>For testing purposes</h2>
-                <input type="text" class="textBoxTesting" id="jobTitle" placeholder="Job title"><br/>
-                <input type="text" class="textBoxTesting" id="companyName" placeholder="Company name"><br/>
-                <input type="text" class="textBoxTesting" id="location" placeholder="Location"><br/>
-                <textarea class="textBoxTesting" id="description" placeholder="Description"></textarea><br/>
-                <button class="createJobButton" on:click="{createJob}">Create job</button>
+            <div class="postings">
+                {#each jobsOther as job}
+                    <Posting {...job} on:toggle={toggleSelected}/>
+                {/each}
+            </div>
+        {:else}
+            <div class="separator">Your job postings</div>
+            <div class="postings">
+                {#each jobsActive as job}
+                    <Posting {...job} on:toggle={toggleSelected}/>
+                {/each}
+            </div>
+            <div class="separator">Your deactivated postings</div>
+            <div class="postings">
+                {#each jobsDeactivated as job}
+                    <Posting {...job} on:toggle={toggleSelected}/>
+                {/each}
+            </div>
+            <div class="separator">Other job postings</div>
+            <div class="postings">
+                {#each jobsOther as job}
+                    <Posting {...job} on:toggle={toggleSelected}/>
+                {/each}
             </div>
         {/if}
+
     </div>
-{/await}
+{/if}
 
 <style>
 
@@ -130,19 +172,43 @@
         height: 40px;
         width: 250px;
         background: lightgray;
+        border-radius: 0.5em;
     }
 
-    .jobCreationTesting {
-        display: grid;
-        width: 30%;
-        margin-top: 10em;
-        bottom: 1em;
-        padding: 0 1em 1em;
-        outline: darkgray solid 1px;
+    .actionButton {
+        color: black;
+        background: #3A98B9;
+        border-radius: 0.5em;
+        padding: 0.5em;
     }
 
-    .textBoxTesting {
-        background: lightgray;
+    button:hover {
+        cursor: pointer;
+    }
+
+    .separator {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: lightgray;
+        font-size: 1.5em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+
+    .separator::before,
+    .separator::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .separator:not(:empty)::before {
+        margin-right: .25em;
+    }
+
+    .separator:not(:empty)::after {
+        margin-left: .25em;
     }
 
 </style>

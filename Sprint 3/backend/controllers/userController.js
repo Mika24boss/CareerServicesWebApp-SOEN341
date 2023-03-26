@@ -69,16 +69,22 @@ const getUserById = asyncHandler(async (req, res) => {
 const setInterview = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     const jobID = req.body.jobID;
-    const date = req.body.date;
+    const date = req.body.date ? new Date(req.body.date) : null;
     const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
-
+    const Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.getTime() === date.getTime());
     if (user && job) {
-        user.interview.push({
-            job: job,
-            date: date
-        });
-        const updatedUser = await user.save();
-        res.json(updatedUser);
+        if (Timeconflict) {
+            res.status(404);
+            throw new Error('Date conflicted');
+        }
+        else {
+            user.interview.push({
+                job: job,
+                date: date
+            });
+            const updatedUser = await user.save();
+            res.json(updatedUser);
+        }
     } else {
         res.status(404);
         throw new Error('User not found or job not found');

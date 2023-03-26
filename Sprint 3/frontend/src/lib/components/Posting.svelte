@@ -90,17 +90,10 @@
         color: white;
     }
 
-    /*
-    .gradient {
-        background-image: linear-gradient(135deg, blue, darkblue);
-        font-size: 1.1em;
-    }*/
-
     .posting {
         display: grid;
         justify-items: stretch;
         margin: 0.3em;
-        /*background-image: linear-gradient(135deg, darkgray, darkslateblue);*/
         background: #141414;
         border-radius: 1em;
 

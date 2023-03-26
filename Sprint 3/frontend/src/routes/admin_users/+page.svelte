@@ -1,8 +1,8 @@
 <script>
 	import User from '$lib/components/User.svelte';
-	import {authService} from '$lib/features/authService.js';
-	import {goto} from "$app/navigation";
-	import {onMount} from "svelte";
+	import { authService } from '$lib/features/authService.js';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	let usersPack = loadAllUsers();
 	let selectedUsersArray = [];
@@ -10,10 +10,10 @@
 	let boolArray = Array(arrayLength);
 	var user;
 
-	async function loadAllUsers(){
+	async function loadAllUsers() {
 		await onMount(() => {
 			user = authService.getUser();
-		})
+		});
 
 		if (user === null || user === undefined) {
 			await goto('/');
@@ -23,27 +23,27 @@
 		users = await authService.getAllUsers(user.token);
 		//console.log('Users: '+ users)
 
-		usersPack = users.map(function (user) {
+		usersPack = users.map(function(user) {
 			return {
 				name: user.name,
 				email: user.email,
 				id: user._id
-			} // todo: add profilePicture and CV
+			}; // todo: add profilePicture and CV
 		});
 		//console.log('usersPack: '+	usersPack)
 	}
 
-	async function deleteUsers(){
-		console.log(selectedUsersArray.length)
-		for(let i=0; i<selectedUsersArray.length;i++){
+	async function deleteUsers() {
+		console.log(selectedUsersArray.length);
+		for (let i = 0; i < selectedUsersArray.length; i++) {
 			let hello = await authService.deleteUser(selectedUsersArray[i], user.token);
 			//console.log(selectedUsersArray)
 		}
 		selectedUsersArray = [];
 	}
 
-	async function consoleUsersPack(){
-		console.log('usersPack: '+usersPack);
+	async function consoleUsersPack() {
+		console.log('usersPack: ' + usersPack);
 		arrayLength = usersPack.length;
 	}
 
@@ -60,22 +60,22 @@
 </script>
 
 
-<div class="usersPage" on:load={consoleUsersPack}>
-	<div class="pageHeader">
+<div class='usersPage' on:load={consoleUsersPack}>
+	<div class='pageHeader'>
 		<h1>Users</h1>
-		<input type="search" class="search" placeholder="Type a name...">
+		<input type='search' class='search' placeholder='Type a name...'>
 	</div>
 
 	{#await usersPack}
 	{:then usersPack}
 
-	<div class='users'>
-		{#each usersPack as userA, i}
-			<User {...userA} userID={userA} on:toggle={toggleSelected}/>
-		{/each}
-	</div>
+		<div class='users'>
+			{#each usersPack as userA, i}
+				<User {...userA} userID={userA} on:toggle={toggleSelected} />
+			{/each}
+		</div>
 
-	<button type="button" class="deleteUser-btn" on:click='{deleteUsers}'>Delete</button>
+		<button type='button' class='deleteUser-btn' on:click='{deleteUsers}'>Delete</button>
 	{/await}
 
 </div>
@@ -97,7 +97,7 @@
 
     .users {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
         justify-items: stretch;
         grid-gap: 3em;
     }
@@ -116,7 +116,7 @@
         background: lightgray;
     }
 
-    .deleteUser-btn{
+    .deleteUser-btn {
         display: block;
         width: 20%;
         background-color: #3A98B9;

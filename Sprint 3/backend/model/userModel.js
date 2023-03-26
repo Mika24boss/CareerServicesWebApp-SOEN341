@@ -27,6 +27,15 @@ const userSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'File',
         },
+        interview: [{
+            job: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Job',
+            },
+            date: {
+                type: Date,
+            }
+        }]
 
     },
     {

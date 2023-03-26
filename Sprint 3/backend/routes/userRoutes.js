@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { registerUser, getAllUsers, getUserById, updateUser, deleteUser, loginUser, logout } = require('../controllers/userController')
+const { registerUser, getAllUsers, getUserById, setInterview, deleteInterview, updateUser, deleteUser, loginUser, logout } = require('../controllers/userController')
 const { protect } = require('../middleware/authMiddleware')
 const multer = require("multer");
 const User = require('../model/userModel');
@@ -12,7 +12,11 @@ router.route('/')
     .get(protect, getAllUsers)
     .put(protect, updateUser)
     .delete(deleteUser)
-router.route('/:id').get(protect, getUserById)
+router.route('/:id')
+    .get(protect, getUserById)
+router.route('/:id/interview')
+    .patch(protect, setInterview)
+    .delete(protect, deleteInterview)
 router.post('/login', loginUser)
 router.post('/logout', protect, logout)
 

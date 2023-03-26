@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { env } from '$env/dynamic/public'
+import {env} from '$env/dynamic/public'
 
 const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
@@ -101,9 +101,11 @@ const getUserByID = async (/** @type {string} */ userID, /** @type {any} */ toke
         },
     }
 
-    const response = await axios.get(API_URL + userID, config)
+    const response = await axios.get(API_URL + userID, config).catch(() => {
+        return null
+    })
 
-    return response.data
+    return response?.data
 }
 
 const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any} */ token) => {

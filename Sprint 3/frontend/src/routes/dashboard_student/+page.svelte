@@ -71,6 +71,10 @@
         color: white;
     }
 
+		.student-dashboard{
+				margin: 2%;
+		}
+
     .interviews {
         display: grid;
         grid-template-columns: 2fr 2fr;

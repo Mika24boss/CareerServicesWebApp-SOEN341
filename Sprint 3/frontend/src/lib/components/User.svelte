@@ -34,21 +34,24 @@
 
     .user {
         display: grid;
-        grid-template-columns: 1fr 2fr 1fr 3fr;
+        grid-template-columns: 0.5fr 4fr 2fr 2fr;
         justify-items: stretch;
         margin: 0.3em;
+				border-radius: 1em;
         background: #141414;
-        outline: 1px solid white;
     }
 
     .profile {
-        padding: 1.5em;
+				aspect-ratio: 1;
     }
 
     img {
         position: relative;
-        width: 100%;
-        height: 100%;
+				top: 10%;
+				left: 10%;
+        width: 80%;
+        height: 80%;
+        border-radius: 1em;
     }
 
     .user-info{
@@ -60,23 +63,28 @@
 
     .resume {
         padding: 2em 1em;
+        aspect-ratio: 1;
     }
 
     .btn-resume {
         width: 100%;
         height: 100%;
         font-size: 1em;
-        color: black;
+        font-weight: bold;
+				color: black;
         background: #3A98B9;
         border-radius: 0.5em;
+				cursor: pointer;
     }
 
     input[type=checkbox] {
 				position: relative;
-        width: 25%;
-        height: 25%;
+        width: 40%;
+        height: 40%;
 				float: right;
+				right: 10%;
 				top: 35%;
+				cursor: pointer;
     }
 
 </style>

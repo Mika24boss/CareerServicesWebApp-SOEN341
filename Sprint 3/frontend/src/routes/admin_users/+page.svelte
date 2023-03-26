@@ -36,8 +36,7 @@
 	async function deleteUsers(){
 		console.log(selectedUsersArray.length)
 		for(let i=0; i<selectedUsersArray.length;i++){
-			console.log('in the loop');
-			let hello = await authService.deleteUser(selectedUsersArray[i].id.valueOf(), user.token);
+			let hello = await authService.deleteUser(selectedUsersArray[i], user.token);
 			//console.log(selectedUsersArray)
 		}
 		selectedUsersArray = [];
@@ -46,6 +45,17 @@
 	async function consoleUsersPack(){
 		console.log('usersPack: '+usersPack);
 		arrayLength = usersPack.length;
+	}
+
+	function toggleSelected(event) {
+		let id = event.detail;
+		const index = selectedUsersArray.indexOf(id);
+		if (index > -1) { // only splice array when item is found
+			selectedUsersArray.splice(index, 1); // 2nd parameter means remove one item only
+		} else {
+			selectedUsersArray.push(id);
+		}
+		console.log(selectedUsersArray);
 	}
 </script>
 
@@ -61,18 +71,7 @@
 
 	<div class='users'>
 		{#each usersPack as userA, i}
-			<User {...userA} userID={userA}/>
-			<input type='checkbox' style='float: right;' bind:checked={boolArray[i]} on:change={()=> {
-				if (boolArray[i]) {
-					selectedUsersArray.push(userA)
-					console.log('asd' + selectedUsersArray)
-				}
-				else {
-					if (selectedUsersArray.indexOf(userA) !== -1) selectedUsersArray.splice(selectedUsersArray.indexOf(userA), 1);
-					console.log(selectedUsersArray)
-				}
-			}
-			}/>
+			<User {...userA} userID={userA} on:toggle={toggleSelected}/>
 		{/each}
 	</div>
 
@@ -98,7 +97,7 @@
 
     .users {
         display: grid;
-        grid-template-columns: 5fr 1fr;
+        grid-template-columns: 1fr 1fr;
         justify-items: stretch;
         grid-gap: 3em;
     }
@@ -120,7 +119,6 @@
     .deleteUser-btn{
         display: block;
         width: 20%;
-        border: solid black;
         background-color: #3A98B9;
         color: black;
         padding: 14px 28px;
@@ -128,14 +126,7 @@
         cursor: pointer;
         text-align: center;
         margin-top: 1em;
-        position: relative;
-        right: 20px;
         float: right;
-    }
-
-    input[type=checkbox]{
-				width: 30%;
-        height: 30%;
     }
 
 </style>

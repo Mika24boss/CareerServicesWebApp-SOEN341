@@ -105,6 +105,10 @@
     header {
         display: flex;
         justify-content: space-between;
+        position: fixed;
+        left: 50%;
+        right: 50%;
+        z-index: 10;
     }
 
     nav {

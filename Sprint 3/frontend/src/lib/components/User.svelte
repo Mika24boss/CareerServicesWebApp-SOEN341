@@ -1,12 +1,14 @@
 <script>
 	import Profile from '$lib/images/profile-logo.png';
-	export let name, email, userID, profilePicture, CV; // todo: Add CV
-
+	import { createEventDispatcher } from 'svelte';
+	export let name, email, id, profilePicture, CV; // todo: Add CV
+	const dispatch = createEventDispatcher();
+	const toggle = () => dispatch('toggle', id);
 
 </script>
 
 
-<div class='user' id={userID}>
+<div class='user'>
 	<div class='profile'>
 		<img src={Profile} alt='profile-logo' /> <!-- to change -->
 	</div>
@@ -17,9 +19,9 @@
 	<div class='resume'>
 		<button class='btn-resume'>CV</button>
 	</div>
-	<!--<div class='checkbox'>
-		<input type='checkbox' value={userID}>
-	</div>-->
+	<div class='checkbox'>
+		<input type="checkbox" on:change={toggle}/>
+	</div>
 </div>
 
 
@@ -32,12 +34,11 @@
 
     .user {
         display: grid;
-        grid-template-columns: 1fr 4fr 1fr;
+        grid-template-columns: 1fr 2fr 1fr 3fr;
         justify-items: stretch;
         margin: 0.3em;
         background: #141414;
-        outline: 1px solid white; /* to remove */
-
+        outline: 1px solid white;
     }
 
     .profile {
@@ -70,12 +71,12 @@
         border-radius: 0.5em;
     }
 
-    .checkbox input {
-        position: relative;
+    input[type=checkbox] {
+				position: relative;
         width: 25%;
         height: 25%;
-        float: right;
-        top: 3.5em;
+				float: right;
+				top: 35%;
     }
 
 </style>

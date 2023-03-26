@@ -3,31 +3,43 @@
     import authService from '$lib/features/authService.js';
     import {onMount} from "svelte";
     import {goto} from "$app/navigation";
+    import {createEventDispatcher} from 'svelte';
 
-    export var title, companyName, location, jobID;
+    export var jobID, title, companyName, location, applicants;
 
-    let job, user;
-    let applyText = "Apply";
+    let nbApps = 0;
+    let user, role;
+    let buttonText;
+    const dispatch = createEventDispatcher();
+    const toggle = () => dispatch('toggle', jobID);
+
     loadJob();
 
     async function loadJob() {
         await onMount(() => {
             user = authService.getUser();
         })
-        job = (await jobService.getJobByID(jobID, user.token))[0];
-        //console.log(job)
-        if (user == null || job == null) {
+        role = user.role;
+        buttonText = user.role === "Student" ? "Apply" : "View";
+
+        if (user == null) {
             await goto('/');
         }
 
-        if (job.applicants.includes(user._id))
+        if (applicants.includes(user._id))
             appliedUI();
+        nbApps = applicants.length;
     }
 
-    async function apply(e) {
-        if (applyText === "Applied!") return;
+    async function onClick() {
+        if (buttonText === "Applied!") return;
+        if (user.role === "Employer" || user.role === "Admin") {
+            await goto("/postings/" + jobID);
+            return;
+        }
+
         let response = await jobService.applyToJob(jobID, user, user.token);
-        console.log(response);
+
         if (!response) {
             alert("Failed to apply")
         } else {
@@ -36,23 +48,23 @@
     }
 
     function appliedUI() {
-        applyText = "Applied!";
+        buttonText = "Applied!";
         document.getElementById(jobID).style.background = "linear-gradient(180deg, #AEE2FF, #86C8BC)";
         document.getElementById(jobID).style.borderRadius = "1em";
     }
 
 </script>
-{#await job}
-{:then job}
+{#await user}
+{:then user}
     <div class="gradient" id={jobID}>
-        <div class="posting">
-            <div class="apply-button">
-                <button on:click={apply}>
-                    {applyText}
+        <div class="posting {role}">
+            <div class="action-button">
+                <button on:click={onClick}>
+                    {buttonText}
                 </button>
             </div>
             <div class="title">
-                <a href="/postings/{jobID}/">
+                <a class="click-me" href="/postings/{jobID}/">
                     <b>{title}</b><br/>
                     {companyName}
                 </a>
@@ -60,6 +72,13 @@
             <div class="location">
                 {location}
             </div>
+            {#if role === 'Employer'}
+                <div class="nbApps">
+                    {nbApps} apps.
+                </div>
+            {:else if role === 'Admin'}
+                <input type="checkbox" on:change={toggle}/>
+            {/if}
         </div>
     </div>
 {/await}
@@ -79,7 +98,6 @@
 
     .posting {
         display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
         justify-items: stretch;
         margin: 0.3em;
         /*background-image: linear-gradient(135deg, darkgray, darkslateblue);*/
@@ -89,11 +107,23 @@
         --line-height: 4em;
     }
 
-    .apply-button {
+    .posting.Student {
+        grid-template-columns: 1fr 2fr 1fr;
+    }
+
+    .posting.Employer {
+        grid-template-columns: 1fr 1.75fr 0.75fr 0.5fr;
+    }
+
+    .posting.Admin {
+        grid-template-columns: 1fr 1.75fr 0.75fr 0.5fr;
+    }
+
+    .action-button {
         padding: 0.5em;
     }
 
-    .apply-button button{
+    .action-button button {
         color: black;
         background: #3A98B9;
         border-radius: 0.5em;
@@ -105,14 +135,21 @@
         font-size: 1em;
     }
 
-    a {
+    a, b {
         text-decoration: none;
         color: inherit;
     }
 
-    a b:hover, a:hover{
+    /*.posting:hover .action-button:not(:hover) ~ div span {
+        color: #3A98B9;
+    }*/
+    a:hover {
         color: #3A98B9;
     }
+
+    /*.posting:hover {
+        cursor: pointer;
+    }*/
 
     .title {
         line-height: calc(var(--line-height) / 2);

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../model/userModel');
+const Job = require('../model/jobModel')
 
 // @desc Register new users
 // @route Post /api/users
@@ -50,7 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
 )
 
 // @desc Get new users
-// @route Get /api/users/userID
+// @route Get /api/users/:id
 // @access Public
 const getUserById = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
@@ -61,6 +62,60 @@ const getUserById = asyncHandler(async (req, res) => {
         throw new Error('User not found');
     }
 });
+
+// @desc Set interview for a user
+// @route PATCH /api/users/:id/interview
+// @access Private
+const setInterview = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    const jobID = req.body.jobID;
+    const date = req.body.date ? new Date(req.body.date) : null;
+    const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
+    const Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.getTime() === date.getTime());
+    if (user && job) {
+        if (Timeconflict) {
+            res.status(404);
+            throw new Error('Date conflicted');
+        }
+        else {
+            user.interview.push({
+                job: job,
+                date: date
+            });
+            const updatedUser = await user.save();
+            res.json(updatedUser);
+        }
+    } else {
+        res.status(404);
+        throw new Error('User not found or job not found');
+    }
+});
+
+// @desc Delete an interview by job ID
+// @route DELETE /api/users/:id/interview/
+// @access Private
+const deleteInterview = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id).populate('interview.job', 'title');
+    if (!user) {
+        res.status(404);
+        throw new Error('User not found');
+    }
+
+    const jobID = req.body.jobID;
+    const jobSearch = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
+    const interview = user.interview.find(i => i.job._id.toString() === jobSearch._id.toString());
+    if (!interview) {
+        res.status(404);
+        throw new Error(`Interview not found for job with ID: ${jobID}`);
+    }
+
+    // Remove the interview from the user's array of interviews
+    user.interview = user.interview.filter(i => i.job._id.toString() !== jobSearch._id.toString());
+    await user.save();
+
+    res.json({ message: `Interview deleted for job: ${interview.job.title}` });
+});
+
 
 // @desc Get jobs
 // @route Get /api/jobs
@@ -166,6 +221,8 @@ const generateToken = (id) => {
     })
 }
 
+
+
 module.exports = {
     registerUser,
     loginUser,
@@ -173,5 +230,7 @@ module.exports = {
     updateUser,
     getUserById,
     getAllUsers,
-    logout
+    logout,
+    setInterview,
+    deleteInterview
 }

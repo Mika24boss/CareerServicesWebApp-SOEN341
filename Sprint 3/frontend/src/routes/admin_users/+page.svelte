@@ -40,6 +40,7 @@
 			//console.log(selectedUsersArray)
 		}
 		selectedUsersArray = [];
+		location.reload();
 	}
 
 	async function consoleUsersPack() {

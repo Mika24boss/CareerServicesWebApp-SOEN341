@@ -114,7 +114,7 @@ const deleteJobs = asyncHandler(async (req, res) => {
     }
 
     // make sure the logged in user matches the job user
-    if (req.user.role != 'Admin' || job.user.toString() !== req.user.id) {
+    if (req.user.role !== 'Admin' && job.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorized')
     }

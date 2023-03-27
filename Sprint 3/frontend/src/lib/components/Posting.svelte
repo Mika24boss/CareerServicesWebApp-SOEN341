@@ -56,7 +56,7 @@
 </script>
 {#await user}
 {:then user}
-    <div class="gradient" id={jobID}>
+    <div id={jobID}>
         <div class="posting {role}">
             <div class="action-button">
                 <button on:click={onClick}>

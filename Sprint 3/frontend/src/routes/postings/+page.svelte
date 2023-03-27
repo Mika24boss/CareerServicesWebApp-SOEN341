@@ -82,6 +82,7 @@
             response = await jobService.deleteJob(selectedJobs.pop(), user.token);
             console.log(response);
         }
+        location.reload();
     }
 
     function createJob() {
@@ -90,7 +91,10 @@
 </script>
 
 {#if isLoaded && jobsActive.length === 0 && jobsDeactivated.length === 0 && jobsOther.length === 0}
-    No job postings available. Check again soon!
+    <h1>No job postings available. Check again soon!</h1>
+    {#if user.role === "Employer"}
+        <button class="actionButton" on:click={createJob} style="width: 250px;">Create new posting</button>
+    {/if}
 {:else if isLoaded}
     <div class="postingsPage">
 
@@ -161,7 +165,7 @@
     }
 
     .pageHeader {
-        margin-bottom: 2em;
+        margin-bottom: 1em;
         display: flex;
         justify-content: space-between;
     }

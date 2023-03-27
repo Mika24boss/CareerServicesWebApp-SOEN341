@@ -56,7 +56,22 @@
             else if (user.role === "Admin" || user.role === "Employer")
                 actionButtonText = data.isActive ? "Deactivate" : "Activate";
 
-            const creatorName = (await authService.getUserByID(data.user, user.token)).name;
+            const creator = await authService.getUserByID(data.user, user.token);
+            let creatorName;
+            if (!creator) {
+                const ans = confirm("The employer's account who created this job posting doesn't exist anymore. " +
+                    "Click Ok to view the job posting or Cancel to redirect to the postings page.\n" +
+                    "Our apologies for the inconvenience.");
+                if (ans) {
+                    creatorName = "DELETED USER";
+                    if (user.role === "Student") user.role = "Employer"; //So the apply button doesn't appear
+                } else {
+                    await goto('/postings');
+                    return;
+                }
+            } else
+                creatorName = creator.name;
+
             const options = {
                 year: 'numeric',
                 month: 'long',
@@ -81,12 +96,9 @@
     }
 
     async function createJob() {
-        const jobData = {
-            title: document.getElementById('title').value,
-            companyName: document.getElementById('companyName').value,
-            location: document.getElementById('location').value,
-            description: document.getElementById('description').value
-        }
+        const jobData = getFieldData();
+        if (!jobData) return;
+
         const response = await jobService.createJob(jobData, user.token);
         console.log(response);
         if (!response) {
@@ -118,12 +130,9 @@
     }
 
     async function saveEditedJob() {
-        const jobData = {
-            title: document.getElementById('title').value,
-            companyName: document.getElementById('companyName').value,
-            location: document.getElementById('location').value,
-            description: document.getElementById('description').value
-        }
+        const jobData = getFieldData();
+        if (!jobData) return;
+
         let response = await jobService.updateJob(jobID, jobData, user.token);
         console.log(response);
         if (!response) {
@@ -131,6 +140,24 @@
         } else {
             alert("Job edited!");
             location.reload();
+        }
+    }
+
+    function getFieldData() {
+        let title = document.getElementById('title').value;
+        let companyName = document.getElementById('companyName').value;
+        let location = document.getElementById('location').value;
+        let description = document.getElementById('description').value;
+        let alertText = "";
+        if (!title.trim()) alertText += "Missing title!\n";
+        if (!companyName.trim()) alertText += "Missing company name!\n";
+        if (!location.trim()) alertText += "Missing location!\n";
+        if (!description.trim()) alertText += "Missing description!\n";
+        if (alertText) {
+            alert(alertText);
+            return null;
+        } else return {
+            title, companyName, location, description
         }
     }
 
@@ -145,7 +172,7 @@
             <input class="title canEdit" type="text" id="title"
                    value="{isNew?'':data.title}" placeholder="Title"/>
             {#if !isNew}
-                <span class="id">(#{data.jobID})</span>
+                <span class="id">#{data.jobID}</span>
             {/if}
             <input class="companyName canEdit" type="text" id="companyName"
                    value="{isNew?'':data.companyName}" placeholder="Company name"/>
@@ -153,9 +180,8 @@
                    value="{isNew?'':data.location}" placeholder="Location"/>
         {:else}
 
-            <div class="title {!isActive ? 'deactivatedText' : ''}">{!isActive ? 'DEACTIVATED - ' : ''}{data.title}
-                (#{data.jobID})
-            </div>
+            <div class="title {!isActive ? 'deactivatedText' : ''}">{!isActive ? 'DEACTIVATED - ' : ''}{data.title}</div>
+            <div class="id">#{data.jobID}</div>
             <div class="companyName">{data.companyName}</div>
             <div class="location">{data.location}</div>
 
@@ -170,7 +196,7 @@
             </button>
         {/if}
         {#if user.role !== "Employer" || canEdit}
-            <button class="actionButton {(!isActive && user.role === 'Student' || isActive && user.role !== 'Student') ? 'deactivated' : ''}"
+            <button class="actionButton {(!isNew && (!isActive && user.role === 'Student' || isActive && user.role !== 'Student')) ? 'deactivated' : ''}"
                     on:click={actionClicked}>
                 <b style='color: black'>{actionButtonText}</b>
             </button>
@@ -216,8 +242,8 @@
         grid-template-columns: 30% 25% 15% 15% 15%;
         grid-template-areas:
     "title title title title id"
-    "company . applicants edit actionButton"
-    "location . applicants edit actionButton";
+    "company company applicants edit actionButton"
+    "location location applicants edit actionButton";
         gap: 1em;
         margin-right: 4em;
         justify-items: stretch;

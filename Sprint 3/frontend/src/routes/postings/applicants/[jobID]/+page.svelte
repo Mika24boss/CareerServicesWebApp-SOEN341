@@ -8,7 +8,7 @@
 
     const jobID = $page.url.pathname.split('/').pop();
     let data, user;
-    let applicants = [], accepted = [], rejected = [];
+    let applicants = [], accepted = [], rejected = [], interviewDates = [];
     let canLoad = false;
 
     onMount(async () => {
@@ -32,25 +32,142 @@
 
         for (let appID of data.applicants) {
             let applicant = await authService.getUserByID(appID, user.token);
-            if (applicant) applicants.push(applicant)
+            if (applicant) applicants.push({
+                name: applicant.name,
+                email: applicant.email,
+                id: applicant._id,
+                profilePicture: applicant.profilePicture,
+                CV: applicant.resume,
+            })
         }
         canLoad = true;
     })
 
     function toggleSelected(event) {
-        console.log(event)
-        let id = event.detail;
-        const index = accepted.indexOf(id);
-        if (index > -1) { // only splice array when item is found
-            accepted.splice(index, 1); // 2nd parameter means remove one item only
-        } else {
+        let id = event.detail.id;
+        let isAccepted = event.detail.isAccepted;
+        if (isAccepted === "accepted") {
             accepted.push(id);
+            const index = rejected.indexOf(id);
+            if (index > -1) // found in rejected array
+                rejected.splice(index, 1); // remove one item only
+        } else if (isAccepted === "rejected") {
+            rejected.push(id);
+            const index = accepted.indexOf(id);
+            if (index > -1) // found in accepted array
+                accepted.splice(index, 1); // remove one item only
         }
+    }
+
+    function clearSelected(event) {
+        let id = event.detail;
+        let index = accepted.indexOf(id);
+        if (index > -1) { // found in accepted array
+            accepted.splice(index, 1); // remove one item only
+        } else {
+            index = rejected.indexOf(id);
+            if (index > -1) { // found in rejected array
+                rejected.splice(index, 1); // remove one item only
+            }
+        }
+    }
+
+    function addDate(event) {
+        let id = event.detail.id;
+        const idArray = interviewDates.map((interview) => interview.id);
+        if (!idArray.includes(id))
+            interviewDates.push(event.detail);
+        else {
+            const index = idArray.indexOf(id);
+            interviewDates.splice(index, 1, event.detail);
+        }
+    }
+
+    async function submit() {
+        if (accepted.length === 0 && rejected.length === 0) {
+            alert("Please make a decision for at least one applicant.");
+            return;
+        }
+
+        const idArray = interviewDates.map((interview) => interview.id);
+        for (let i = 0; i < accepted.length; i++) {
+            if (!idArray.includes(accepted[i])) {
+                let applicant = await authService.getUserByID(accepted[i], user.token);
+                if (applicant == null)
+                    alert("Warning! An applicant's account has been deleted. Please refresh the page to update the applicant list.")
+                else
+                    alert("Please choose an interview date and time for " + applicant.name + ".");
+                return;
+            }
+        }
+
+        // Handle all accepted applicants
+        while (accepted.length > 0) {
+            let date, acceptedID = accepted.pop();
+
+            for (let interviewDate of interviewDates) {
+                if (interviewDate.id === acceptedID) {
+                    date = interviewDate.date;
+                    break;
+                }
+            }
+            let response = await authService.addInterview(acceptedID, jobID, date, user.token);
+
+            if (response.data) { // interview was added successfully
+                let applicantsClone = applicants;
+                for (let i = 0; i < applicantsClone.length; i++) {
+                    if (applicantsClone[i].id === acceptedID) {
+                        applicantsClone.splice(i, 1);
+                        applicants = applicantsClone;
+                        break;
+                    }
+                }
+                console.log("Interview added successfully!");
+            } else if (!response.error) { // what happened? No error and no data?
+                accepted.push(acceptedID); // add it back
+                alert("Unknown error when adding the interview. Please contact an admin if this persists.");
+            } else { // an error occurred
+                accepted.push(acceptedID); // add it back
+
+                if (response.error === 409) { // time conflict
+                    let applicant = await authService.getUserByID(acceptedID, user.token);
+                    if (applicant == null)
+                        alert("Warning! An applicant's account has been deleted. Please refresh the page to update the applicant list.")
+                    else
+                        alert("Unfortunately, " + applicant.name + " already has an interview scheduled at " + date.toLocaleDateString('en-US', {
+                            year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric',
+                        }) + ". Please choose another date.");
+                    return;
+                } else {
+                    alert("Error " + response.error + " when adding the interview. Please try again or contact an admin if this error persists.");
+                }
+            }
+        }
+
+        // Handle all rejected applicants
+        while (rejected.length > 0) {
+            let rejectedID = rejected.pop();
+            let applicantsClone = applicants;
+            for (let i = 0; i < applicantsClone.length; i++) {
+                if (applicantsClone[i].id === rejectedID) {
+                    applicantsClone.splice(i, 1);
+                    applicants = applicantsClone;
+                    break;
+                }
+            }
+            console.log("Applicant rejected successfully.");
+        }
+
+        // Update the applicants array in the database
     }
 
 </script>
 
-{#if canLoad}
+{#if !canLoad}
+    <div class="page topSection">
+        Loading
+    </div>
+{:else}
     <div class="page">
         <div class="topSection">
             <div class="title">{data.title} (#{data.jobID})
@@ -63,9 +180,12 @@
 
         <div class="applicants">
             {#each applicants as app}
-                <Applicant {...app} on:toggle={toggleSelected}/>
+                <Applicant {...app} on:toggle={toggleSelected} on:clear={clearSelected}
+                           on:dateChanged={addDate}/>
             {/each}
         </div>
+
+        <button class="submit" on:click={submit}>Submit</button>
     </div>
 {/if}
 
@@ -85,11 +205,13 @@
         grid-template-rows: 1fr 1fr;
         grid-template-columns: 4fr 0.5fr 4fr 1fr 3.5fr;
         grid-template-areas:
-    "title . applicants . search"
-    "company . applicants . search";
-        gap: 1em;
+    "title title applicants . search"
+    "company company applicants . search";
+        gap: 0.5em;
         justify-items: stretch;
         align-items: stretch;
+        margin-top: 1em;
+        margin-bottom: 3em;
     }
 
     .title {
@@ -113,7 +235,7 @@
     }
 
     .search {
-        justify-self: stretch;
+        justify-self: right;
         grid-area: search;
         margin: auto 0;
         font-size: 1em;
@@ -121,10 +243,28 @@
         width: 100%;
         background: lightgray;
         border-radius: 0.5em;
+        max-width: 250px;
     }
 
     .deactivatedText {
         color: darkred;
+    }
+
+    .applicants {
+        display: grid;
+        justify-items: stretch;
+        grid-gap: 2em;
+        margin-bottom: 4em;
+    }
+
+    .submit {
+        color: black;
+        background: #3A98B9;
+        border-radius: 0.5em;
+        padding: 0.5em;
+        font-size: 1.5em;
+        margin-left: 25%;
+        width: 50%;
     }
 
 </style>

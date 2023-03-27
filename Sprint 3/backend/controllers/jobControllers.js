@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-
+const mongoose = require('mongoose')
 const Job = require('../model/jobModel')
 const User = require("../model/userModel")
 // @desc Get jobs
@@ -66,13 +66,26 @@ const updateJobsID = asyncHandler(async (req, res) => {
             throw new Error('User not authorized')
         }
     }
-
-    const updatedJobsID = await Job.findOneAndUpdate(
-        { jobID },
-        req.body, {
-        new: true,
-    })
-    console.log(req.body);
+    let applicants = [job.applicants]
+    if (req.body.applicants === "[]") {
+        job.applicants = null;
+    }
+    else if (req.body.applicants) {
+        const arr = req.body.applicants.substring(1, req.body.applicants.length - 1).split(",");
+        if (Array.isArray(arr)) {
+            applicants = arr.map((applicant) => mongoose.Types.ObjectId(applicant));
+        }
+        job.applicants = applicants;
+    }
+    console.log(req.body.applicant)
+    job.title = req.body.title || job.title;
+    job.companyName = req.body.companyName || job.companyName;
+    job.description = req.body.description || job.description;
+    job.location = req.body.location || job.location;
+    job.isActive = req.body.isActive || job.isActive;
+    job.interviewDate = req.body.interviewDate || job.interviewDate;
+    job.jobID = req.body.jobID || job.jobID;
+    const updatedJobsID = await job.save();
     res.status(200).json(updatedJobsID)
 })
 

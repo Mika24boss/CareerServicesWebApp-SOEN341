@@ -108,6 +108,37 @@ const getUserByID = async (/** @type {string} */ userID, /** @type {any} */ toke
     return response?.data
 }
 
+const addInterview = async (/** @type {string} */ applicantID, /** @type {any} */ jobID, /** @type {any} */ date, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.patch(API_URL + applicantID + '/interview', {
+        jobID: jobID,
+        date: date
+    }, config).catch((reason) => {
+        return reason;
+    })
+
+    return {data: response.data, error: response.response?.status};
+}
+
+const deleteInterview = async (/** @type {string} */ applicantID, /** @type {any} */ jobID, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.delete(API_URL + applicantID + '/interview', {jobID: jobID}, config).catch((reason) => {
+        return reason;
+    })
+
+    return {data: response.data, error: response.response?.status};
+}
+
 const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any} */ token) => {
     const config = {
         headers: {
@@ -149,7 +180,8 @@ export const authService = {
     deleteUser,
     getUserByID,
     uploadProfileImage,
-    uploadCV
+    uploadCV,
+    addInterview
 }
 
 export default authService

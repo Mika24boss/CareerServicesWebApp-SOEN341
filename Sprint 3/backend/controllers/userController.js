@@ -71,10 +71,10 @@ const setInterview = asyncHandler(async (req, res) => {
     const jobID = req.body.jobID;
     const date = req.body.date ? new Date(req.body.date) : null;
     const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
-    const Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.getTime() === date.getTime());
+    const Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.setSeconds(0, 0) === date.setSeconds(0, 0));
     if (user && job) {
         if (Timeconflict) {
-            res.status(404);
+            res.status(409);
             throw new Error('Date conflicted');
         }
         else {

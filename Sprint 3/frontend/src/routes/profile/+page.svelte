@@ -2,28 +2,49 @@
     import {onMount} from 'svelte';
     import {goto} from "$app/navigation";
     import {authService} from '$lib/features/authService.js';
+    import { fileService } from '$lib/features/fileService.js';
 
     let user;
     let previewUrl;
 
+    // Preview image after it is selected
     function handleImageChange(event) {
+
         const file = event.target.files[0];
         const reader = new FileReader();
         reader.onload = (e) => {
             previewUrl = e.target.result;
         };
         reader.readAsDataURL(file);
+
     }
 
-    onMount(() => {
-        const input = document.querySelector('#image-upload');
-        input.addEventListener('change', handleImageChange);
+    // Save uploaded image
+    async function uploadPic(){
+            const uploadimage = document.getElementById('image')
+            console.log(uploadimage.files[0])
+            const formData = new FormData();
+            formData.append("id", user._id);
+            formData.append("name", uploadimage.files[0].name);
+            formData.append("profileImage", uploadimage.files[0]);
 
-        loadUser();
-        document.getElementById('name').value = user.name;
-        document.getElementById('email').value = user.email;
-    });
+        const response = await authService.uploadProfileImage(formData, user.token);
+        console.log(response)
+        }
 
+    // Save uploaded CV
+    async function uploadCV(){
+        const uploadfile = document.getElementById('cv')
+        const formData = new FormData();
+        formData.append("id", user._id);
+        formData.append("name", uploadfile.files[0].name);
+        formData.append("resume", uploadfile.files[0]);
+
+        const response = await authService.uploadCV(formData, user.token);
+    console.log(response)
+    }
+
+    // Load User Data
     async function loadUser() {
         user = authService.getUser();
         if (user == null || user.role === 'Admin') {
@@ -31,6 +52,7 @@
         }
     }
 
+    // Edit User Data
     async function editUser() {
 
         const userData = {
@@ -43,24 +65,48 @@
         console.log(response);
     }
 
+    // On start
+    onMount(() => {
+        const input = document.querySelector('#image');
+        input.addEventListener('change', handleImageChange);
+
+        loadUser();
+        const profilePic = fileService.getFileByID(user.profilePicture, user.token);
+
+        const blob = new Blob([profilePic.data], {type: profilePic.contentType})
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewUrl = blob;
+        };
+        reader.readAsDataURL(blob);
+
+
+        document.getElementById('name').value = user.name;
+        document.getElementById('email').value = user.email;
+        document.getElementById('cv').file = fileService.getFileByID(user.resume, user.token);
+        document.getElementById('previewImage').src = URL.createObjectURL(blob);
+       // console.log(fileService.getFileByID(user.resume, user.token))
+      console.log(blob)
+    });
 </script>
 
 <h1 style="text-align: left;">Profile</h1>
 <div class="profile">
 
-    <form class="profile-pic">
+    <form class="avatar-upload">
         <h3>Avatar</h3>
 
         <div class="image-container">
-            <label id="image-btn" for="image-upload">
-                <input type="file" name="image-upload" id="image-upload" style="display: none;" accept="image/*">
+            <label id="image-btn" for="image">
+                <input type="file" name="image" id="image" style="display: none;" accept="image/*">
                 <img id="previewImage"
                      src={previewUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                      alt="Click to upload image">
             </label>
         </div>
 
-        <div class="btn" style="padding-top: 10px;">
+        <div class="btn" style="padding-top: 10px;" on:click={uploadPic}>
             <button>Change</button>
         </div>
     </form>
@@ -80,15 +126,15 @@
         </div>
     </form>
 
-    <form class="resume">
+    <form class="cv-upload">
         <h3>Resume</h3>
 
         <div class="btn" style="text-align: left;">
-            <input type="file" id="file-upload" name="file" accept="application/pdf,application/msword,.doc,docx">
+            <input type="file" id="cv" name="cv" accept="application/pdf,application/msword,.doc,docx">
         </div>
 
         <div class="btn">
-            <input type="submit" value="Upload" style="cursor: pointer; width: auto; border-radius: 10px;">
+            <input type="submit" value="Upload" style="cursor: pointer; width: auto; border-radius: 10px;" on:click={uploadCV}>
         </div>
     </form>
 
@@ -141,7 +187,7 @@
     }
 
 
-    .profile-pic {
+    .avatar-upload {
         background-color: #141414;
         display: flex;
         flex-direction: column;
@@ -191,7 +237,7 @@
         color: white;
     }
 
-    .resume {
+    .cv-upload {
         background-color: #141414;
         display: flex;
         flex-direction: column;
@@ -200,7 +246,7 @@
         padding: 10px 30px 10px;
     }
 
-    input[id=file-upload] {
+    input[id=cv] {
         border: none;
     }
 

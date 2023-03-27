@@ -126,6 +126,8 @@ const loginUser = asyncHandler(async (req, res) => {
             email: user.email,
             role: user.role,
             token: generateToken(user._id),
+            profilePicture: user.profilePicture,
+            resume: user.resume
         })
     } else {
         res.status(401)

@@ -22,7 +22,7 @@
         };
         response = await authService.register(userData);
         hasUpdated.set(true);
-        console.log('Response: ', response);
+        //console.log('Response: ', response);
         if (response.role === 'Student') {
             await goto('/dashboard_student');
         } else if (response.role === 'Employer') {

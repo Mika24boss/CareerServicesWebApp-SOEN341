@@ -15,12 +15,12 @@
             password
         };
         response = await authService.login(userData);
-        console.log('Response: ', response);
+        //console.log('Response: ', response);
 
         hasUpdated.set(true);
         if (!response) {
             hasInvalidCredentials = true;
-            console.log("Invalid credentials")
+            //console.log("Invalid credentials")
         } else if (response.role === 'Student') {
             await goto('/dashboard_student');
         } else if (response.role === 'Employer') {

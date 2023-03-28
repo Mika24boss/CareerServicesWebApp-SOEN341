@@ -77,10 +77,8 @@
     }
 
     async function deleteJobs() {
-        let response;
         while (selectedJobs.length > 0) {
-            response = await jobService.deleteJob(selectedJobs.pop(), user.token);
-            console.log(response);
+            await jobService.deleteJob(selectedJobs.pop(), user.token);
         }
         location.reload();
     }

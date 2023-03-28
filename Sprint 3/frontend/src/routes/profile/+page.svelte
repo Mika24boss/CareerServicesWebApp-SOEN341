@@ -50,7 +50,7 @@
 
 	<h1 style='text-align: left;'>Profile</h1>
 	<div class='profile'>
-		<form class='profile-pic'>
+		<div class='profile-pic'>
 			<h3>Avatar</h3>
 
 			<div class='image-container'>
@@ -65,9 +65,9 @@
 			<div class='btn' style='padding-top: 10px;'>
 				<button>Change</button>
 			</div>
-		</form>
+		</div>
 
-		<form class='information'>
+		<div class='information'>
 			<h3>Information</h3>
 
 			<label for='name'>Full Name</label>
@@ -81,9 +81,9 @@
 			<div class='btn'>
 				<button class='save' on:click={editUser}>Save</button>
 			</div>
-		</form>
+		</div>
 
-		<form class='resume'>
+		<div class='resume'>
 			<h3>Resume</h3>
 
 			<div class='btn' style='text-align: left;'>
@@ -93,7 +93,7 @@
 			<div class='btn'>
 				<input type='submit' value='Upload' style='cursor: pointer; width: auto; border-radius: 10px;'>
 			</div>
-		</form>
+		</div>
 	</div>
 </div>
 

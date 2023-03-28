@@ -100,9 +100,8 @@
         if (!jobData) return;
 
         const response = await jobService.createJob(jobData, user.token);
-        console.log(response);
         if (!response) {
-            alert("Failed to apply");
+            alert("Failed to create job.");
         } else {
             await goto('/postings');
         }
@@ -110,7 +109,6 @@
 
     async function apply() {
         let response = await jobService.applyToJob(jobID, user._id, user.token);
-        console.log(response);
         if (!response) {
             alert("Failed to apply");
         } else {
@@ -134,9 +132,8 @@
         if (!jobData) return;
 
         let response = await jobService.updateJob(jobID, jobData, user.token);
-        console.log(response);
         if (!response) {
-            alert("Failed to edit job");
+            alert("Failed to edit job.");
         } else {
             alert("Job edited!");
             location.reload();

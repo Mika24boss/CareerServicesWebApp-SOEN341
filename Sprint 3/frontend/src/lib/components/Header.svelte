@@ -19,10 +19,8 @@
     });
 
     function logoutAndAlert() {
-        //console.log(isLoggedOut + "\n" + isStudent + "\n" + isEmployer + "\n" + isAdmin);
         authService.logout(user, user.token);
         hasUpdated.set(true);
-        console.log("Logged out");
     }
 
     function updateUser() {

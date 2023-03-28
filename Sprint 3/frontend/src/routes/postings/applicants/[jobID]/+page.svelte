@@ -40,6 +40,16 @@
                 CV: applicant.resume,
             })
         }
+
+        if (data.applicants.length !== applicants.length) { // some applicant ids belong to deleted accounts, so remove them from the database
+            if (applicants.length === 0)
+                await jobService.updateJob(jobID, {applicants: "[]"}, user.token);
+            else {
+                await jobService.updateJob(jobID, {applicants: applicants.map((applicant) => applicant.id).toString()}, user.token);
+            }
+            console.log("Removed ids belonging to deleted accounts.")
+        }
+
         canLoad = true;
     })
 
@@ -111,37 +121,10 @@
                     break;
                 }
             }
-            let response = await authService.addInterview(acceptedID, jobID, date, user.token);
-
-            if (response.data) { // interview was added successfully
-                let applicantsClone = applicants;
-                for (let i = 0; i < applicantsClone.length; i++) {
-                    if (applicantsClone[i].id === acceptedID) {
-                        applicantsClone.splice(i, 1);
-                        applicants = applicantsClone;
-                        break;
-                    }
-                }
-                console.log("Interview added successfully!");
-            } else if (!response.error) { // what happened? No error and no data?
-                accepted.push(acceptedID); // add it back
-                alert("Unknown error when adding the interview. Please contact an admin if this persists.");
-            } else { // an error occurred
-                accepted.push(acceptedID); // add it back
-
-                if (response.error === 409) { // time conflict
-                    let applicant = await authService.getUserByID(acceptedID, user.token);
-                    if (applicant == null)
-                        alert("Warning! An applicant's account has been deleted. Please refresh the page to update the applicant list.")
-                    else
-                        alert("Unfortunately, " + applicant.name + " already has an interview scheduled at " + date.toLocaleDateString('en-US', {
-                            year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric',
-                        }) + ". Please choose another date.");
-                    return;
-                } else {
-                    alert("Error " + response.error + " when adding the interview. Please try again or contact an admin if this error persists.");
-                }
-            }
+            let response = await authService.addInterview(acceptedID, jobID, date, user.token); // add student's interview
+            await handleAddInterviewResponse(response, acceptedID, date);
+            response = await authService.addInterview(user._id, jobID, date, user.token); // add employer's interview
+            await handleAddInterviewResponse(response, user._id, date);
         }
 
         // Handle all rejected applicants
@@ -155,10 +138,52 @@
                     break;
                 }
             }
-            console.log("Applicant rejected successfully.");
         }
 
         // Update the applicants array in the database
+        if (applicants.length === 0)
+            await jobService.updateJob(jobID, {applicants: "[]"}, user.token);
+        else {
+            await jobService.updateJob(jobID, {applicants: applicants.map((applicant) => applicant.id).toString()}, user.token);
+        }
+    }
+
+    async function handleAddInterviewResponse(response, interviewUserID, date) {
+        if (response.data) { // interview was added successfully
+            let applicantsClone = applicants;
+            for (let i = 0; i < applicantsClone.length; i++) {
+                if (applicantsClone[i].id === interviewUserID) {
+                    applicantsClone.splice(i, 1);
+                    applicants = applicantsClone;
+                    break;
+                }
+            }
+        } else if (!response.error) { // what happened? No error and no data?
+            if (interviewUserID !== user._id) //we're adding the student's interview
+                accepted.push(interviewUserID); // add it back
+            alert("Unknown error when adding the interview. Please contact an admin if this persists.");
+        } else { // an error occurred
+            if (interviewUserID !== user._id) //we're adding the student's interview
+                accepted.push(interviewUserID); // add it back
+
+            if (response.error === 409) { // time conflict
+                if (interviewUserID === user._id) //we're adding the employer's interview
+                    alert("You already has an interview scheduled at " + date.toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric',
+                    }) + ". Please choose another date.");
+                else {
+                    let applicant = await authService.getUserByID(interviewUserID, user.token);
+                    if (applicant == null)
+                        alert("Warning! An applicant's account has been deleted. Please refresh the page to update the applicant list.")
+                    else
+                        alert("Unfortunately, " + applicant.name + " already has an interview scheduled at " + date.toLocaleDateString('en-US', {
+                            year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric',
+                        }) + ". Please choose another date.");
+                }
+            } else {
+                alert("Error " + response.error + " when adding the interview. Please try again or contact an admin if this error persists.");
+            }
+        }
     }
 
 </script>
@@ -179,7 +204,7 @@
         </div>
 
         <div class="applicants">
-            {#each applicants as app}
+            {#each applicants as app(app.id)}
                 <Applicant {...app} on:toggle={toggleSelected} on:clear={clearSelected}
                            on:dateChanged={addDate}/>
             {/each}

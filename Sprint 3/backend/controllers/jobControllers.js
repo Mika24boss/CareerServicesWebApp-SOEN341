@@ -71,7 +71,7 @@ const updateJobsID = asyncHandler(async (req, res) => {
         job.applicants = null;
     }
     else if (req.body.applicants) {
-        const arr = req.body.applicants.substring(1, req.body.applicants.length - 1).split(",");
+        const arr = req.body.applicants.split(",");
         if (Array.isArray(arr)) {
             applicants = arr.map((applicant) => mongoose.Types.ObjectId(applicant));
         }

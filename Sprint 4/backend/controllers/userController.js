@@ -110,7 +110,7 @@ const deleteInterview = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error(`Job not found with ID: ${jobID}`);
     }
-    const interview = user.interview.find(i => i.job._id.toString() === jobSearch._id.toString());
+    const interview = await user.interview.find(i => i.job._id.toString() === jobSearch._id.toString());
     if (!interview) {
         res.status(404);
         throw new Error(`Interview not found for job with ID: ${jobID}`);

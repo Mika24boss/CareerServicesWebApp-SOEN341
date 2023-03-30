@@ -68,7 +68,7 @@ const updateJobsID = asyncHandler(async (req, res) => {
     }
     let applicants = [job.applicants]
     if (req.body.applicants === "[]") {
-        job.applicants = null;
+        job.applicants = [];
     }
     else if (req.body.applicants) {
         const arr = req.body.applicants.split(",");
@@ -77,7 +77,6 @@ const updateJobsID = asyncHandler(async (req, res) => {
         }
         job.applicants = applicants;
     }
-    console.log(req.body.applicant)
     job.title = req.body.title || job.title;
     job.companyName = req.body.companyName || job.companyName;
     job.description = req.body.description || job.description;
@@ -90,7 +89,7 @@ const updateJobsID = asyncHandler(async (req, res) => {
 })
 
 // @desc Update Applicant
-// @route Put /api/jobs/jobsApplicant
+// @route Put /api/jobs/jobsApplicant/:id
 // @access Private
 const updateJobsApplicant = asyncHandler(async (req, res) => {
     const jobID = req.params.id

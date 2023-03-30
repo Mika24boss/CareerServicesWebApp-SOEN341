@@ -131,8 +131,10 @@ const deleteInterview = async (/** @type {string} */ applicantID, /** @type {any
             Authorization: `Bearer ${token}`,
         },
     }
+    //console.log(token);
 
     const response = await axios.delete(API_URL + applicantID + '/interview', {jobID: jobID}, config).catch((reason) => {
+        console.log(reason)
         return reason;
     })
 

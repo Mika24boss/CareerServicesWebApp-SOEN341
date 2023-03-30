@@ -7,7 +7,7 @@
 
 	let jobsPack;
 	let interviewsArray;
-	let user, interviews=[];
+	let user, interviews = [];
 
 	onMount(() => {
 		user = authService.getUser();
@@ -19,23 +19,43 @@
 			await goto('/');
 		}
 
-		const student = await authService.getUserByID(user._id,user.token);
+		const student = await authService.getUserByID(user._id, user.token);
 		interviews = student.interview;
 		console.log(interviews);
 
+		/*
+		let date;
+		let todayDate = new Date();
 		let jobID;
-		let deleteAA;
 
-		for(let i=0;i<interviews.length;i++) {
-			if (interviews[i].isActive === false) {
-				jobID = interviews[i].jobID;
-				console.log(jobID);
-				deleteAA = await authService.deleteInterview(user._id,jobID, user.token)
+		//console.log(todayDate);
+
+
+		for (let i = 0; i < interviews.length; i++) {
+			date = new Date(interviews[i].date);
+			console.log(i + '- ' + date.toLocaleDateString([], {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			}), 'at', date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+			jobID = interviews[i].job;
+			console.log(jobID)
+			console.log('date: '+date+'\ntoday: '+todayDate);
+
+			if (date > todayDate) {
+				console.log('delete')
+
+				let res = await authService.deleteInterview(user._id, jobID, user.token);
+				//let res = await authService.deleteInterview(user._id, jobID, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDAwYjU4YzQ3YWFjZmU1MWZkYjA3OSIsImlhdCI6MTY4MDExMjk1NSwiZXhwIjoxNjgyNzA0OTU1fQ.IUs-Dsd82mBUD3xprn5bSYWzXLKygf-BztJGz_1tzQs');
+				console.log('res: '+ res)
 			}
 		}
-		console.log(interviews);
 
-
+		for (let i = 0; i < interviews.length; i++) {
+			jobID = interviews[i].jobID;
+			//console.log(jobID);
+		}
 
 		/*const jobs = await jobService.getJobs(user.token);
 		jobsPack = jobs.map(function(job) {
@@ -89,9 +109,9 @@
         color: white;
     }
 
-		.student-dashboard{
-				margin: 2%;
-		}
+    .student-dashboard {
+        margin: 2%;
+    }
 
     .interviews {
         display: grid;

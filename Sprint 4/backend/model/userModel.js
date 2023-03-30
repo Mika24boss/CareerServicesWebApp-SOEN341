@@ -29,8 +29,7 @@ const userSchema = mongoose.Schema(
         },
         interview: [{
             job: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Job',
+                type: String,
             },
             date: {
                 type: Date,

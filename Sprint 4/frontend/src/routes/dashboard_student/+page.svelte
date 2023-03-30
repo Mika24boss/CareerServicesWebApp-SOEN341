@@ -23,11 +23,13 @@
 		interviews = student.interview;
 		console.log(interviews);
 
+		/*
 		let date;
-		let todayDate = new Date('2023-04-01');
+		let todayDate = new Date();
 		let jobID;
 
-		console.log(todayDate);
+		//console.log(todayDate);
+
 
 		for (let i = 0; i < interviews.length; i++) {
 			date = new Date(interviews[i].date);
@@ -37,20 +39,19 @@
 				day: 'numeric'
 			}), 'at', date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
-			jobID = interviews[i]._id;
+			jobID = interviews[i].job;
 			console.log(jobID)
 			console.log('date: '+date+'\ntoday: '+todayDate);
 
 			if (date > todayDate) {
 				console.log('delete')
 
-				//let res = await authService.deleteInterview(user._id, jobID, user.token);
-				let res = await authService.deleteInterview(user._id, jobID, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDAwYjU4YzQ3YWFjZmU1MWZkYjA3OSIsImlhdCI6MTY4MDExMjk1NSwiZXhwIjoxNjgyNzA0OTU1fQ.IUs-Dsd82mBUD3xprn5bSYWzXLKygf-BztJGz_1tzQs');
+				let res = await authService.deleteInterview(user._id, jobID, user.token);
+				//let res = await authService.deleteInterview(user._id, jobID, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDAwYjU4YzQ3YWFjZmU1MWZkYjA3OSIsImlhdCI6MTY4MDExMjk1NSwiZXhwIjoxNjgyNzA0OTU1fQ.IUs-Dsd82mBUD3xprn5bSYWzXLKygf-BztJGz_1tzQs');
 				console.log('res: '+ res)
 			}
 		}
 
-		/*
 		for (let i = 0; i < interviews.length; i++) {
 			jobID = interviews[i].jobID;
 			//console.log(jobID);

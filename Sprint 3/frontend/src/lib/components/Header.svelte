@@ -12,16 +12,15 @@
     let isStudent = false;
     let isEmployer = false;
     let isAdmin = false;
+    let canLoad = false;
 
     onMount(() => {
         updateUser();
     });
 
     function logoutAndAlert() {
-        //console.log(isLoggedOut + "\n" + isStudent + "\n" + isEmployer + "\n" + isAdmin);
         authService.logout(user, user.token);
         hasUpdated.set(true);
-        console.log("Logged out");
     }
 
     function updateUser() {
@@ -38,12 +37,12 @@
             else isLoggedOut = true;
         }
         hasUpdated.set(false);
+        canLoad = true;
     }
 </script>
 
 <header>
-    {#await user}
-    {:then user}
+    {#if canLoad}
         <div>
         </div>
 
@@ -94,7 +93,7 @@
                 <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>
             </svg>
         </nav>
-    {/await}
+    {/if}
 </header>
 
 <style>

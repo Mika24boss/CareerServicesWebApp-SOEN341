@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { env } from '$env/dynamic/public'
+import {env} from '$env/dynamic/public'
 
 const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
@@ -101,9 +101,42 @@ const getUserByID = async (/** @type {string} */ userID, /** @type {any} */ toke
         },
     }
 
-    const response = await axios.get(API_URL + userID, config)
+    const response = await axios.get(API_URL + userID, config).catch(() => {
+        return null
+    })
 
-    return response.data
+    return response?.data
+}
+
+const addInterview = async (/** @type {string} */ applicantID, /** @type {any} */ jobID, /** @type {any} */ date, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.patch(API_URL + applicantID + '/interview', {
+        jobID: jobID,
+        date: date
+    }, config).catch((reason) => {
+        return reason;
+    })
+
+    return {data: response.data, error: response.response?.status};
+}
+
+const deleteInterview = async (/** @type {string} */ applicantID, /** @type {any} */ jobID, /** @type {any} */ token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.delete(API_URL + applicantID + '/interview', {jobID: jobID}, config).catch((reason) => {
+        return reason;
+    })
+
+    return {data: response.data, error: response.response?.status};
 }
 
 const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any} */ token) => {
@@ -147,7 +180,8 @@ export const authService = {
     deleteUser,
     getUserByID,
     uploadProfileImage,
-    uploadCV
+    uploadCV,
+    addInterview
 }
 
 export default authService

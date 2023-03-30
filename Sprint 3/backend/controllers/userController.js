@@ -71,7 +71,11 @@ const setInterview = asyncHandler(async (req, res) => {
     const jobID = req.body.jobID;
     const date = req.body.date ? new Date(req.body.date) : null;
     const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
-    const Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.getTime() === date.getTime());
+    // const Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.getTime() === date.getTime());
+    let Timeconflict = false;
+    if (user.interview.length > 0) {
+        Timeconflict = user.interview && user.interview.length > 0 && user.interview.find(interview => interview.date && date && interview.date.getTime() === date.getTime());
+    }
     if (user && job) {
         if (Timeconflict) {
             res.status(404);
@@ -79,7 +83,7 @@ const setInterview = asyncHandler(async (req, res) => {
         }
         else {
             user.interview.push({
-                job: job,
+                job: job.jobID,
                 date: date
             });
             const updatedUser = await user.save();

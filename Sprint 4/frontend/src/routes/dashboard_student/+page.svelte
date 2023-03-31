@@ -5,13 +5,12 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	let interviewsPack;
+	let interviewsPack = [];
 	let user, interviews;
-
 
 	onMount(() => {
 		user = authService.getUser();
-		interviewsPack = loadAllJobs();
+		loadAllJobs();
 	});
 
 	async function loadAllJobs() {
@@ -19,89 +18,47 @@
 			await goto('/');
 		}
 
-		const student = await authService.getUserByID(user._id, user.token);
-		interviews = student.interview;
-		console.log(interviews);
-
-		let date, jobID;
+		let date;
 		let todayDate = new Date();
+		let student = await authService.getUserByID(user._id, user.token);
+		interviews = student.interview;
 
 		for (let i = 0; i < interviews.length; i++) {
 			date = new Date(interviews[i].date);
-			/*console.log(i + '- ' + date.toLocaleDateString([], {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric'
-			}), 'at', date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-			 */
 
 			if (date < todayDate) {
 				let res = await authService.deleteInterview(user._id, interviews[i].job, user.token);
 				//console.log(res);
 			}
+
+			const job = await jobService.getJobByID(interviews[i].job, user.token);
+
+			interviewsPack.push({
+				jobID: job[0].jobID,
+				title: job[0].title,
+				companyName: job[0].companyName,
+				interviewDate: date
+			});
+
+			interviewsPack = interviewsPack;
 		}
-
-		interviewsPack = interviews;
-
-		/*interviewsPack = interviews.map(function(interview) {
-			return {
-				jobID: interview.jobID,
-				title: interview.title,
-				companyName: interview.companyName,
-				interviewDate: interview.interviewDate
-			};
-		});
-*/
-		console.log(interviewsPack)
-		/*
-		for (let i = 0; i < interviews.length; i++) {
-			jobID = interviews[i].jobID;
-			//console.log(jobID);
-		}
-
-		/*const jobs = await jobService.getJobs(user.token);
-		jobsPack = jobs.map(function(job) {
-			return {
-				jobID: job.jobID,
-				title: job.title,
-				companyName: job.companyName,
-				location: job.location,
-				isActive: job.isActive,
-				applicants: job.applicants
-			};
-		});
-
-		let status, studentID = '';
-		let appsArray;
-		interviewsArray = [];
-
-		for (let i = 0; i < jobsPack.length; i++) {
-			status = jobsPack[i].isActive;
-			appsArray = jobsPack[i].applicants;
-
-			for (let j = 0; j < appsArray.length; j++) {
-				studentID = appsArray[j];
-				if ((status === true) && (studentID === user._id)) interviewsArray.push(jobsPack[i]);
-			}
-		}*/
 	}
-
-	async function consoleInterviewsPack() {
-		console.log('interviewsPack: ' + interviewsPack);
-	}
-
 </script>
 
-<div class='student-dashboard' on:load={consoleInterviewsPack}>
+
+<div class='student-dashboard'>
 	<h1>Upcoming Interviews</h1>
 
-	{#if interviews}
+	{#if interviewsPack.length > 0}
 		<div class='interviews'>
-			{#each interviews as interview}
+			{#each interviewsPack as interview}
 				<Interview {...interview} />
 			{/each}
 		</div>
+		{:else}
+			<p>No upcoming interviews</p>
 	{/if}
+
 </div>
 
 
@@ -111,7 +68,7 @@
         font-family: 'Barlow', sans-serif;
     }
 
-    h1 {
+    h1, p {
         color: white;
     }
 
@@ -121,8 +78,8 @@
 
     .interviews {
         display: grid;
-        grid-template-columns: 2fr 2fr;
-        grid-gap: 1em;
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        grid-gap: 2em;
         justify-items: stretch;
         position: relative;
         left: 2em;

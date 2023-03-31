@@ -3,15 +3,17 @@
 	export var title, companyName, jobID, interviewDate;
 	let  user;
 
-
-
-
+	function formatInterviewDate(){
+		return interviewDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' }) +
+			' at ' + interviewDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+	}
 </script>
+
 
 	<div class='interview' id='jobID'>
 		<div class='details'>
 			<p style='font-weight: bold'>{title} with {companyName} ({jobID})</p>
-			<p>{interviewDate}</p>
+			<p>{formatInterviewDate()}</p>
 		</div>
 		<div class='platform'>
 			<p style='color: #3A98B9;'>via Zoom</p>

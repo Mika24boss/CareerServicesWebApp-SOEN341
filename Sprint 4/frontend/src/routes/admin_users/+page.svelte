@@ -102,7 +102,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
         justify-items: stretch;
-        grid-gap: 3em;
+        grid-gap: 2em;
     }
 
     .pageHeader {

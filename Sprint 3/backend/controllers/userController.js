@@ -69,11 +69,11 @@ const getUserById = asyncHandler(async (req, res) => {
 const setInterview = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     const jobID = req.body.jobID;
-    const date = req.body.date ? new Date(req.body.date) : null;
+    const date = new Date(req.body.date);
     const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
     let Timeconflict = false;
     if (user.interview.length > 0) {
-     Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.setSeconds(0, 0) === date.setSeconds(0, 0));
+        Timeconflict = user.interview && user.interview.length > 0 && user.interview.find(interview => interview.date && date && interview.date.setSeconds(0, 0) === date.setSeconds(0, 0));
     }
     if (user && job) {
         if (Timeconflict) {

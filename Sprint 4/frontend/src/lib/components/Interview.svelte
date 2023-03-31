@@ -1,7 +1,7 @@
 <script>
 	import Zoom from '$lib/images/zoom.png';
-	export var title, location, companyName, jobID, date_time;
-	let  user, job;
+	export var title, companyName, jobID, interviewDate;
+	let  user;
 
 
 
@@ -11,7 +11,7 @@
 	<div class='interview' id='jobID'>
 		<div class='details'>
 			<p style='font-weight: bold'>{title} with {companyName} ({jobID})</p>
-			<p>{date_time}</p>
+			<p>{interviewDate}</p>
 		</div>
 		<div class='platform'>
 			<p style='color: #3A98B9;'>via Zoom</p>

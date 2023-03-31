@@ -5,13 +5,13 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	let jobsPack;
-	let interviewsArray;
-	let user, interviews = [];
+	let interviewsPack;
+	let user, interviews;
+
 
 	onMount(() => {
 		user = authService.getUser();
-		jobsPack = loadAllJobs();
+		interviewsPack = loadAllJobs();
 	});
 
 	async function loadAllJobs() {
@@ -23,35 +23,37 @@
 		interviews = student.interview;
 		console.log(interviews);
 
-		/*
-		let date;
+		let date, jobID;
 		let todayDate = new Date();
-		let jobID;
-
-		//console.log(todayDate);
-
 
 		for (let i = 0; i < interviews.length; i++) {
 			date = new Date(interviews[i].date);
-			console.log(i + '- ' + date.toLocaleDateString([], {
+			/*console.log(i + '- ' + date.toLocaleDateString([], {
 				year: 'numeric',
 				month: 'long',
 				day: 'numeric'
-			}), 'at', date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+			}), 'at', date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+			 */
 
-			jobID = interviews[i].job;
-			console.log(jobID)
-			console.log('date: '+date+'\ntoday: '+todayDate);
-
-			if (date > todayDate) {
-				console.log('delete')
-
-				let res = await authService.deleteInterview(user._id, jobID, user.token);
-				//let res = await authService.deleteInterview(user._id, jobID, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDAwYjU4YzQ3YWFjZmU1MWZkYjA3OSIsImlhdCI6MTY4MDExMjk1NSwiZXhwIjoxNjgyNzA0OTU1fQ.IUs-Dsd82mBUD3xprn5bSYWzXLKygf-BztJGz_1tzQs');
-				console.log('res: '+ res)
+			if (date < todayDate) {
+				let res = await authService.deleteInterview(user._id, interviews[i].job, user.token);
+				//console.log(res);
 			}
 		}
 
+		interviewsPack = interviews;
+
+		/*interviewsPack = interviews.map(function(interview) {
+			return {
+				jobID: interview.jobID,
+				title: interview.title,
+				companyName: interview.companyName,
+				interviewDate: interview.interviewDate
+			};
+		});
+*/
+		console.log(interviewsPack)
+		/*
 		for (let i = 0; i < interviews.length; i++) {
 			jobID = interviews[i].jobID;
 			//console.log(jobID);
@@ -83,15 +85,19 @@
 			}
 		}*/
 	}
+
+	async function consoleInterviewsPack() {
+		console.log('interviewsPack: ' + interviewsPack);
+	}
+
 </script>
 
-
-<div class='student-dashboard'>
+<div class='student-dashboard' on:load={consoleInterviewsPack}>
 	<h1>Upcoming Interviews</h1>
 
-	{#if interviewsArray}
+	{#if interviews}
 		<div class='interviews'>
-			{#each interviewsArray as interview}
+			{#each interviews as interview}
 				<Interview {...interview} />
 			{/each}
 		</div>

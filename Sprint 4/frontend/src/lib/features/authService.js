@@ -126,14 +126,16 @@ const addInterview = async (/** @type {string} */ applicantID, /** @type {any} *
 }
 
 const deleteInterview = async (/** @type {string} */ applicantID, /** @type {any} */ jobID, /** @type {any} */ token) => {
-    const config = {
+    const req = {
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
         },
+        data: {
+            jobID: jobID
+        }
     }
-    //console.log(token);
 
-    const response = await axios.delete(API_URL + applicantID + '/interview', {jobID: jobID}, config).catch((reason) => {
+    const response = await axios.delete(API_URL + applicantID + '/interview', req).catch((reason) => {
         console.log(reason)
         return reason;
     })

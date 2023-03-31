@@ -69,11 +69,11 @@ const getUserById = asyncHandler(async (req, res) => {
 const setInterview = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     const jobID = req.body.jobID;
-    const date = req.body.date ? new Date(req.body.date) : null;
+    const date = new Date(req.body.date);
     const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
     let Timeconflict = false;
     if (user.interview.length > 0) {
-        Timeconflict = user.interview.length > 0 && user.interview.find(interview => interview.date.setSeconds(0, 0) === date.setSeconds(0, 0));
+        Timeconflict = user.interview && user.interview.length > 0 && user.interview.find(interview => interview.date && date && interview.date.setSeconds(0, 0) === date.setSeconds(0, 0));
     }
     if (user && job) {
         if (Timeconflict) {
@@ -110,17 +110,29 @@ const deleteInterview = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error(`Job not found with ID: ${jobID}`);
     }
-    const interview = await user.interview.find(i => i.job._id.toString() === jobSearch._id.toString());
+    let interview;
+    for (let i = 0; i < user.interview.length; i++) {
+        if (user.interview[i].job.toString() === jobSearch.jobID.toString()) {
+            interview = user.interview[i];
+            break;
+        }
+    }
     if (!interview) {
         res.status(404);
         throw new Error(`Interview not found for job with ID: ${jobID}`);
     }
 
     // Remove the interview from the user's array of interviews
-    user.interview = user.interview.filter(i => i.job._id.toString() !== jobSearch._id.toString());
+    for (let i = 0; i < user.interview.length; i++) {
+        if (user.interview[i].job.toString() === jobSearch.jobID.toString()) {
+            user.interview.splice(i, 1);
+            break;
+        }
+    }
+
     await user.save();
 
-    res.json({ message: `Interview deleted for job: ${interview.job.title}` });
+    res.json({ message: `Interview deleted for job: ${interview.job}` });
 });
 
 

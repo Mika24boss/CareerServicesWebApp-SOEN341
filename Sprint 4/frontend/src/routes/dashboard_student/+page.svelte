@@ -10,10 +10,10 @@
 
 	onMount(() => {
 		user = authService.getUser();
-		loadAllJobs();
+		loadAllInterviews();
 	});
 
-	async function loadAllJobs() {
+	async function loadAllInterviews() {
 		if (user == null) {
 			await goto('/');
 		}

@@ -2,20 +2,47 @@
 	import Interview from '$lib/components/Interview.svelte';
 	import Notification from '$lib/components/Notification.svelte';
 	import authService from '$lib/features/authService.js';
+	import jobService from '$lib/features/jobService.js';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	const okToLoad = auth();
-	let user;
+	let interviewsPack = [];
+	let user, interviews;
 
-	async function auth() {
-		await onMount(() => {
-			user = authService.getUser();
-		});
-		if (user == null || user.role !== 'Employer') {
+	onMount(() => {
+		user = authService.getUser();
+		loadAllInterviews();
+	});
+
+	async function loadAllInterviews() {
+		if (user == null) {
 			await goto('/');
 		}
-		return '';
+
+		let date;
+		let todayDate = new Date();
+		let employer = await authService.getUserByID(user._id, user.token);
+		interviews = employer.interview;
+
+		for (let i = 0; i < interviews.length; i++) {
+			date = new Date(interviews[i].date);
+
+			if (date < todayDate) {
+				let res = await authService.deleteInterview(user._id, interviews[i].job, user.token);
+				//console.log(res);
+			}
+
+			const job = await jobService.getJobByID(interviews[i].job, user.token);
+
+			interviewsPack.push({
+				jobID: job[0].jobID,
+				title: job[0].title,
+				companyName: job[0].companyName,
+				interviewDate: date
+			});
+
+			interviewsPack = interviewsPack;
+		}
 	}
 
 	// Clear notifications
@@ -30,40 +57,37 @@
 </script>
 
 
-{#await okToLoad}
-{:then load}
-
-	<!-- Notifications Section-->
-	<div class='notif-section'>
-		<div class='notif'>
-			<h1 class='badge' id='notificationBadge'>4</h1>
-			<h1 class='label'>Notification(s)</h1>
-		</div>
-
-		<div class='notifications' id='notificationList'>
-			<Notification />
-			<Notification />
-			<Notification />
-			<Notification />
-		</div>
-		<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
+<!-- Notifications Section-->
+<div class='notif-section'>
+	<div class='notif'>
+		<h1 class='badge' id='notificationBadge'>4</h1>
+		<h1 class='label'>Notification(s)</h1>
 	</div>
 
+	<div class='notifications' id='notificationList'>
+		<Notification />
+		<Notification />
+		<Notification />
+		<Notification />
+	</div>
+	<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
+</div>
 
-	<!-- Interviews Section -->
-	<div class='interviews-section'>
-		<h1>Upcoming Interviews</h1>
+
+<!-- Interviews Section -->
+<div class='interviews-section'>
+	<h1>Upcoming Interviews</h1>
+
+	{#if interviewsPack.length > 0}
 		<div class='interviews'>
-			<Interview />
-			<Interview />
-			<Interview />
-			<Interview />
-			<Interview />
-			<Interview />
+			{#each interviewsPack as interview}
+				<Interview {...interview} />
+			{/each}
 		</div>
-	</div>
-{/await}
-
+	{:else}
+		<p>No upcoming interviews</p>
+	{/if}
+</div>
 
 
 <style>
@@ -71,18 +95,18 @@
         font-family: 'Barlow', sans-serif;
     }
 
-    h1 {
+    h1,p {
         color: white;
     }
 
-    .notif-section, .interviews-section{
+    .notif-section, .interviews-section {
         margin: 2%;
     }
 
     .interviews, .notifications {
         display: grid;
-        grid-template-columns: 2fr 2fr;
-        grid-gap: 1em;
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        grid-gap: 2em;
         justify-items: stretch;
         position: relative;
         left: 2em;

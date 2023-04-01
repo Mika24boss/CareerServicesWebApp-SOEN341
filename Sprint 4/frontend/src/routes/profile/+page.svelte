@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Profile</title>
+</svelte:head>
+
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';

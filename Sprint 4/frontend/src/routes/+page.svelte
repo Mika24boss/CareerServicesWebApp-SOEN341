@@ -35,7 +35,7 @@
 </script>
 
 <svelte:head>
-    <title>AsianQuadPower</title>
+    <title>Login</title>
     <meta name="description" content="Career website"/>
 </svelte:head>
 

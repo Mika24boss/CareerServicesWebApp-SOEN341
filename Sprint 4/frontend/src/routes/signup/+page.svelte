@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Sign-up</title>
+</svelte:head>
+
 <script>
     import authService from '$lib/features/authService.js';
     import {goto} from "$app/navigation";

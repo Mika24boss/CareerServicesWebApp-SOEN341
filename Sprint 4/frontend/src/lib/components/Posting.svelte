@@ -178,6 +178,10 @@
         outline: none;
         cursor: pointer;
         aspect-ratio: 1;
+        min-height: 20px;
+        max-height: 30px;
+        min-width: 20px;
+        max-width: 30px;
     }
 
     .checkbox:checked {

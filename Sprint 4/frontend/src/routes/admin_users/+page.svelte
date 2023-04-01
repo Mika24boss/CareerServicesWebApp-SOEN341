@@ -38,7 +38,7 @@
 	async function deleteUsers() {
 		console.log(selectedUsersArray.length);
 		for (let i = 0; i < selectedUsersArray.length; i++) {
-			let hello = await authService.deleteUser(selectedUsersArray[i], user.token);
+			let delUser = await authService.deleteUser(selectedUsersArray[i], user.token);
 			//console.log(selectedUsersArray)
 		}
 		selectedUsersArray = [];
@@ -102,7 +102,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
         justify-items: stretch;
-        grid-gap: 3em;
+        grid-gap: 2em;
     }
 
     .pageHeader {

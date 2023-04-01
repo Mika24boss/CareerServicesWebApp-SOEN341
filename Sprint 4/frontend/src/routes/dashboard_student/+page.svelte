@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Dashboard</title>
+</svelte:head>
+
 <script>
 	import Interview from '$lib/components/Interview.svelte';
 	import authService from '$lib/features/authService.js';

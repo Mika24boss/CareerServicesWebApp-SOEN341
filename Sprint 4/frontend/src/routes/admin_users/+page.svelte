@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Users</title>
+</svelte:head>
+
 <script>
 	import User from '$lib/components/User.svelte';
 	import { authService } from '$lib/features/authService.js';

@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>{pageTitle}</title>
+</svelte:head>
+
 <script>
     import Posting from '$lib/components/Posting.svelte';
     import authService from '$lib/features/authService.js';
@@ -11,6 +15,7 @@
     let user;
     let selectedJobs = [];
     let isLoaded = false;
+    let pageTitle = "Job Postings";
 
     loadJobs();
 
@@ -157,7 +162,7 @@
 
     .postings {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
         justify-items: stretch;
         grid-gap: 3em;
     }

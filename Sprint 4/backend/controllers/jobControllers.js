@@ -81,7 +81,7 @@ const updateJobsID = asyncHandler(async (req, res) => {
     job.companyName = req.body.companyName || job.companyName;
     job.description = req.body.description || job.description;
     job.location = req.body.location || job.location;
-    job.isActive = req.body.isActive || job.isActive;
+    job.isActive = req.body.isActive == null ? job.isActive : req.body.isActive;
     job.interviewDate = req.body.interviewDate || job.interviewDate;
     job.jobID = req.body.jobID || job.jobID;
     const updatedJobsID = await job.save();

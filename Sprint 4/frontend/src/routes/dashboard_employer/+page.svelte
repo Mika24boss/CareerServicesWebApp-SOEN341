@@ -9,9 +9,11 @@
 	import jobService from '$lib/features/jobService.js';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
 	let interviewsPack = [];
 	let user, interviews;
+	let finishedLoading = false;
 
 	onMount(() => {
 		user = authService.getUser();
@@ -47,6 +49,7 @@
 
 			interviewsPack = interviewsPack;
 		}
+		finishedLoading = true;
 	}
 
 	// Clear notifications
@@ -60,6 +63,9 @@
 
 </script>
 
+{#if !finishedLoading}
+	<LoadingAnimation/>
+{/if}
 
 <!-- Notifications Section-->
 <div class='notif-section'>

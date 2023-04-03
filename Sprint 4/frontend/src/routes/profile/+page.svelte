@@ -1,106 +1,106 @@
 <svelte:head>
-	<title>Profile</title>
+    <title>Profile</title>
 </svelte:head>
 
 <script>
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { authService } from '$lib/features/authService.js';
+    import {onMount} from 'svelte';
+    import {goto} from '$app/navigation';
+    import {authService} from '$lib/features/authService.js';
+    import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
-	let user;
-	let previewUrl;
+    let user;
+    let previewUrl;
 
-	function handleImageChange(event) {
-		const file = event.target.files[0];
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			previewUrl = e.target.result;
-		};
-		reader.readAsDataURL(file);
-	}
+    function handleImageChange(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
 
-	onMount(() => {
-		const input = document.querySelector('#image-upload');
-		input.addEventListener('change', handleImageChange);
+    onMount(() => {
+        loadUser();
+    });
 
-		loadUser();
-		document.getElementById('name').value = user.name;
-		document.getElementById('email').value = user.email;
-	});
+    async function loadUser() {
+        user = authService.getUser();
+        if (user == null || user.role === 'Admin') {
+            await goto('/');
+        }
+    }
 
-	async function loadUser() {
-		user = authService.getUser();
-		if (user == null || user.role === 'Admin') {
-			await goto('/');
-		}
-	}
+    async function editUser() {
 
-	async function editUser() {
-
-		const userData = {
-			id: user._id,
-			name: document.getElementById('name').value,
-			email: document.getElementById('email').value,
-			password: document.getElementById('password').value
-		};
-		const response = await authService.edit(userData, user.token);
-		console.log(response);
-	}
+        const userData = {
+            id: user._id,
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
+        const response = await authService.edit(userData, user.token);
+        console.log(response);
+    }
 
 </script>
 
-<div class='profile-page'>
+{#if !user}
+    <LoadingAnimation/>
+{:else}
+    <div class='profile-page'>
 
+        <h1 style='text-align: left;'>Profile</h1>
+        <div class='profile'>
+            <div class='profile-pic'>
+                <h3>Avatar</h3>
 
-	<h1 style='text-align: left;'>Profile</h1>
-	<div class='profile'>
-		<div class='profile-pic'>
-			<h3>Avatar</h3>
+                <div class='image-container'>
+                    <label id='image-btn' for='image-upload'>
+                        <input type='file' name='image-upload' id='image-upload' style='display: none;'
+                               accept='image/*' on:change={handleImageChange}>
+                        <img id='previewImage'
+                             src={previewUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                             alt='Click to upload image'>
+                    </label>
+                </div>
 
-			<div class='image-container'>
-				<label id='image-btn' for='image-upload'>
-					<input type='file' name='image-upload' id='image-upload' style='display: none;' accept='image/*'>
-					<img id='previewImage'
-							 src={previewUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
-							 alt='Click to upload image'>
-				</label>
-			</div>
+                <div class='btn' style='padding-top: 10px;'>
+                    <button>Change</button>
+                </div>
+            </div>
 
-			<div class='btn' style='padding-top: 10px;'>
-				<button>Change</button>
-			</div>
-		</div>
+            <div class='information'>
+                <h3>Information</h3>
 
-		<div class='information'>
-			<h3>Information</h3>
+                <label for='name'>Full Name</label>
+                <div class='formGroup'><input type='text' id='name' name='name' value={user.name}></div>
+                <label for='email'>Email Address</label>
+                <div class='formGroup'><input type='email' id='email' name='email' value={user.email}></div>
+                <label for='password'>Password</label>
+                <div class='formGroup'><input type='password' id='password' name='password'
+                                              placeholder='Leave empty if no change'></div>
 
-			<label for='name'>Full Name</label>
-			<div class='formGroup'><input type='text' id='name' name='name'></div>
-			<label for='email'>Email Address</label>
-			<div class='formGroup'><input type='email' id='email' name='email'></div>
-			<label for='password'>Password</label>
-			<div class='formGroup'><input type='new-password' id='password' name='password'
-																		placeholder='Leave empty if no change'></div>
+                <div class='btn'>
+                    <button class='save' on:click={editUser}>Save</button>
+                </div>
+            </div>
 
-			<div class='btn'>
-				<button class='save' on:click={editUser}>Save</button>
-			</div>
-		</div>
+            <div class='resume'>
+                <h3>Resume</h3>
 
-		<div class='resume'>
-			<h3>Resume</h3>
+                <div class='btn' style='text-align: left;'>
+                    <input type='file' id='file-upload' name='file'
+                           accept='application/pdf,application/msword,.doc,docx'>
+                </div>
 
-			<div class='btn' style='text-align: left;'>
-				<input type='file' id='file-upload' name='file' accept='application/pdf,application/msword,.doc,docx'>
-			</div>
-
-			<div class='btn'>
-				<input type='submit' value='Upload' style='cursor: pointer; width: auto; border-radius: 10px;'>
-			</div>
-		</div>
-	</div>
-</div>
-
+                <div class='btn'>
+                    <input type='submit' value='Upload' style='cursor: pointer; width: auto; border-radius: 10px;'>
+                </div>
+            </div>
+        </div>
+    </div>
+{/if}
 
 <style>
     * {
@@ -136,9 +136,9 @@
         color: #3A98B9;
     }
 
-		.profile-page{
+    .profile-page {
         margin: 2%;
-		}
+    }
 
     .profile {
         width: 80%;

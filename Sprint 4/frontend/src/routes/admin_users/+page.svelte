@@ -7,6 +7,7 @@
 	import { authService } from '$lib/features/authService.js';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
 	let usersPack = loadAllUsers();
 	let selectedUsersArray = [];
@@ -74,6 +75,7 @@
 	</div>
 
 	{#await usersPack}
+		<LoadingAnimation/>
 	{:then usersPack}
 
 		<div class='users'>

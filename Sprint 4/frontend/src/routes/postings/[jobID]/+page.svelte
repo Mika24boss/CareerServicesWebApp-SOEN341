@@ -10,6 +10,7 @@
     import {page} from '$app/stores';
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
+    import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
     const jobID = $page.url.pathname.split('/').pop();
     let data, user, creatorInfo;
@@ -147,6 +148,7 @@
         hasChanged = false;
         const jobData = getFieldData();
         if (!jobData) return;
+        jobData.applicants = '[]';
 
         let response = await jobService.updateJob(jobID, jobData, user.token);
         if (!response)
@@ -182,8 +184,9 @@
         if (!isNew) pageTitle = '* ' + data.title;
     }
 </script>
-
-{#if (data && isNew) || (creatorInfo && !isNew)}
+{#if (!data && isNew) || (!creatorInfo && !isNew)}
+    <LoadingAnimation/>
+{:else if (data && isNew) || (creatorInfo && !isNew)}
     <div class='topSection' use:preventTabClose={hasChanged}>
         {#if canEdit}
             <input class='title canEdit' type='text' id='title'

@@ -51,6 +51,7 @@
         buttonText = "Applied!";
         document.getElementById(jobID).style.background = "linear-gradient(180deg, #AEE2FF, #86C8BC)";
         document.getElementById(jobID).style.borderRadius = "1em";
+        document.getElementById(jobID).style.padding = "0.3em";
     }
 
 </script>
@@ -93,7 +94,6 @@
     .posting {
         display: grid;
         justify-items: stretch;
-        margin: 0.3em;
         background: #141414;
         border-radius: 1em;
 

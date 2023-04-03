@@ -30,21 +30,19 @@ const getAllUsers = async (/** @type {any} */ token) => {
 // Delete User
 // Delete an user
 const deleteUser = async (/** @type {any} */userData, /** @type {any} */ token) => {
-    /*const config = {
+    const req = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-        body: {
-            id: userData,
-        }
-    }*/
-    const req = {
         data: {
             id: userData,
         }
     }
-    const response = await axios.delete(API_URL, req)
-    return response.data
+    const response = await axios.delete(API_URL, req).catch((reason) => {
+        console.log(reason)
+        return reason;
+    })
+    return {data: response.data, error: response.response?.status};
 }
 
 // Login user

@@ -165,9 +165,9 @@
 
     .invalidCredentials-box > p {
         width: 40%;
-        color: black;
+        color: #cc0000;
         font-weight: bold;
-        background-color: #cc0000;
+        background-color: #EF9A9A;
         text-align: center;
         margin: 1em auto;
         padding: 0.5em;

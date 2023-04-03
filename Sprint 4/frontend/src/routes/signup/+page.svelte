@@ -12,6 +12,7 @@
 
     let name, email, password, role;
     let response;
+    let hasMissingFields = false;
 
     async function onSubmit() {
         name = document.getElementById('name').value;
@@ -26,8 +27,10 @@
         };
         response = await authService.register(userData);
         hasUpdated.set(true);
-        //console.log('Response: ', response);
-        if (response.role === 'Student') {
+        if (!response) {
+            hasMissingFields = true;
+            //console.log('Response: ', response);
+        } else if (response.role === 'Student') {
             await goto('/dashboard_student');
         } else if (response.role === 'Employer') {
             await goto('/dashboard_employer');
@@ -54,6 +57,12 @@
                 <div class='formGroup'><input type="text" id="email" name="Email" placeholder="Email" required style='color:white'></div>
                 <div class='formGroup'><input type="password" id="password" name="Password" placeholder="Password" required style='color:white'></div>
             </div>
+
+            {#if hasMissingFields}
+                <div class='missingFields-box'>
+                    <p>Please fill all the fields and try again.</p>
+                </div>
+            {/if}
             <div class="btn-container">
                 <button class="btn-signup centerBlock" type="submit" on:click="{onSubmit}">Sign-Up</button>
                 <a href="/">
@@ -76,9 +85,6 @@
         position: relative;
         text-align: center;
         margin: 5em auto auto;
-        /*border-radius: 1em;
-        background: #141414;
-        box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(70, 70, 70, 0.2);*/
     }
 
     h1 {
@@ -158,6 +164,16 @@
 
     .btn-signup:active, .btn-back:active {
         background-color: white;
+    }
+
+    .missingFields-box > p {
+        width: 40%;
+        color: #cc0000;
+        font-weight: bold;
+        background-color: #EF9A9A;
+        text-align: center;
+        margin: 1em auto;
+        padding: 0.5em;
     }
 
 

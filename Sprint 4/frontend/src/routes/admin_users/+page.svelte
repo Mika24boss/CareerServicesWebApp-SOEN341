@@ -4,15 +4,34 @@
 
 <script>
 	import User from '$lib/components/User.svelte';
-	import { authService } from '$lib/features/authService.js';
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-
+	import {authService} from '$lib/features/authService.js';
+	import {goto} from '$app/navigation';
+	import {onMount} from 'svelte';
+	import {quintOut} from 'svelte/easing';
+	import {crossfade} from 'svelte/transition';
+	import {flip} from 'svelte/animate';
+	import {page} from "$app/stores";
+	const [send, receive] = crossfade({
+		fallback(node) {
+			if ($page.url.pathname !== '/admin_users') return;
+			const style = getComputedStyle(node);
+			const transform = style.transform === 'none' ? '' : style.transform;
+			return {
+				duration: 400,
+				easing: quintOut,
+				css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+			};
+		}
+	});
 	let usersPack = loadAllUsers();
 	let selectedUsersArray = [];
 	let arrayLength;
 	let boolArray = Array(arrayLength);
 	var user;
+	let searchTerm = '';
 
 	async function loadAllUsers() {
 		await onMount(() => {
@@ -34,7 +53,7 @@
 				id: user._id,
 				role: user.role,
 				profilePicture: user.profilePicture,
-				CV: user.resume,
+				CV: user.resume
 			};
 		});
 		//console.log('usersPack: '+	usersPack)
@@ -65,21 +84,31 @@
 		}
 		console.log(selectedUsersArray);
 	}
+
+	function updateSearchTerm(e) {
+		searchTerm = e.target.value;
+	}
 </script>
 
 
 <div class='usersPage' on:load={consoleUsersPack}>
 	<div class='pageHeader'>
 		<h1>Users</h1>
-		<input type='search' class='search' placeholder='Type a name...'>
+		<input type='search' class='search' placeholder='Search...' on:input={updateSearchTerm}>
 	</div>
 
 	{#await usersPack}
 	{:then usersPack}
 
 		<div class='users'>
-			{#each usersPack as userA, i}
-				<User {...userA} userID={userA} on:toggle={toggleSelected} />
+			{#each usersPack.filter((v) => {
+				return v.name.toLowerCase().includes(searchTerm.toLowerCase()) || v.email.toLowerCase().includes(searchTerm.toLowerCase()) || v.role.toLowerCase().includes(searchTerm.toLowerCase())
+			}) as userA(userA.id)}
+				<div in:receive='{{key: userA.id}}'
+						 out:send='{{key: userA.id}}'
+						 animate:flip='{{duration: 400}}'>
+					<User {...userA} userID={userA} on:toggle={toggleSelected} />
+				</div>
 			{/each}
 		</div>
 

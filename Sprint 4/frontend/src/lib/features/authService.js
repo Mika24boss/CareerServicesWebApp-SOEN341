@@ -5,13 +5,14 @@ const API_URL = env.PUBLIC_API_URL + '/api/users/'
 
 // Register user
 const register = async (/** @type {any} */ userData) => {
-    const response = await axios.post(API_URL, userData)
+    const response = await axios.post(API_URL, userData).catch((reason) => {
+        return null
+    })
 
-    if (response.data) {
+    if (response && response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
     }
-
-    return response.data
+    return response?.data
 }
 // Get all users
 const getAllUsers = async (/** @type {any} */ token) => {

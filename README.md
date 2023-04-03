@@ -2,6 +2,9 @@
 Repository for the career website for the SOEN 341 project - Winter 2023.
 <hr>
 
+<h2>Demo video for sprint 3</h2>
+https://youtu.be/1rZoLTKiDDs
+
 <h2>Demo video for sprint 2</h2>
 https://youtu.be/I_gJ_B7XvvU
 

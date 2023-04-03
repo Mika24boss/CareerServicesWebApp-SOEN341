@@ -7,7 +7,7 @@
 
 	let jobsPack;
 	let interviewsArray;
-	let user;
+	let user, interviews=[];
 
 	onMount(() => {
 		user = authService.getUser();
@@ -15,11 +15,29 @@
 	});
 
 	async function loadAllJobs() {
-		if (user === null || user === undefined) {
+		if (user == null) {
 			await goto('/');
 		}
 
-		const jobs = await jobService.getJobs(user.token);
+		const student = await authService.getUserByID(user._id,user.token);
+		interviews = student.interview;
+		console.log(interviews);
+
+		let jobID;
+		let deleteAA;
+
+		for(let i=0;i<interviews.length;i++) {
+			if (interviews[i].isActive === false) {
+				jobID = interviews[i].jobID;
+				console.log(jobID);
+				deleteAA = await authService.deleteInterview(user._id,jobID, user.token)
+			}
+		}
+		console.log(interviews);
+
+
+
+		/*const jobs = await jobService.getJobs(user.token);
 		jobsPack = jobs.map(function(job) {
 			return {
 				jobID: job.jobID,
@@ -43,7 +61,7 @@
 				studentID = appsArray[j];
 				if ((status === true) && (studentID === user._id)) interviewsArray.push(jobsPack[i]);
 			}
-		}
+		}*/
 	}
 </script>
 
@@ -70,6 +88,10 @@
     h1 {
         color: white;
     }
+
+		.student-dashboard{
+				margin: 2%;
+		}
 
     .interviews {
         display: grid;

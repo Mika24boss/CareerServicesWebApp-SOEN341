@@ -16,11 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image - frontend
-      run: docker build "Sprint 3/frontend" --tag docker.registry.ampstudios.games/misc/soen341:latest
+      run: docker build "Sprint 4/frontend" --tag docker.registry.ampstudios.games/misc/soen341:latest
     - name: Deploy - frontend
       run: docker push docker.registry.ampstudios.games/misc/soen341:latest
     - name: Build the Docker image - backend
-      run: docker build "Sprint 3/backend" --tag docker.registry.ampstudios.games/misc/soen341-backend:latest
+      run: docker build "Sprint 4/backend" --tag docker.registry.ampstudios.games/misc/soen341-backend:latest
     - name: Deploy - backend
       run: docker push docker.registry.ampstudios.games/misc/soen341-backend:latest
     - name: Webhook POST Action

@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-
+const mongoose = require('mongoose')
 const Job = require('../model/jobModel')
 const User = require("../model/userModel")
 // @desc Get jobs
@@ -66,18 +66,30 @@ const updateJobsID = asyncHandler(async (req, res) => {
             throw new Error('User not authorized')
         }
     }
-
-    const updatedJobsID = await Job.findOneAndUpdate(
-        { jobID },
-        req.body, {
-        new: true,
-    })
-    console.log(req.body);
+    let applicants = [job.applicants]
+    if (req.body.applicants === "[]") {
+        job.applicants = [];
+    }
+    else if (req.body.applicants) {
+        const arr = req.body.applicants.split(",");
+        if (Array.isArray(arr)) {
+            applicants = arr.map((applicant) => mongoose.Types.ObjectId(applicant));
+        }
+        job.applicants = applicants;
+    }
+    job.title = req.body.title || job.title;
+    job.companyName = req.body.companyName || job.companyName;
+    job.description = req.body.description || job.description;
+    job.location = req.body.location || job.location;
+    job.isActive = req.body.isActive || job.isActive;
+    job.interviewDate = req.body.interviewDate || job.interviewDate;
+    job.jobID = req.body.jobID || job.jobID;
+    const updatedJobsID = await job.save();
     res.status(200).json(updatedJobsID)
 })
 
 // @desc Update Applicant
-// @route Put /api/jobs/jobsApplicant
+// @route Put /api/jobs/jobsApplicant/:id
 // @access Private
 const updateJobsApplicant = asyncHandler(async (req, res) => {
     const jobID = req.params.id
@@ -114,7 +126,7 @@ const deleteJobs = asyncHandler(async (req, res) => {
     }
 
     // make sure the logged in user matches the job user
-    if (job.user.toString() !== req.user.id) {
+    if (req.user.role !== 'Admin' && job.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorized')
     }

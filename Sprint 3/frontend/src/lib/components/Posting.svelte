@@ -5,7 +5,7 @@
     import {goto} from "$app/navigation";
     import {createEventDispatcher} from 'svelte';
 
-    export var jobID, title, companyName, location, applicants;
+    export var jobID, title, companyName, location, applicants, isActive;
 
     let nbApps = 0;
     let user, role;
@@ -56,28 +56,28 @@
 </script>
 {#await user}
 {:then user}
-    <div class="gradient" id={jobID}>
+    <div id={jobID}>
         <div class="posting {role}">
             <div class="action-button">
                 <button on:click={onClick}>
                     {buttonText}
                 </button>
             </div>
-            <div class="title">
+            <div class="title {!isActive ? 'deactivatedText' : ''}">
                 <a class="click-me" href="/postings/{jobID}/">
                     <b>{title}</b><br/>
                     {companyName}
                 </a>
             </div>
-            <div class="location">
+            <div class="location {!isActive ? 'deactivatedText' : ''}">
                 {location}
             </div>
             {#if role === 'Employer'}
-                <div class="nbApps">
+                <div class="nbApps {!isActive ? 'deactivatedText' : ''}">
                     {nbApps} apps.
                 </div>
             {:else if role === 'Admin'}
-                <input type="checkbox" on:change={toggle}/>
+                <input type="checkbox" class="checkbox" on:change={toggle}/>
             {/if}
         </div>
     </div>
@@ -90,17 +90,10 @@
         color: white;
     }
 
-    /*
-    .gradient {
-        background-image: linear-gradient(135deg, blue, darkblue);
-        font-size: 1.1em;
-    }*/
-
     .posting {
         display: grid;
         justify-items: stretch;
         margin: 0.3em;
-        /*background-image: linear-gradient(135deg, darkgray, darkslateblue);*/
         background: #141414;
         border-radius: 1em;
 
@@ -120,7 +113,7 @@
     }
 
     .action-button {
-        padding: 0.5em;
+        padding: 0.69em;
     }
 
     .action-button button {
@@ -133,6 +126,10 @@
         width: 100%;
         height: 100%;
         font-size: 1em;
+    }
+
+    button:hover {
+        cursor: pointer;
     }
 
     a, b {
@@ -152,6 +149,7 @@
     }*/
 
     .title {
+        align-self: center;
         line-height: calc(var(--line-height) / 2);
         padding: 1em;
         white-space: nowrap;
@@ -160,6 +158,7 @@
     }
 
     .location {
+        align-self: center;
         padding: 1em;
         text-align: center;
         line-height: var(--line-height);
@@ -169,4 +168,28 @@
         text-overflow: ellipsis;
     }
 
+    .checkbox {
+        align-self: center;
+        margin: 2.5em;
+        background-color: white;
+        border-radius: 50%;
+        appearance: none;
+        -webkit-appearance: none;
+        outline: none;
+        cursor: pointer;
+        aspect-ratio: 1;
+    }
+
+    .checkbox:checked {
+        background-color: darkred;
+    }
+
+    .nbApps {
+        justify-self: center;
+        align-self: center;
+    }
+
+    .deactivatedText {
+        color: lightcoral;
+    }
 </style>

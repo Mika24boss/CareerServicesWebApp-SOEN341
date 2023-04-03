@@ -14,6 +14,7 @@
         const reader = new FileReader();
         reader.onload = (e) => {
             previewUrl = e.target.result;
+            console.log('Preview URL:', previewUrl);
         };
         reader.readAsDataURL(file);
 
@@ -21,6 +22,7 @@
 
     // Save uploaded image
     async function uploadPic(){
+
             const uploadimage = document.getElementById('image')
             console.log(uploadimage.files[0])
             const formData = new FormData();
@@ -34,6 +36,7 @@
 
     // Save uploaded CV
     async function uploadCV(){
+
         const uploadfile = document.getElementById('cv')
         const formData = new FormData();
         formData.append("id", user._id);
@@ -46,6 +49,7 @@
 
     // Load User Data
     async function loadUser() {
+
         user = authService.getUser();
         if (user == null || user.role === 'Admin') {
             await goto('/');
@@ -67,28 +71,30 @@
 
     // On start
     onMount(() => {
+
         const input = document.querySelector('#image');
         input.addEventListener('change', handleImageChange);
 
         loadUser();
         const profilePic = fileService.getFileByID(user.profilePicture, user.token);
 
-        const blob = new Blob([profilePic.data], {type: profilePic.contentType})
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            previewUrl = blob;
-        };
-        reader.readAsDataURL(blob);
-
+        console.log(user.profilePicture)
+        console.log(profilePic)
+    //    const blob = new Blob([profilePic.data], { type: profilePic.contentType });
+    //    console.log(blob)
+    //     const reader = new FileReader();
+    //     reader.onload = (e) => {
+    //        previewUrl = e.target.result;
+    //     };
+    //    reader.readAsDataURL(profilePic.name);
 
         document.getElementById('name').value = user.name;
         document.getElementById('email').value = user.email;
         document.getElementById('cv').file = fileService.getFileByID(user.resume, user.token);
-        document.getElementById('previewImage').src = URL.createObjectURL(blob);
-       // console.log(fileService.getFileByID(user.resume, user.token))
-      console.log(blob)
+        // document.getElementById('previewImage').src = URL.createObjectURL(blob);
+        document.getElementById('previewImage').src = "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F47%2F2021%2F12%2F16%2Fanime-cat-names-1204854078-2000.jpg"          
     });
+
 </script>
 
 <h1 style="text-align: left;">Profile</h1>

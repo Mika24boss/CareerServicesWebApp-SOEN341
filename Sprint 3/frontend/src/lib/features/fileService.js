@@ -11,7 +11,7 @@ const getFileByID = async (/** @type {string} */ fileID, /** @type {any} */ toke
         },
     }
 
-    const response = await axios.get(API_URL + '/' +fileID, config)
+    const response = await axios.get(API_URL + '/' + fileID, config)
 
     return response.data
 

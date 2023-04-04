@@ -73,20 +73,19 @@
     }
 
     h1, p {
-        color: white;
+        color: lightgray;
     }
 
     .student-dashboard {
-        margin: 2%;
+        width: 80%;
+        margin-left: 10%;
     }
 
     .interviews {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
         grid-gap: 2em;
         justify-items: stretch;
-        position: relative;
-        left: 2em;
     }
 </style>
 

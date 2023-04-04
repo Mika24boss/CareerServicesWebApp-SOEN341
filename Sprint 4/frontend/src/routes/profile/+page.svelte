@@ -50,8 +50,6 @@
 </script>
 
 <div class='profile-page'>
-
-
 	<h1 style='text-align: left;'>Profile</h1>
 	<div class='profile'>
 		<div class='profile-pic'>
@@ -109,7 +107,7 @@
     }
 
     h1 {
-        color: white;
+        color: lightgray;
     }
 
     h3 {
@@ -137,7 +135,8 @@
     }
 
 		.profile-page{
-        margin: 2%;
+        width: 80%;
+        margin-left: 10%;
 		}
 
     .profile {

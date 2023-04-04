@@ -149,7 +149,7 @@ const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any
         },
     }
     try {
-        const response = await axios.patch(API_URL + '/uploadProfileImage', userData, config);
+        const response = await axios.patch(API_URL + 'uploadProfileImage', userData, config);
         return response.data;
     } catch (error) {
         console.log(error);

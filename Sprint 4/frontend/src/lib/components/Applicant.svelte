@@ -1,5 +1,5 @@
 <script>
-    import Profile from '$lib/images/profile-logo.png';
+    //import Profile from '$lib/images/profile-logo.png';
     import {createEventDispatcher} from 'svelte';
     import {DateInput} from 'date-picker-svelte'
 
@@ -31,7 +31,7 @@
 
 <div class="applicant">
     <div class="profilePic">
-        <img src={Profile} alt="profile-logo"/>
+        <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/544px-Valorant_logo_-_pink_color_version.svg.png?20200516191842"} alt="profile-logo"/>
     </div>
     <div class="info">
         <div>{name}</div>

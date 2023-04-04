@@ -16,7 +16,7 @@
 			<p>{formatInterviewDate()}</p>
 		</div>
 		<div class='platform'>
-			<p style='color: #3A98B9;'>via Zoom</p>
+			<p style='color: #3A98B9; font-weight: bold;'>via Zoom</p>
 			<img src={Zoom} alt='zoom_image'/>
 		</div>
 	</div>

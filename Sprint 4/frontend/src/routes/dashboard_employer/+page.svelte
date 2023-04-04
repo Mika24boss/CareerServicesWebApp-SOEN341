@@ -63,6 +63,7 @@
 
 </script>
 
+
 {#if !finishedLoading}
 	<LoadingAnimation/>
 {/if}
@@ -74,44 +75,52 @@
 		<h1 class='label'>Notification(s)</h1>
 	</div>
 
-	<div class='notifications' id='notificationList'>
-		<Notification />
-		<Notification />
-		<Notification />
-		<Notification />
-	</div>
-	<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
-</div>
-
-
-<!-- Interviews Section -->
-<div class='interviews-section'>
-	<h1>Upcoming Interviews</h1>
-
-	{#if interviewsPack.length > 0}
-		<div class='interviews'>
-			{#each interviewsPack as interview}
-				<Interview {...interview} />
-			{/each}
+		<div class='notifications' id='notificationList'>
+			<Notification />
+			<Notification />
+			<Notification />
+			<Notification />
 		</div>
-	{:else}
-		<p>No upcoming interviews</p>
-	{/if}
+		<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
 </div>
 
+
+	<!-- Interviews Section -->
+	<div class='interviews-section'>
+		<h1>Upcoming Interviews</h1>
+
+		{#if interviewsPack.length > 0}
+			<div class='interviews'>
+				{#each interviewsPack as interview}
+					<Interview {...interview} />
+				{/each}
+			</div>
+		{:else}
+			<p>No upcoming interviews</p>
+		{/if}
+	</div>
 
 <style>
     * {
         font-family: 'Barlow', sans-serif;
     }
 
-    h1,p {
-        color: white;
+    h1, p {
+        color: lightgray;
     }
 
-    .notif-section, .interviews-section {
-        margin: 2%;
+		.employer-dashboard{
+        width: 80%;
+        margin-left: 10%;
+		}
+
+    .notif-section{
+        margin-top: 2%;
     }
+
+		.interviews-section{
+				margin-top: 10%;
+		}
 
     .interviews, .notifications {
         display: grid;

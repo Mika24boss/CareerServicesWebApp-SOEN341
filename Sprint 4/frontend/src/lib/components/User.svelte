@@ -24,6 +24,7 @@
 	<div class='checkbox'>
 		<input type="checkbox" on:change={toggle}/>
 	</div>
+
 </div>
 
 
@@ -65,7 +66,7 @@
         text-overflow: ellipsis;
 				align-self: center;
 				height: var(--line-height);
-				line-height: 8px;
+				line-height: 10px;
     }
 
     .resume {

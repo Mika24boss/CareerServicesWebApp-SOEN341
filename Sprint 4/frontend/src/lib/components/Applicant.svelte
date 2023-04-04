@@ -38,7 +38,7 @@
         <div>{email}</div>
     </div>
     <div class="resume">
-        <button class="btn-resume">CV</button>
+        <button class="btn-resume" style='font-weight: bold;'>CV</button>
     </div>
     <div class="schedule">
         Schedule interview:

@@ -82,8 +82,6 @@
 {:else}
    
 <div class='profile-page'>
-
-
 	<h1 style='text-align: left;'>Profile</h1>
 	<div class='profile'>
 		<div class='avatar-upload'>
@@ -142,7 +140,7 @@
     }
 
     h1 {
-        color: white;
+        color: lightgray;
     }
 
     h3 {
@@ -169,9 +167,10 @@
         color: #3A98B9;
     }
 
-    .profile-page {
-        margin: 2%;
-    }
+		.profile-page{
+        width: 80%;
+        margin-left: 10%;
+		}
 
     .profile {
         width: 80%;

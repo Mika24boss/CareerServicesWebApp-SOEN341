@@ -57,18 +57,25 @@
 
 		<div class='centerBlock'>
 			<div class='signup-form'>
-				<input type='radio' id='student' name='user-type' value='Student' required bind:group={role}>
-				<label for='student'>Student</label>
-				<input type='radio' id='employer' name='user-type' value='Employer' required bind:group={role}>
-				<label for='employer'>Employer</label>
-
+				<div class='radio-input'>
+					<input type='radio' id='student' name='user-type' value='Student' required bind:group={role}>
+					<div class="plus1">
+						<div class="plus2"></div>
+					</div>
+					<label for='student'>Student</label>
+					<input type='radio' id='employer' name='user-type' value='Employer' required bind:group={role}>
+					<div class="plus1">
+						<div class="plus2"></div>
+					</div>
+					<label for='employer'>Employer</label>
+				</div>
 				<div class='inputs-form centerBlock'>
 					<div class='formGroup'><input type='text' id='name' name='Name' placeholder='Full Name' required
 																				style='color:white'></div>
 					<div class='formGroup'><input type='text' id='email' name='Email' placeholder='Email' required
 																				style='color:white'></div>
-					<div class='formGroup'><input type='password' id='password' name='Password' placeholder='Password'
-																				required style='color:white'></div>
+					<div class='formGroup'><input type='password' id='password' name='Password' placeholder='Password' required
+																				style='color:white'></div>
 				</div>
 
 				{#if hasMissingFields}
@@ -119,6 +126,15 @@
 
     * a:link, a:visited, a:hover {
         text-decoration: none;
+    }
+
+    * a:hover {
+        color: white;
+        transition: 0.7s;
+    }
+
+    * a:focus {
+        color: #3A98B9;
     }
 
     .centerBlock {

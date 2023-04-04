@@ -8,14 +8,36 @@
     import jobService from '$lib/features/jobService.js';
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
-    import {redirect} from "@sveltejs/kit";
     import {browser} from '$app/environment'
+    import {quintOut} from 'svelte/easing';
+    import {crossfade} from 'svelte/transition';
+    import {flip} from 'svelte/animate';
+    import {page} from "$app/stores";
+    import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+
+    const [send, receive] = crossfade({
+        fallback(node) {
+            if ($page.url.pathname !== '/postings') return;
+            const style = getComputedStyle(node);
+            const transform = style.transform === 'none' ? '' : style.transform;
+
+            return {
+                duration: 400,
+                easing: quintOut,
+                css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+            };
+        }
+    });
 
     let jobsActive = [], jobsDeactivated = [], jobsOther = [];
     let user;
     let selectedJobs = [];
     let isLoaded = false;
     let pageTitle = "Job Postings";
+    let searchTerm = "";
 
     loadJobs();
 
@@ -83,17 +105,35 @@
 
     async function deleteJobs() {
         while (selectedJobs.length > 0) {
-            await jobService.deleteJob(selectedJobs.pop(), user.token);
+            let deletedJob = selectedJobs.pop();
+            let response = await jobService.deleteJob(deletedJob, user.token);
+            if (!response) {
+                alert("Failed to delete job #" + deletedJob + ".")
+            } else {
+                let jobsClone = jobsOther;
+                for (let index = 0; index < jobsOther.length; index++) {
+                    if (jobsClone[index].jobID === deletedJob) {
+                        jobsClone.splice(index, 1);
+                        jobsOther = jobsClone;
+                        break;
+                    }
+                }
+            }
         }
-        location.reload();
     }
 
     function createJob() {
         goto("/postings/new");
     }
+
+    function updateSearchTerm(e) {
+        searchTerm = e.target.value;
+    }
 </script>
 
-{#if isLoaded && jobsActive.length === 0 && jobsDeactivated.length === 0 && jobsOther.length === 0}
+{#if !isLoaded}
+    <LoadingAnimation/>
+{:else if isLoaded && jobsActive.length === 0 && jobsDeactivated.length === 0 && jobsOther.length === 0}
     <h1>No job postings available. Check again soon!</h1>
     {#if user.role === "Employer"}
         <button class="actionButton" on:click={createJob} style="width: 250px;">Create new posting</button>
@@ -103,7 +143,8 @@
 
         <div class="pageHeader">
             <h1>Job Postings</h1>
-            <input type="search" class="search" placeholder="Type job or company name...">
+            <input type="search" class="search" placeholder="Search..."
+                   on:input={updateSearchTerm}>
         </div>
 
         {#if user.role === "Employer"}
@@ -117,27 +158,51 @@
         {#if user.role !== "Employer"}
             <br/>
             <div class="postings">
-                {#each jobsOther as job}
-                    <Posting {...job} on:toggle={toggleSelected}/>
+                {#each jobsOther.filter((v) => {
+                    return v.title.toLowerCase().includes(searchTerm.toLowerCase()) || v.companyName.toLowerCase().includes(searchTerm.toLowerCase()) || v.location.toLowerCase().includes(searchTerm.toLowerCase())
+                }) as job(job.jobID)}
+                    <div in:receive="{{key: job.jobID}}"
+                         out:send="{{key: job.jobID}}"
+                         animate:flip="{{duration: 400}}">
+                        <Posting {...job} on:toggle={toggleSelected}/>
+                    </div>
                 {/each}
             </div>
         {:else}
             <div class="separator">Your job postings</div>
             <div class="postings">
-                {#each jobsActive as job}
-                    <Posting {...job} on:toggle={toggleSelected}/>
+                {#each jobsActive.filter((v) => {
+                    return v.title.toLowerCase().includes(searchTerm.toLowerCase()) || v.companyName.toLowerCase().includes(searchTerm.toLowerCase()) || v.location.toLowerCase().includes(searchTerm.toLowerCase())
+                }) as job(job.jobID)}
+                    <div in:receive="{{key: job.jobID}}"
+                         out:send="{{key: job.jobID}}"
+                         animate:flip="{{duration: 400}}">
+                        <Posting {...job} on:toggle={toggleSelected}/>
+                    </div>
                 {/each}
             </div>
             <div class="separator">Your deactivated postings</div>
             <div class="postings">
-                {#each jobsDeactivated as job}
-                    <Posting {...job} on:toggle={toggleSelected}/>
+                {#each jobsDeactivated.filter((v) => {
+                    return v.title.toLowerCase().includes(searchTerm.toLowerCase()) || v.companyName.toLowerCase().includes(searchTerm.toLowerCase()) || v.location.toLowerCase().includes(searchTerm.toLowerCase())
+                }) as job(job.jobID)}
+                    <div in:receive="{{key: job.jobID}}"
+                         out:send="{{key: job.jobID}}"
+                         animate:flip="{{duration: 400}}">
+                        <Posting {...job} on:toggle={toggleSelected}/>
+                    </div>
                 {/each}
             </div>
             <div class="separator">Other job postings</div>
             <div class="postings">
-                {#each jobsOther as job}
-                    <Posting {...job} on:toggle={toggleSelected}/>
+                {#each jobsOther.filter((v) => {
+                    return v.title.toLowerCase().includes(searchTerm.toLowerCase()) || v.companyName.toLowerCase().includes(searchTerm.toLowerCase()) || v.location.toLowerCase().includes(searchTerm.toLowerCase())
+                }) as job(job.jobID)}
+                    <div in:receive="{{key: job.jobID}}"
+                         out:send="{{key: job.jobID}}"
+                         animate:flip="{{duration: 400}}">
+                        <Posting {...job} on:toggle={toggleSelected}/>
+                    </div>
                 {/each}
             </div>
         {/if}
@@ -187,6 +252,9 @@
         background: #3A98B9;
         border-radius: 0.5em;
         padding: 0.5em;
+        min-height: 50px;
+        min-width: 150px;
+        font-size: 1em;
     }
 
     button:hover {

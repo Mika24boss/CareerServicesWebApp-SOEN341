@@ -108,11 +108,15 @@
         color: #3A98B9;
     }
 
+    .signup{
+        font-size: 15px;
+        color: #3A98B9;
+    }
+
     .centerBlock {
         text-align: center;
         display: block;
         margin: 10px;
-        font-size: 20px;
     }
 
     .formGroup input, .formGroup input:focus {

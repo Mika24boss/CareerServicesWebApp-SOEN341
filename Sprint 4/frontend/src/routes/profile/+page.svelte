@@ -1,12 +1,14 @@
 <svelte:head>
-	<title>Profile</title>
+    <title>Profile</title>
 </svelte:head>
 
 <script>
+
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { authService } from '$lib/features/authService.js';
 	import { fileService } from '$lib/features/fileService.js';
+  import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
 	let user;
 	let previewUrl;
@@ -52,7 +54,6 @@
 	}
 
 	async function editUser() {
-
 		const userData = {
 			id: user._id,
 			name: document.getElementById('name').value,
@@ -90,6 +91,10 @@
 
 </script>
 
+{#if !user}
+    <LoadingAnimation/>
+{:else}
+   
 <div class='profile-page'>
 
 
@@ -112,21 +117,21 @@
 			</div>
 		</div>
 
-		<div class='information'>
-			<h3>Information</h3>
+            <div class='information'>
+                <h3>Information</h3>
 
-			<label for='name'>Full Name</label>
-			<div class='formGroup'><input type='text' id='name' name='name'></div>
-			<label for='email'>Email Address</label>
-			<div class='formGroup'><input type='email' id='email' name='email'></div>
-			<label for='password'>Password</label>
-			<div class='formGroup'><input type='new-password' id='password' name='password'
-																		placeholder='Leave empty if no change'></div>
+                <label for='name'>Full Name</label>
+                <div class='formGroup'><input type='text' id='name' name='name' value={user.name}></div>
+                <label for='email'>Email Address</label>
+                <div class='formGroup'><input type='email' id='email' name='email' value={user.email}></div>
+                <label for='password'>Password</label>
+                <div class='formGroup'><input type='new-password' id='password' name='password'
+                                              placeholder='Leave empty if no change'></div>
 
-			<div class='btn'>
-				<button class='save' on:click={editUser}>Save</button>
-			</div>
-		</div>
+                <div class='btn'>
+                    <button class='save' on:click={editUser}>Save</button>
+                </div>
+            </div>
 
 		<div class='cv-upload'>
 			<h3>Resume</h3>
@@ -141,7 +146,7 @@
 		</div>
 	</div>
 </div>
-
+{/if}
 
 <style>
     * {
@@ -177,9 +182,9 @@
         color: #3A98B9;
     }
 
-		.profile-page{
+    .profile-page {
         margin: 2%;
-		}
+    }
 
     .profile {
         width: 80%;

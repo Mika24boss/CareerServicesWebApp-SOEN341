@@ -18,7 +18,6 @@
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        background: radial-gradient(circle, rgba(15, 27, 27, 1) 13%, rgba(15, 15, 25, 1) 62%, rgba(0, 0, 0, 1) 88%);
     }
 
     main {

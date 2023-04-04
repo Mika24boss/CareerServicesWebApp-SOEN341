@@ -5,6 +5,7 @@
 <script>
     import authService from '$lib/features/authService.js';
     import jobService from '$lib/features/jobService.js';
+    import fileService from '$lib/features/fileService';
     import {autoresize} from 'svelte-textarea-autoresize';
     import {preventTabClose} from '$lib/features/preventTabClose.js'
     import {page} from '$app/stores';
@@ -67,7 +68,7 @@
                 actionButtonText = data.isActive ? 'Deactivate' : 'Activate';
 
             const creator = await authService.getUserByID(data.user, user.token);
-            let creatorName;
+            let creatorName, creatorProfilePic;
             if (!creator) {
                 const ans = confirm('The employer\'s account who created this job posting doesn\'t exist anymore. ' +
                     'Click Ok to view the job posting or Cancel to redirect to the postings page.\n' +
@@ -79,8 +80,10 @@
                     await goto('/postings');
                     return;
                 }
-            } else
+            } else {
                 creatorName = creator.name;
+                creatorProfilePic = fileService.getProfilePictureURL(creator._id);
+            }
 
             const options = {
                 year: 'numeric',
@@ -94,7 +97,8 @@
             creatorInfo = {
                 creatorName: creatorName,
                 creationDate: createdDate,
-                updateDate: updatedDate
+                updateDate: updatedDate,
+                creatorImage: creatorProfilePic,
             };
         }
     );
@@ -183,6 +187,11 @@
         hasChanged = true;
         if (!isNew) pageTitle = '* ' + data.title;
     }
+
+    function imageError() {
+        creatorInfo.creatorImage = fileService.getProfilePictureURL("default");
+    }
+
 </script>
 {#if (!data && isNew) || (!creatorInfo && !isNew)}
     <LoadingAnimation/>
@@ -248,6 +257,7 @@
             Created: {creatorInfo.creationDate}<br/>
             Updated: {creatorInfo.updateDate}
         </div>
+        <img src="{creatorInfo.creatorImage}" on:error={imageError} style="width: 100px">
     {/if}
 {/if}
 

@@ -11,28 +11,28 @@
   import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
 	let user;
-	let previewUrl;
+	let profilePictureURL, resumeURL;
 
 	function handleImageChange(event) {
 		const file = event.target.files[0];
 		const reader = new FileReader();
 		reader.onload = (e) => {
-			previewUrl = e.target.result;
-			console.log('Preview URL:', previewUrl);
+			profilePictureURL = e.target.result;
+			//console.log('profilePictureURL:', profilePictureURL);
 		};
 		reader.readAsDataURL(file);
 	}
 
 	async function uploadPic(){
 		const uploadimage = document.getElementById('image')
-		console.log(uploadimage.files[0])
+		//console.log(uploadimage.files[0])
 		const formData = new FormData();
 		formData.append("id", user._id);
 		formData.append("name", uploadimage.files[0].name);
 		formData.append("profileImage", uploadimage.files[0]);
 
 		const response = await authService.uploadProfileImage(formData, user.token);
-		console.log(response)
+		//console.log(response)
 	}
 
 	async function uploadCV(){
@@ -43,7 +43,7 @@
 		formData.append("resume", uploadfile.files[0]);
 
 		const response = await authService.uploadCV(formData, user.token);
-		console.log(response)
+		//console.log(response)
 	}
 
 	async function loadUser() {
@@ -61,30 +61,16 @@
 			password: document.getElementById('password').value
 		};
 		const response = await authService.edit(userData, user.token);
-		console.log(response);
+		//console.log(response);
 	}
 
 	onMount(() => {
 		loadUser();
 
-		const input = document.querySelector('#image');
-		input.addEventListener('change', handleImageChange);
+		profilePictureURL = fileService.getProfilePictureURL(user._id);
+		resumeURL = fileService.getResumeURL(user._id);
 
-		const profilePic = fileService.getFileByID(user.profilePicture, user.token);
-		console.log(user.profilePicture)
-		console.log(profilePic)
-		//    const blob = new Blob([profilePic.data], { type: profilePic.contentType });
-		//    console.log(blob)
-		//     const reader = new FileReader();
-		//     reader.onload = (e) => {
-		//        previewUrl = e.target.result;
-		//     };
-		//    reader.readAsDataURL(profilePic.name);
-
-		document.getElementById('name').value = user.name;
-		document.getElementById('email').value = user.email;
-		document.getElementById('cv').file = fileService.getFileByID(user.resume, user.token);
-		document.getElementById('previewImage').src = profilePic;
+		//document.getElementById('cv').file = fileService.getFileByID(user.resume, user.token);
 		// document.getElementById('previewImage').src = URL.createObjectURL(blob);
 		// document.getElementById('previewImage').src = "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F47%2F2021%2F12%2F16%2Fanime-cat-names-1204854078-2000.jpg"
 	});
@@ -105,9 +91,9 @@
 
 			<div class='image-container'>
 				<label id='image-btn' for='image'>
-					<input type='file' name='image' id='image' style='display: none;' accept='image/*'>
+					<input type='file' name='image' id='image' style='display: none;' accept='image/*' on:change={handleImageChange}>
 					<img id='previewImage'
-							 src={previewUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+							 src={profilePictureURL}
 							 alt='Click to upload image'>
 				</label>
 			</div>
@@ -145,6 +131,7 @@
 			</div>
 		</div>
 	</div>
+	<a href={resumeURL} download="{user.name + ' - CV.pdf'}">CLICK ME!</a>
 </div>
 {/if}
 

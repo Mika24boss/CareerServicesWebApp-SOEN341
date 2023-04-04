@@ -1,19 +1,15 @@
 import axios from 'axios'
 import { env } from '$env/dynamic/public'
 
-const API_URL = env.PUBLIC_API_URL + '/api/files'
+const API_URL = env.PUBLIC_API_URL
 
 // Get file
-const getFileByID = async (/** @type {string} */ fileID, /** @type {any} */ token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+const getProfilePictureURL = (/** @type {string} */ userID) => {
+    return API_URL + '/ProfileFolder/' + userID + '.png';
+}
 
-    const response = await axios.get(API_URL + '/' + fileID, config)
-
-    return response.data
+const getResumeURL = (/** @type {string} */ userID) => {
+    return API_URL + '/ResumeFolder/' + userID + '.pdf';
 }
 
 // Delete file
@@ -30,7 +26,8 @@ const deleteFile = async (/** @type {string} */ fileID, /** @type {any} */ token
 }
 
 export const fileService = {
-    getFileByID,
+    getProfilePictureURL,
+    getResumeURL,
     deleteFile,
 }
 

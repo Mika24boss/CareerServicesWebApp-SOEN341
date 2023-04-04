@@ -143,6 +143,7 @@ const deleteInterview = async (/** @type {string} */ applicantID, /** @type {any
     return {data: response.data, error: response.response?.status};
 }
 
+// Upload Profile Image
 const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any} */ token) => {
     const config = {
         headers: {
@@ -150,7 +151,7 @@ const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any
         },
     }
     try {
-        const response = await axios.patch(API_URL + '/uploadProfileImage', userData, config);
+        const response = await axios.patch(API_URL + 'uploadProfileImage', userData, config);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -158,6 +159,7 @@ const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any
     }
 }
 
+// Upload CV
 const uploadCV = async (/** @type {string} */ userData, /** @type {any} */ token) => {
     const config = {
         headers: {
@@ -165,7 +167,7 @@ const uploadCV = async (/** @type {string} */ userData, /** @type {any} */ token
         },
     }
     try {
-        const response = await axios.patch(API_URL + '/uploadResume', userData, config);
+        const response = await axios.patch(API_URL + 'uploadResume', userData, config);
         return response.data;
     } catch (error) {
         console.log(error);

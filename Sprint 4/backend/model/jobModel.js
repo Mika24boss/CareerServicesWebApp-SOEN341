@@ -34,6 +34,9 @@ const jobSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     }],
+    currentView: {
+        type: Number,
+    },
     interviewDate: {
         type: Date,
         require: true

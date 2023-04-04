@@ -11,14 +11,13 @@ const getFileByID = async (/** @type {string} */ fileID, /** @type {any} */ toke
         },
     }
 
-    const response = await axios.get(API_URL + '/' +fileID, config)
+    const response = await axios.get(API_URL + fileID, config)
 
     return response.data
-
 }
 
 // Delete file
-const deleteFile = async (/** @type {string} */ fileID, /** @type {any} */ token) => {
+const deleteJob = async (/** @type {string} */ fileID, /** @type {any} */ token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -32,7 +31,7 @@ const deleteFile = async (/** @type {string} */ fileID, /** @type {any} */ token
 
 export const fileService = {
     getFileByID,
-    deleteFile,
+    deleteJob,
 }
 
 export default fileService

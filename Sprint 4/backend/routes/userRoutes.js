@@ -6,7 +6,6 @@ const multer = require("multer");
 const User = require('../model/userModel');
 const Image = require('../model/fileModel');
 
-
 router.route('/')
     .post(registerUser)
     .get(protect, getAllUsers)
@@ -32,7 +31,7 @@ const upload = multer({
 }).single('profileImage')
 
 const Storage1 = multer.diskStorage({
-    destination: 'resumeFolder',
+    destination: 'ResumeFolder',
     filename: (req, file, cb) => {
         cb(null, file.originalname)
     },
@@ -54,7 +53,7 @@ router.patch('/uploadProfileImage', async (req, res) => {
                 return res.status(404).json({ error: 'User not found' });
             }
             const image = new Image({
-                name: req.body.name,
+                name: user.id,
                 image: {
                     data: req.file.filename,
                     contentType: "image/png"
@@ -84,7 +83,7 @@ router.patch('/uploadResume', async (req, res) => {
                 return res.status(404).json({ error: 'User not found' });
             }
             const image = new Image({
-                name: req.body.name,
+                name: user.id,
                 image: {
                     data: req.file.filename,
                     contentType: "application/pdf"

@@ -1,5 +1,5 @@
 <script>
-	import Profile from '$lib/images/profile-logo.png';
+	//import Profile from '$lib/images/profile-logo.png';
 	import { createEventDispatcher } from 'svelte';
 	export let name, email, id, role, profilePicture, CV; // todo: Add CV
 	const dispatch = createEventDispatcher();
@@ -10,7 +10,7 @@
 
 <div class='user'>
 	<div class='profile'>
-		<img src={Profile} alt='profile-logo' /> <!-- to change -->
+		<img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/544px-Valorant_logo_-_pink_color_version.svg.png?20200516191842"} alt='profile-logo' /> <!-- to change -->
 
 	</div>
 	<div class='user-info'>

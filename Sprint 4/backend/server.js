@@ -20,7 +20,8 @@ app.use(cookieParser())
 
 app.use(express.urlencoded({ extended: false }));
 app.use('/', express.static(path.join(__dirname, '..', 'frontend')));
-
+app.use('/ProfileFolder', express.static(path.join(__dirname, 'ProfileFolder')));
+app.use('/ResumeFolder', express.static(path.join(__dirname, 'ResumeFolder')));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/jobs', require('./routes/jobRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));

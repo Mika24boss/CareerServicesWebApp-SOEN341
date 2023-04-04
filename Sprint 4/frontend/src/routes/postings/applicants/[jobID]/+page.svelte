@@ -10,6 +10,27 @@
     import {goto} from '$app/navigation';
     import Applicant from '$lib/components/Applicant.svelte';
     import {preventTabClose} from '$lib/features/preventTabClose.js'
+    import {quintOut} from 'svelte/easing';
+    import {crossfade} from 'svelte/transition';
+    import {flip} from 'svelte/animate';
+    import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+
+    const [send, receive] = crossfade({
+        fallback(node) {
+            if (!$page.url.pathname.includes('applicants')) return;
+            const style = getComputedStyle(node);
+            const transform = style.transform === 'none' ? '' : style.transform;
+
+            return {
+                duration: 400,
+                easing: quintOut,
+                css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+            };
+        }
+    });
 
     const jobID = $page.url.pathname.split('/').pop();
     let data, user;
@@ -17,6 +38,7 @@
     let canLoad = false;
     let hasChanges = false;
     let pageTitle = "Applicants";
+    let searchTerm = "";
 
     onMount(async () => {
         user = authService.getUser();
@@ -147,9 +169,9 @@
         while (rejected.length > 0) {
             let rejectedID = rejected.pop();
             let applicantsClone = applicants;
-            for (let i = 0; i < applicantsClone.length; i++) {
-                if (applicantsClone[i].id === rejectedID) {
-                    applicantsClone.splice(i, 1);
+            for (let index = 0; index < applicantsClone.length; index++) {
+                if (applicantsClone[index].id === rejectedID) {
+                    applicantsClone.splice(index, 1);
                     applicants = applicantsClone;
                     break;
                 }
@@ -162,14 +184,16 @@
         else {
             await jobService.updateJob(jobID, {applicants: applicants.map((applicant) => applicant.id).toString()}, user.token);
         }
+
+        hasChanges = false;
     }
 
     async function handleAddInterviewResponse(response, interviewUserID, date) {
         if (response.data) { // interview was added successfully
             let applicantsClone = applicants;
-            for (let i = 0; i < applicantsClone.length; i++) {
-                if (applicantsClone[i].id === interviewUserID) {
-                    applicantsClone.splice(i, 1);
+            for (let index = 0; index < applicantsClone.length; index++) {
+                if (applicantsClone[index].id === interviewUserID) {
+                    applicantsClone.splice(index, 1);
                     applicants = applicantsClone;
                     break;
                 }
@@ -202,12 +226,14 @@
         }
     }
 
+    function updateSearchTerm(e) {
+        searchTerm = e.target.value;
+    }
 </script>
 
+
 {#if !canLoad}
-    <div class='page topSection'>
-        Loading
-    </div>
+    <LoadingAnimation/>
 {:else}
     <div class='page' use:preventTabClose={hasChanges}>
         <div class='topSection'>
@@ -216,13 +242,19 @@
             </div>
             <div class='companyName'>{data.companyName}</div>
             <div class='numApplicants'>{applicants.length} applicant{applicants.length > 1 ? 's' : ''}</div>
-            <input type='search' class='search' placeholder='Type a name...'>
+            <input type='search' class='search' placeholder='Type a name or email...' on:input={updateSearchTerm}>
         </div>
 
         <div class='applicants'>
-            {#each applicants as app(app.id)}
-                <Applicant {...app} on:toggle={toggleSelected} on:clear={clearSelected}
-                           on:dateChanged={addDate}/>
+            {#each applicants.filter((v) => {
+                return v.name.toLowerCase().includes(searchTerm.toLowerCase()) || v.email.toLowerCase().includes(searchTerm.toLowerCase())
+            }) as app, index(app.id)}
+                <div in:receive="{{key: app.id}}"
+                     out:send="{{key: app.id}}"
+                     animate:flip="{{duration: 400}}">
+                    <Applicant {...app} on:toggle={toggleSelected} on:clear={clearSelected}
+                               on:dateChanged={addDate}/>
+                </div>
             {/each}
         </div>
 
@@ -285,6 +317,7 @@
         background: lightgray;
         border-radius: 0.5em;
         max-width: 250px;
+        color: black;
     }
 
     .deactivatedText {
@@ -299,13 +332,15 @@
     }
 
     .submit {
+        position: fixed;
+        bottom: 2em;
         color: black;
         background: #3A98B9;
         border-radius: 0.5em;
         padding: 0.5em;
         font-size: 1.5em;
-        margin-left: 25%;
-        width: 50%;
+        left: 35%;
+        width: 30%;
     }
 
 </style>

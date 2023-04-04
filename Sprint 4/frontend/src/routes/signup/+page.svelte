@@ -7,11 +7,13 @@
 	import { goto } from '$app/navigation';
 	import { env } from '$env/dynamic/public';
 	import { hasUpdated } from '../../lib/stores/updateUser.js';
+	import LoadingAnimation from '$lib/components/LoadingAnimation.svelte';
 
 	const API_URL = env.PUBLIC_API_URL + '/api/users/';
 
 	let name, email, password, role;
 	let response;
+	let isWaiting = false;
 	let hasMissingFields = false;
 
 	async function onSubmit() {
@@ -25,63 +27,66 @@
 			password,
 			role
 		};
+		isWaiting = true;
 		response = await authService.register(userData);
-		hasUpdated.set(true);
+		//console.log('Response: ', response);
 		if (!response) {
-			hasMissingFields = true;
-			//console.log('Response: ', response);
+			setTimeout(() => {
+				alert('Error when creating your account!');
+				isWaiting = false;
+			}, 100);
 		} else if (response.role === 'Student') {
+			hasUpdated.set(true);
 			await goto('/dashboard_student');
 		} else if (response.role === 'Employer') {
+			hasUpdated.set(true);
 			await goto('/dashboard_employer');
 		}
 	}
 
 </script>
 
-<section>
-	<div class='signup-title centerBlock' style='padding-bottom:0'>
-		<p style='font-size: 30px'>Sign-Up as a ... </p>
-		{API_URL}
-	</div>
+{#if isWaiting}
+	<LoadingAnimation />
+{:else}
+	<section>
+		<div class='signup-title centerBlock' style='padding-bottom:0'>
+			<p style='font-size: 30px'>Sign-Up as a ... </p>
+			{API_URL}
+		</div>
 
-	<div class='centerBlock'>
-		<div class='signup-form'>
-			<div class='radio-input'>
+		<div class='centerBlock'>
+			<div class='signup-form'>
 				<input type='radio' id='student' name='user-type' value='Student' required bind:group={role}>
-          <div class="plus1">
-              <div class="plus2"></div>
-          </div>
 				<label for='student'>Student</label>
 				<input type='radio' id='employer' name='user-type' value='Employer' required bind:group={role}>
-          <div class="plus1">
-              <div class="plus2"></div>
-          </div>
 				<label for='employer'>Employer</label>
-			</div>
-			<div class='inputs-form centerBlock'>
-				<div class='formGroup'><input type='text' id='name' name='Name' placeholder='Full Name' required
-																			style='color:white'></div>
-				<div class='formGroup'><input type='text' id='email' name='Email' placeholder='Email' required
-																			style='color:white'></div>
-				<div class='formGroup'><input type='password' id='password' name='Password' placeholder='Password' required
-																			style='color:white'></div>
-			</div>
 
-			{#if hasMissingFields}
-				<div class='missingFields-box'>
-					<p>Please fill all the fields and try again.</p>
+				<div class='inputs-form centerBlock'>
+					<div class='formGroup'><input type='text' id='name' name='Name' placeholder='Full Name' required
+																				style='color:white'></div>
+					<div class='formGroup'><input type='text' id='email' name='Email' placeholder='Email' required
+																				style='color:white'></div>
+					<div class='formGroup'><input type='password' id='password' name='Password' placeholder='Password'
+																				required style='color:white'></div>
 				</div>
-			{/if}
-			<div class='btn-container'>
-				<button class='btn-signup centerBlock' type='submit' on:click='{onSubmit}'>Sign-Up</button>
-				<a href='/'>
-					<button class='btn-back centerBlock'>Back</button>
-				</a>
+
+				{#if hasMissingFields}
+					<div class='missingFields-box'>
+						<p>Please fill all the fields and try again.</p>
+					</div>
+				{/if}
+
+				<div class='btn-container'>
+					<button class='btn-signup centerBlock' type='submit' on:click='{onSubmit}'>Sign-Up</button>
+					<a href='/'>
+						<button class='btn-back centerBlock'>Back</button>
+					</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
+{/if}
 
 <style>
     * {

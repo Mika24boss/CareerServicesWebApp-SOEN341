@@ -3,6 +3,7 @@
     import {createEventDispatcher} from 'svelte';
     import {DateInput} from 'date-picker-svelte'
 
+
     export let name, email, id, profilePicture, CV;
     const dispatch = createEventDispatcher();
     const toggle = (e) => dispatch('toggle', {id: id, isAccepted: e.target.__value});
@@ -41,7 +42,8 @@
     </div>
     <div class="schedule">
         Schedule interview:
-        <DateInput min="{new Date()}" max="{maxDate}" bind:value={date} disabled="{isAccepted !== 'accepted'}" format="yyyy-MM-dd HH:mm"/>
+        <DateInput min="{new Date()}" max="{maxDate}" bind:value={date} disabled="{isAccepted !== 'accepted'}"
+                   format="yyyy-MM-dd HH:mm"/>
     </div>
     <div class="checkboxYes">
         <label for="decisionYes-{id}">✓&nbsp;</label>

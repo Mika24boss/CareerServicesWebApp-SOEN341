@@ -9,9 +9,11 @@
 	import jobService from '$lib/features/jobService.js';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
 	let interviewsPack = [];
 	let user, interviews;
+	let finishedLoading = false;
 
 	onMount(() => {
 		user = authService.getUser();
@@ -47,6 +49,7 @@
 
 			interviewsPack = interviewsPack;
 		}
+		finishedLoading = true;
 	}
 
 	// Clear notifications
@@ -60,13 +63,17 @@
 
 </script>
 
-<div class='employer-dashboard'>
-	<!-- Notifications Section-->
-	<div class='notif-section'>
-		<div class='notif'>
-			<h1 class='badge' id='notificationBadge'>4</h1>
-			<h1 class='label'>Notification(s)</h1>
-		</div>
+
+{#if !finishedLoading}
+	<LoadingAnimation/>
+{/if}
+
+<!-- Notifications Section-->
+<div class='notif-section'>
+	<div class='notif'>
+		<h1 class='badge' id='notificationBadge'>4</h1>
+		<h1 class='label'>Notification(s)</h1>
+	</div>
 
 		<div class='notifications' id='notificationList'>
 			<Notification />
@@ -75,7 +82,7 @@
 			<Notification />
 		</div>
 		<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
-	</div>
+</div>
 
 
 	<!-- Interviews Section -->
@@ -92,7 +99,6 @@
 			<p>No upcoming interviews</p>
 		{/if}
 	</div>
-</div>
 
 <style>
     * {

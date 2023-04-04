@@ -11,6 +11,7 @@
 	import { crossfade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { page } from '$app/stores';
+	import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
 	const [send, receive] = crossfade({
 		fallback(node) {
@@ -101,6 +102,7 @@
 	</div>
 
 	{#await usersPack}
+		<LoadingAnimation/>
 	{:then usersPack}
 
 		<div class='users'>

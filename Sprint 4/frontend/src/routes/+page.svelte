@@ -2,10 +2,12 @@
     import {authService} from '$lib/features/authService.js';
     import {goto} from "$app/navigation";
     import {hasUpdated} from "../lib/stores/updateUser.js";
+    import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
     let email, password;
     let response;
     let hasInvalidCredentials = false;
+    let isWaiting = false;
 
     async function onSubmit() {
         email = document.getElementById("email").value;
@@ -14,19 +16,19 @@
             email,
             password
         };
+        isWaiting = true;
         response = await authService.login(userData);
         //console.log('Response: ', response);
 
         hasUpdated.set(true);
         if (!response) {
+            setTimeout(() => isWaiting = false, 100);
             hasInvalidCredentials = true;
-            //console.log("Invalid credentials")
         } else if (response.role === 'Student') {
             await goto('/dashboard_student');
         } else if (response.role === 'Employer') {
             await goto('/dashboard_employer');
-        }
-        else if(response.role === 'Admin'){
+        } else if (response.role === 'Admin') {
             await goto('/admin_users');
         }
 
@@ -39,29 +41,33 @@
     <meta name="description" content="Career website"/>
 </svelte:head>
 
-<section>
-    <div class="welcome centerBlock">
-        <p style="font-size: 30px;">Welcome to AsianQuadPower! </p>
-    </div>
-
-    <form class='centerBlock'>
-        <div class='formGroup'><input type="text" id="email" placeholder="Email" required style='color:white'></div>
-        <div class='formGroup'><input type="password" id="password" placeholder="Password" required style='color:white'></div>
-        <div class='btn-container'>
-            <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
+{#if isWaiting}
+    <LoadingAnimation/>
+{:else}
+    <section>
+        <div class="welcome centerBlock">
+            <p style="font-size: 30px;">Welcome to AsianQuadPower! </p>
         </div>
-        
-        {#if hasInvalidCredentials}
-            <div class='invalidCredentials-box'>
-                <p>Incorrect email or password! Please try again.</p>
+        <form class='centerBlock'>
+            <div class='formGroup'><input type="text" id="email" placeholder="Email" required style='color:white'></div>
+            <div class='formGroup'><input type="password" id="password" placeholder="Password" required
+                                          style='color:white'></div>
+            <div class='btn-container'>
+                <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
+
             </div>
-        {/if}
 
-        <a class="signup centerBlock" href="/signup">Don't have an account? Click here to Sign-Up</a>
-    </form>
+            {#if hasInvalidCredentials}
+                <div class='invalidCredentials-box'>
+                    <p>Incorrect email or password! Please try again.</p>
+                </div>
+            {/if}
 
-</section>
+            <a class="signup centerBlock" href="/signup">Don't have an account? Click here to Sign-Up</a>
+        </form>
 
+    </section>
+{/if}
 
 <style>
     * {
@@ -69,7 +75,7 @@
         color: white;
     }
 
-    section{
+    section {
         width: 70%;
         height: auto;
         position: relative;
@@ -93,12 +99,12 @@
         text-decoration: none;
     }
 
-    * a:hover{
+    * a:hover {
         color: white;
         transition: 0.7s;
     }
 
-    * a:focus{
+    * a:focus {
         color: #3A98B9;
     }
 
@@ -119,17 +125,11 @@
         background-color: transparent;
     }
 
-    .formGroup input::placeholder{
+    .formGroup input::placeholder {
         color: white;
     }
 
-    .signup {
-        margin-top: 5em;
-        font-size: 12px;
-        color: #3A98B9;
-    }
-
-    .centerBlock input{
+    .centerBlock input {
         color: black;
         padding: 0.5em;
     }

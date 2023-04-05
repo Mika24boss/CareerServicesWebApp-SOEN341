@@ -3,12 +3,11 @@
 </svelte:head>
 
 <script>
-
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { authService } from '$lib/features/authService.js';
 	import { fileService } from '$lib/features/fileService.js';
-  import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+	import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
 	let user;
 	let profilePictureURL, resumeURL;
@@ -18,32 +17,26 @@
 		const reader = new FileReader();
 		reader.onload = (e) => {
 			profilePictureURL = e.target.result;
-			//console.log('profilePictureURL:', profilePictureURL);
 		};
 		reader.readAsDataURL(file);
 	}
 
 	async function uploadPic(){
 		const uploadimage = document.getElementById('image')
-		//console.log(uploadimage.files[0])
 		const formData = new FormData();
 		formData.append("id", user._id);
-		formData.append("name", uploadimage.files[0].name);
-		formData.append("profileImage", uploadimage.files[0]);
-
-		const response = await authService.uploadProfileImage(formData, user.token);
-		//console.log(response)
+		formData.append("profileImage", uploadimage.files[0],user._id + ".png");
+		const response = await authService.uploadProfileImage(formData);
+		console.log(response);
 	}
 
 	async function uploadCV(){
 		const uploadfile = document.getElementById('cv')
 		const formData = new FormData();
 		formData.append("id", user._id);
-		formData.append("name", uploadfile.files[0].name);
-		formData.append("resume", uploadfile.files[0]);
-
-		const response = await authService.uploadCV(formData, user.token);
-		//console.log(response)
+		formData.append("resume", uploadfile.files[0], user._id + ".pdf");
+		const response = await authService.uploadCV(formData);
+		console.log(response);
 	}
 
 	async function loadUser() {
@@ -61,18 +54,13 @@
 			password: document.getElementById('password').value
 		};
 		const response = await authService.edit(userData, user.token);
-		//console.log(response);
+		console.log(response);
 	}
 
 	onMount(() => {
 		loadUser();
-
 		profilePictureURL = fileService.getProfilePictureURL(user._id);
 		resumeURL = fileService.getResumeURL(user._id);
-
-		//document.getElementById('cv').file = fileService.getFileByID(user.resume, user.token);
-		// document.getElementById('previewImage').src = URL.createObjectURL(blob);
-		// document.getElementById('previewImage').src = "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F47%2F2021%2F12%2F16%2Fanime-cat-names-1204854078-2000.jpg"
 	});
 
 </script>
@@ -90,9 +78,7 @@
 			<div class='image-container'>
 				<label id='image-btn' for='image'>
 					<input type='file' name='image' id='image' style='display: none;' accept='image/*' on:change={handleImageChange}>
-					<img id='previewImage'
-							 src={profilePictureURL}
-							 alt='Click to upload image'>
+					<img id='previewImage' src={profilePictureURL} alt='Click to upload image'>
 				</label>
 			</div>
 
@@ -121,15 +107,17 @@
 			<h3>Resume</h3>
 
 			<div class='btn' style='text-align: left;'>
-				<input type='file' id='cv' name='cv' accept='application/pdf,application/msword,.doc,docx'>
+				<input type='file' id='cv' name='cv' accept='application/pdf'>
+				<a href={resumeURL} download target="_blank" style="color: #3A98B9;">
+					<button style="float:right;">Open your CV</button>
+				</a>
 			</div>
-
 			<div class='btn'>
 				<input type='submit' value='Upload' on:click={uploadCV} style='cursor: pointer; width: auto; border-radius: 10px;'>
 			</div>
 		</div>
 	</div>
-	<a href={resumeURL} download="{user.name + ' - CV.pdf'}">CLICK ME!</a>
+
 </div>
 {/if}
 
@@ -249,9 +237,10 @@
 
     input::file-selector-button {
         cursor: pointer;
-        border: 1px solid black;
+        border: 1px solid;
         border-radius: 10px;
         padding: 5px;
+		color: #3A98B9;
     }
 </style>
 

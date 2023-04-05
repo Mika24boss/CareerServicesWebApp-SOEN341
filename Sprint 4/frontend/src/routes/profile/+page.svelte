@@ -27,7 +27,7 @@
 		formData.append("id", user._id);
 		formData.append("profileImage", uploadimage.files[0],user._id + ".png");
 		const response = await authService.uploadProfileImage(formData);
-		console.log(response);
+	//	console.log(response);
 	}
 
 	async function uploadCV(){
@@ -36,7 +36,7 @@
 		formData.append("id", user._id);
 		formData.append("resume", uploadfile.files[0], user._id + ".pdf");
 		const response = await authService.uploadCV(formData);
-		console.log(response);
+	//	console.log(response);
 	}
 
 	async function loadUser() {
@@ -54,7 +54,7 @@
 			password: document.getElementById('password').value
 		};
 		const response = await authService.edit(userData, user.token);
-		console.log(response);
+	//	console.log(response);
 	}
 
 	onMount(() => {
@@ -155,10 +155,10 @@
         color: #3A98B9;
     }
 
-		.profile-page{
-        width: 80%;
-        margin-left: 10%;
-		}
+	.profile-page{
+	width: 80%;
+	margin-left: 10%;
+	}
 
     .profile {
         width: 80%;

@@ -154,7 +154,7 @@ const uploadProfileImage = async (/** @type {string} */ userData) => {
 
 const uploadCV = async (/** @type {string} */ userData) => {
     try {
-        const response = await axios.patch(API_URL + '/uploadResume', userData);
+        const response = await axios.patch(API_URL + 'uploadResume', userData);
         return response.data;
     } catch (error) {
         console.log(error);

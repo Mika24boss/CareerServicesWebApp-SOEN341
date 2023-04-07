@@ -9,15 +9,18 @@
 	import jobService from '$lib/features/jobService.js';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+	import LoadingAnimation from '$lib/components/LoadingAnimation.svelte';
 
 	let interviewsPack = [];
-	let user, interviews;
+	let notificationsPack = [];
+	let myApps = [];
+	let user, interviews, allJobs, student;
 	let finishedLoading = false;
 
 	onMount(() => {
 		user = authService.getUser();
 		loadAllInterviews();
+		loadAllNotifications();
 	});
 
 	async function loadAllInterviews() {
@@ -52,6 +55,40 @@
 		finishedLoading = true;
 	}
 
+	async function loadAllNotifications() {
+		if (user == null) {
+			await goto('/');
+		}
+
+		allJobs = await jobService.getJobs(user.token);
+		//console.log(allJobs);
+
+		for (let i = 0; i < allJobs.length; i++) {
+			if (allJobs[i].user === user._id) {
+				//console.log('job ' + i + ': ');
+				myApps = [];
+				myApps = allJobs[i].applicants;
+				//console.log('currentView: ' + allJobs[i].currentView);
+				//console.log('length: ' + allJobs[i].applicants.length);
+				//console.log(allJobs[i].applicants);
+
+				for (let j = allJobs[i].currentView; j < myApps.length; j++) {
+					console.log(j + ' app: ' + myApps[j]);
+					student = await authService.getUserByID(myApps[j], user.token)
+
+					notificationsPack.push({
+						jobID: allJobs[j].jobID,
+						title: allJobs[j].title,
+						companyName: allJobs[j].companyName,
+						name: student.name,
+					});
+					notificationsPack = notificationsPack;
+				}
+				await jobService.updateJob(allJobs[i].jobID, { currentView: allJobs[i].applicants.length }, user.token);
+			}
+		}
+	}
+
 	// Clear notifications
 	function clearNotifications() {
 		const notificationList = document.getElementById('notificationList');
@@ -65,40 +102,43 @@
 
 
 {#if !finishedLoading}
-	<LoadingAnimation/>
+	<LoadingAnimation />
 {/if}
 
 <!-- Notifications Section-->
 <div class='notif-section'>
 	<div class='notif'>
-		<h1 class='badge' id='notificationBadge'>4</h1>
+		<h1 class='badge' id='notificationBadge'>{notificationsPack.length}</h1>
 		<h1 class='label'>Notification(s)</h1>
 	</div>
 
+	{#if notificationsPack.length > 0}
 		<div class='notifications' id='notificationList'>
-			<Notification />
-			<Notification />
-			<Notification />
-			<Notification />
+			{#each notificationsPack as notification}
+				<Notification {...notification} />
+			{/each}
 		</div>
-		<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
+	{:else}
+		<p>No new applicants since last login</p>
+	{/if}
+	<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
 </div>
 
 
-	<!-- Interviews Section -->
-	<div class='interviews-section'>
-		<h1>Upcoming Interviews</h1>
+<!-- Interviews Section -->
+<div class='interviews-section'>
+	<h1>Upcoming Interviews</h1>
 
-		{#if interviewsPack.length > 0}
-			<div class='interviews'>
-				{#each interviewsPack as interview}
-					<Interview {...interview} />
-				{/each}
-			</div>
-		{:else}
-			<p>No upcoming interviews</p>
-		{/if}
-	</div>
+	{#if interviewsPack.length > 0}
+		<div class='interviews'>
+			{#each interviewsPack as interview}
+				<Interview {...interview} />
+			{/each}
+		</div>
+	{:else}
+		<p>No upcoming interviews</p>
+	{/if}
+</div>
 
 <style>
     * {
@@ -109,18 +149,18 @@
         color: lightgray;
     }
 
-		.employer-dashboard{
+    .employer-dashboard {
         width: 80%;
         margin-left: 10%;
-		}
+    }
 
-    .notif-section{
+    .notif-section {
         margin-top: 2%;
     }
 
-		.interviews-section{
-				margin-top: 10%;
-		}
+    .interviews-section {
+        margin-top: 10%;
+    }
 
     .interviews, .notifications {
         display: grid;

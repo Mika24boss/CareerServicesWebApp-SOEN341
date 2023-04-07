@@ -106,14 +106,21 @@
 		<div class='cv-upload'>
 			<h3>Resume</h3>
 
-			<div class='btn' style='text-align: left;'>
-				<input type='file' id='cv' name='cv' accept='application/pdf'>
-				<a href={resumeURL} download target="_blank" style="color: #3A98B9;">
-					<button style="float:right;">Open your CV</button>
-				</a>
+			<div id="currentCV">
+				<div class='btn' style='text-align: left;padding-bottom: 15px'>
+					<a href={resumeURL} download target="_blank" style="color: #3A98B9;">
+						<button>Open your CV</button>
+					</a>
+				</div>
 			</div>
-			<div class='btn'>
-				<input type='submit' value='Upload' on:click={uploadCV} style='cursor: pointer; width: auto; border-radius: 10px;'>
+			<div id="newCV">
+				<label for='cv'>Upload a new resume</label>
+				<div class='btn' style='text-align: left;'>
+					<input type='file' id='cv' name='cv' accept='application/pdf'>
+				</div>
+				<div class='btn'>
+					<input type='submit' value='Upload' on:click={uploadCV} style='cursor: pointer; width: auto; border-radius: 10px;'>
+				</div>
 			</div>
 		</div>
 	</div>

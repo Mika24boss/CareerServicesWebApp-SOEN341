@@ -6,7 +6,7 @@ const User = require("../model/userModel")
 // @route Get /api/jobs/jobsID
 // @access Private
 const getJobsID = asyncHandler(async (req, res) => {
-    const jobs = await Job.find({ jobID: { $eq: parseInt(req.params.id) } });
+    const jobs = await Job.find({jobID: {$eq: parseInt(req.params.id)}});
     res.status(200).json(jobs)
 })
 
@@ -48,7 +48,7 @@ const setJobs = asyncHandler(async (req, res) => {
 // @access Private
 const updateJobsID = asyncHandler(async (req, res) => {
     const jobID = req.params.id
-    const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
+    const job = await Job.findOne({jobID: {$eq: parseInt(jobID)}});
 
     if (!job) {
         res.status(400)
@@ -70,8 +70,7 @@ const updateJobsID = asyncHandler(async (req, res) => {
     let applicants = [job.applicants]
     if (req.body.applicants === "[]") {
         job.applicants = [];
-    }
-    else if (req.body.applicants) {
+    } else if (req.body.applicants) {
         const arr = req.body.applicants.split(",");
         if (Array.isArray(arr)) {
             applicants = arr.map((applicant) => mongoose.Types.ObjectId(applicant));
@@ -85,7 +84,7 @@ const updateJobsID = asyncHandler(async (req, res) => {
     job.isActive = req.body.isActive == null ? job.isActive : req.body.isActive;
     job.interviewDate = req.body.interviewDate || job.interviewDate;
     job.jobID = req.body.jobID || job.jobID;
-    job.currentView = req.body.currentView || job.currentView;
+    job.currentView = req.body.currentView === 0 ? 0 : (req.body.currentView || job.currentView);
     const updatedJobsID = await job.save();
     res.status(200).json(updatedJobsID)
 })
@@ -95,17 +94,17 @@ const updateJobsID = asyncHandler(async (req, res) => {
 // @access Private
 const updateJobsApplicant = asyncHandler(async (req, res) => {
     const jobID = req.params.id
-    const job = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
+    const job = await Job.findOne({jobID: {$eq: parseInt(jobID)}});
     if (!job) {
         res.status(400)
         throw new Error('Job not found')
     }
 
     const updatedJobs = await Job.findOneAndUpdate(
-        { jobID },
-        { $addToSet: { 'applicants': req.user.id } }, {
-        new: true,
-    })
+        {jobID},
+        {$addToSet: {'applicants': req.user.id}}, {
+            new: true,
+        })
     res.status(200).json(updatedJobs)
 })
 
@@ -115,7 +114,7 @@ const updateJobsApplicant = asyncHandler(async (req, res) => {
 // @access Private
 const deleteJobs = asyncHandler(async (req, res) => {
     const jobID = req.params.id
-    const job = await Job.findOne({ jobID });
+    const job = await Job.findOne({jobID});
 
     if (!job) {
         res.status(400)
@@ -133,7 +132,7 @@ const deleteJobs = asyncHandler(async (req, res) => {
         throw new Error('User not authorized')
     }
     await job.remove()
-    res.status(200).json({ id: req.params.id })
+    res.status(200).json({id: req.params.id})
 })
 
 module.exports = {

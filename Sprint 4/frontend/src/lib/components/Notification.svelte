@@ -1,12 +1,13 @@
 <script>
-
+    export var title, companyName, jobID, name;
+    let  user;
 </script>
 
 
 <div class='notification'>
     <div class='details'>
-        <p style='font-weight: bold;'>Job title at Location (123)</p>
-        <p>Student Name</p>
+        <p style='font-weight: bold;'>{title} with {companyName} ({jobID})</p>
+        <p>Applicant name: {name}</p>
     </div>
 </div>
 

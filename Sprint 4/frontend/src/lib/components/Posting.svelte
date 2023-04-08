@@ -96,7 +96,7 @@
         justify-items: stretch;
         background: #141414;
         border-radius: 1em;
-
+        outline: 1px solid gray;
         --line-height: 4em;
     }
 
@@ -195,5 +195,39 @@
 
     .deactivatedText {
         color: lightcoral;
+    }
+
+    .action-button button {
+        display: inline-block;
+        padding: 0.9rem 1.8rem;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        border: 3px solid #3A98B9;
+        cursor: pointer;
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        border-radius: 1em;
+    }
+
+    .action-button button::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #3A98B9;
+        transform: translateX(-100%);
+        transition: all .3s;
+        z-index: -1;
+    }
+
+    .action-button button:hover::before {
+        transform: translateX(0);
     }
 </style>

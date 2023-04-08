@@ -1,53 +1,51 @@
 <script>
-	//import Profile from '$lib/images/profile-logo.png';
-	import { createEventDispatcher, onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { authService } from '$lib/features/authService.js';
-	import { fileService } from '$lib/features/fileService.js';
+    //import Profile from '$lib/images/profile-logo.png';
+    import {createEventDispatcher, onMount} from 'svelte';
+    import {goto} from '$app/navigation';
+    import {authService} from '$lib/features/authService.js';
+    import {fileService} from '$lib/features/fileService.js';
 
-	export let name, email, id, role, profilePicture, CV;
-	let user;
-	let profilePictureURL, resumeURL;
-	const dispatch = createEventDispatcher();
-	const toggle = () => dispatch('toggle', id);
+    export let name, email, id, role, profilePicture, CV;
+    let user;
+    let profilePictureURL, resumeURL;
+    const dispatch = createEventDispatcher();
+    const toggle = () => dispatch('toggle', id);
 
-	async function loadUser() {
-		user = authService.getUser();
-		if (user == null) {
-			await goto('/');
-		}
-	}
+    async function loadUser() {
+        user = authService.getUser();
+        if (user == null) {
+            await goto('/');
+        }
+    }
 
-	onMount(() => {
-		loadUser();
-		//profilePictureURL = fileService.getProfilePictureURL(id);
-		//resumeURL = fileService.getResumeURL(id);
-	});
+    onMount(() => {
+        loadUser();
+        //profilePictureURL = fileService.getProfilePictureURL(id);
+        //resumeURL = fileService.getResumeURL(id);
+    });
 
 </script>
 
 
 <div class='user'>
 
-	<div class='profile'>
-		<img
-			src={profilePictureURL}
-			alt='profile-logo' /> <!-- to change -->
+    <div class='profile'>
+        <img
+                src={profilePictureURL}
+                alt='profile-logo'/> <!-- to change -->
 
-	</div>
-	<div class='user-info'>
-		<b style='color:#3A98B9;'>{role}</b>
-		<p>{name}</p>
-		<p>{email}</p>
-	</div>
-	<div class='resume'>
-		<a href={resumeURL} download target="_blank" style="color: #3A98B9;">
-		<button class='btn-resume'>CV</button>
-		</a>
-	</div>
-	<div class='checkbox-div'>
-		<input type='checkbox' class='checkbox' on:change={toggle} />
-	</div>
+    </div>
+    <div class='user-info'>
+        <b style='color:#3A98B9;'>{role}</b>
+        <p>{name}</p>
+        <p>{email}</p>
+    </div>
+    <div class='resume'>
+        <a href={resumeURL} download target="_blank" style="color: #3A98B9;">
+            <button class='btn-resume'>CV</button>
+        </a>
+    </div>
+    <input type='checkbox' class='checkbox' on:change={toggle}/>
 </div>
 
 
@@ -138,6 +136,7 @@
 
     .checkbox {
         align-self: center;
+        justify-self: center;
         margin: 2.5em;
         background-color: white;
         border-radius: 50%;
@@ -157,7 +156,7 @@
         background-color: darkred;
     }
 
-    .btn-resume{
+    .btn-resume {
         display: inline-block;
         padding: 0.9rem 1.8rem;
         font-size: 16px;

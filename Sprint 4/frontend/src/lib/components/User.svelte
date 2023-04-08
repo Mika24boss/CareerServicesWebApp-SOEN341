@@ -1,32 +1,53 @@
 <script>
-    //import Profile from '$lib/images/profile-logo.png';
-    import {createEventDispatcher} from 'svelte';
+	//import Profile from '$lib/images/profile-logo.png';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { authService } from '$lib/features/authService.js';
+	import { fileService } from '$lib/features/fileService.js';
 
-    export let name, email, id, role, profilePicture, CV; // todo: Add CV
-    const dispatch = createEventDispatcher();
-    const toggle = () => dispatch('toggle', id);
+	export let name, email, id, role, profilePicture, CV;
+	let user;
+	let profilePictureURL, resumeURL;
+	const dispatch = createEventDispatcher();
+	const toggle = () => dispatch('toggle', id);
+
+	async function loadUser() {
+		user = authService.getUser();
+		if (user == null) {
+			await goto('/');
+		}
+	}
+
+	onMount(() => {
+		loadUser();
+		//profilePictureURL = fileService.getProfilePictureURL(id);
+		//resumeURL = fileService.getResumeURL(id);
+	});
 
 </script>
 
 
 <div class='user'>
-    <div class='profile'>
-        <img
-                src={"https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png"}
-                alt='profile-logo'/> <!-- to change -->
 
-    </div>
-    <div class='user-info'>
-        <b style='color:#3A98B9;'>{role}</b>
-        <p>{name}</p>
-        <p>{email}</p>
-    </div>
-    <div class='resume'>
-        <button class='btn-resume'>CV</button>
-    </div>
-    <div class='checkbox-div'>
-        <input type='checkbox' class='checkbox' on:change={toggle}/>
-    </div>
+	<div class='profile'>
+		<img
+			src={profilePictureURL}
+			alt='profile-logo' /> <!-- to change -->
+
+	</div>
+	<div class='user-info'>
+		<b style='color:#3A98B9;'>{role}</b>
+		<p>{name}</p>
+		<p>{email}</p>
+	</div>
+	<div class='resume'>
+		<a href={resumeURL} download target="_blank" style="color: #3A98B9;">
+		<button class='btn-resume'>CV</button>
+		</a>
+	</div>
+	<div class='checkbox-div'>
+		<input type='checkbox' class='checkbox' on:change={toggle} />
+	</div>
 </div>
 
 
@@ -134,6 +155,40 @@
 
     .checkbox:checked {
         background-color: darkred;
+    }
+
+    .btn-resume{
+        display: inline-block;
+        padding: 0.9rem 1.8rem;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        border: 3px solid #3A98B9;
+        cursor: pointer;
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        border-radius: 1em;
+    }
+
+    .btn-resume::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #3A98B9;
+        transform: translateX(-100%);
+        transition: all .3s;
+        z-index: -1;
+    }
+
+    .btn-resume:hover::before {
+        transform: translateX(0);
     }
 
 </style>

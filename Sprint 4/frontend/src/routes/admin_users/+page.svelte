@@ -12,6 +12,7 @@
 	import { flip } from 'svelte/animate';
 	import { page } from '$app/stores';
 	import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+	import { fileService } from '$lib/features/fileService.js';
 
 	const [send, receive] = crossfade({
 		fallback(node) {

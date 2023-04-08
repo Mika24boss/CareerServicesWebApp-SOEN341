@@ -54,7 +54,6 @@
                                           style='color:white'></div>
             <div class='btn-container'>
                 <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
-
             </div>
 
             {#if hasInvalidCredentials}

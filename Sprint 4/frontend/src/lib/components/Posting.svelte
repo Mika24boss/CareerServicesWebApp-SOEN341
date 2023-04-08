@@ -49,27 +49,26 @@
 
     function appliedUI() {
         buttonText = "Applied!";
-        document.getElementById(jobID).style.background = "linear-gradient(180deg, #AEE2FF, #86C8BC)";
+        document.getElementById(jobID).style.background = "linear-gradient(to right, #AEE2FF, #86C8BC)";
         document.getElementById(jobID).style.borderRadius = "1em";
-        document.getElementById(jobID).style.padding = "0.3em";
+        document.getElementById(jobID).style.padding = "0.2em";
+        document.getElementById(jobID).style.outline = "none";
     }
 
 </script>
 {#await user}
 {:then user}
-    <div id={jobID}>
+    <div class="outline" id={jobID}>
         <div class="posting {role}">
             <div class="action-button">
                 <button on:click={onClick}>
                     {buttonText}
                 </button>
             </div>
-            <div class="title {!isActive ? 'deactivatedText' : ''}">
-                <a class="click-me" href="/postings/{jobID}/">
-                    <b>{title}</b><br/>
-                    {companyName}
-                </a>
-            </div>
+            <a class="click-me title {!isActive ? 'deactivatedText' : ''}" href="/postings/{jobID}/">
+                <b>{title}</b><br/>
+                {companyName}
+            </a>
             <div class="location {!isActive ? 'deactivatedText' : ''}">
                 {location}
             </div>
@@ -91,13 +90,39 @@
         color: white;
     }
 
+    .outline {
+        outline: 1px solid gray;
+        border-radius: 1em;
+    }
+
+    .posting * {
+        z-index: 1;
+    }
+
     .posting {
-        display: grid;
-        justify-items: stretch;
+        position: relative;
         background: #141414;
         border-radius: 1em;
-        outline: 1px solid gray;
+        display: grid;
+        justify-items: stretch;
         --line-height: 4em;
+    }
+
+    .posting:before {
+        background: linear-gradient(to right, transparent, rgb(0, 90, 0), rgb(0, 150, 0));
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        border-radius: 1em;
+        transition: width 300ms ease;
+    }
+
+    .posting:hover:before {
+        width: 100%;
+        transition-duration: 600ms;
     }
 
     .posting.Student {
@@ -114,6 +139,7 @@
 
     .action-button {
         padding: 0.69em;
+        font-size: 1.15em;
     }
 
     .action-button button {
@@ -132,21 +158,10 @@
         cursor: pointer;
     }
 
-    a, b {
-        text-decoration: none;
-        color: inherit;
+    .title:hover *, .title:hover {
+        color: rgb(155, 212, 155);
+        text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.42);
     }
-
-    /*.posting:hover .action-button:not(:hover) ~ div span {
-        color: #3A98B9;
-    }*/
-    a:hover {
-        color: #3A98B9;
-    }
-
-    /*.posting:hover {
-        cursor: pointer;
-    }*/
 
     .title {
         align-self: center;
@@ -155,6 +170,8 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-decoration: none;
+        color: inherit;
     }
 
     .location {

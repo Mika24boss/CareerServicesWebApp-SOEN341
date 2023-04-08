@@ -1,52 +1,51 @@
 <script>
-	//import Profile from '$lib/images/profile-logo.png';
-	import { createEventDispatcher, onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { authService } from '$lib/features/authService.js';
-	import { fileService } from '$lib/features/fileService.js';
+    //import Profile from '$lib/images/profile-logo.png';
+    import {createEventDispatcher, onMount} from 'svelte';
+    import {goto} from '$app/navigation';
+    import {authService} from '$lib/features/authService.js';
+    import {fileService} from '$lib/features/fileService.js';
 
-	export let name, email, id, role, profilePicture, CV;
-	let user;
-	let profilePictureURL, resumeURL;
-	const dispatch = createEventDispatcher();
-	const toggle = () => dispatch('toggle', id);
+    export let name, email, id, role, profilePicture, CV;
+    let user;
+    let profilePictureURL, resumeURL;
+    const dispatch = createEventDispatcher();
+    const toggle = () => dispatch('toggle', id);
 
-	async function loadUser() {
-		user = authService.getUser();
-		if (user == null) {
-			await goto('/');
-		}
-	}
+    async function loadUser() {
+        user = authService.getUser();
+        if (user == null) {
+            await goto('/');
+        }
+    }
 
-	onMount(() => {
-		loadUser();
-		//profilePictureURL = fileService.getProfilePictureURL(id);
-		//resumeURL = fileService.getResumeURL(id);
-	});
+    onMount(() => {
+        loadUser();
+        //profilePictureURL = fileService.getProfilePictureURL(id);
+        //resumeURL = fileService.getResumeURL(id);
+    });
 
 </script>
 
 
 <div class='user'>
-	<div class='profile'>
-		<img
-			src={profilePictureURL}
-			alt='profile-logo' /> <!-- to change -->
 
-	</div>
-	<div class='user-info'>
-		<b style='color:#3A98B9;'>{role}</b>
-		<p>{name}</p>
-		<p>{email}</p>
-	</div>
-	<div class='resume'>
-		<a href={resumeURL} download target="_blank" style="color: #3A98B9;">
-		<button class='btn-resume'>CV</button>
-		</a>
-	</div>
-	<div class='checkbox-div'>
-		<input type='checkbox' class='checkbox' on:change={toggle} />
-	</div>
+    <div class='profile'>
+        <img
+                src={profilePictureURL}
+                alt='profile-logo'/> <!-- to change -->
+
+    </div>
+    <div class='user-info'>
+        <b style='color:#3A98B9;'>{role}</b>
+        <p>{name}</p>
+        <p>{email}</p>
+    </div>
+    <div class='resume'>
+        <a href={resumeURL} download target="_blank" style="color: #3A98B9;">
+            <button class='btn-resume'>CV</button>
+        </a>
+    </div>
+    <input type='checkbox' class='checkbox' on:change={toggle}/>
 </div>
 
 
@@ -66,6 +65,29 @@
         background: #141414;
         --line-height: 4em;
         outline: 1px solid gray;
+        position: relative;
+    }
+
+    .user * {
+        z-index: 2;
+    }
+
+    .user:before {
+        z-index: 1;
+        background: linear-gradient(to right, transparent, rgb(87, 41, 24), rgb(255, 127, 80));
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        border-radius: 1em;
+        transition: width 300ms ease;
+    }
+
+    .user:hover:before {
+        width: 100%;
+        transition-duration: 600ms;
     }
 
     .profile {
@@ -114,6 +136,7 @@
 
     .checkbox {
         align-self: center;
+        justify-self: center;
         margin: 2.5em;
         background-color: white;
         border-radius: 50%;
@@ -126,14 +149,14 @@
         max-height: 30px;
         min-width: 20px;
         max-width: 30px;
-				float: right;
+        float: right;
     }
 
     .checkbox:checked {
         background-color: darkred;
     }
 
-    .btn-resume{
+    .btn-resume {
         display: inline-block;
         padding: 0.9rem 1.8rem;
         font-size: 16px;

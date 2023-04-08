@@ -63,7 +63,7 @@
 	}
 
 	async function deleteUsers() {
-		console.log(selectedUsersArray.length);
+		//console.log(selectedUsersArray.length);
 		for (let i = 0; i < selectedUsersArray.length; i++) {
 			let delUser = await authService.deleteUser(selectedUsersArray[i], user.token);
 			//console.log(selectedUsersArray)
@@ -73,7 +73,7 @@
 	}
 
 	async function consoleUsersPack() {
-		console.log('usersPack: ' + usersPack);
+		//console.log('usersPack: ' + usersPack);
 		arrayLength = usersPack.length;
 	}
 
@@ -85,7 +85,7 @@
 		} else {
 			selectedUsersArray.push(id);
 		}
-		console.log(selectedUsersArray);
+		//console.log(selectedUsersArray);
 	}
 
 	function updateSearchTerm(e) {
@@ -113,7 +113,7 @@
 				<div in:receive='{{key: userA.id}}'
 						 out:send='{{key: userA.id}}'
 						 animate:flip='{{duration: 400}}'>
-					<User {...userA} userID={userA} on:toggle={toggleSelected} />
+					<User {...userA} on:toggle={toggleSelected} />
 				</div>
 			{/each}
 		</div>

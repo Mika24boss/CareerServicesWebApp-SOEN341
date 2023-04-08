@@ -104,13 +104,13 @@
     header {
         display: flex;
         justify-content: space-between;
-        position: fixed;
         left: 50%;
         right: 50%;
         z-index: 10;
     }
 
     nav {
+        position: fixed;
         display: flex;
         justify-content: center;
         --background: #141414;

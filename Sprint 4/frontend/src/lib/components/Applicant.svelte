@@ -31,7 +31,7 @@
 
 <div class="applicant">
     <div class="profilePic">
-        <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/544px-Valorant_logo_-_pink_color_version.svg.png?20200516191842"} alt="profile-logo"/>
+        <img src={"https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png"} alt="profile-logo"/>
     </div>
     <div class="info">
         <div>{name}</div>
@@ -78,8 +78,31 @@
         align-items: center;
         background: #141414;
         outline: 1px solid gray;
-        border-radius: 0.5em;
+        border-radius: 1em;
         padding-right: 2%;
+        position: relative;
+    }
+
+    .applicant * {
+        z-index: 2;
+    }
+
+    .applicant:before {
+        z-index: 1;
+        background: linear-gradient(to right, transparent, rgb(22, 1, 71), rgb(59, 6, 184));
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        border-radius: 1em;
+        transition: width 300ms ease;
+    }
+
+    .applicant:hover:before {
+        width: 100%;
+        transition-duration: 600ms;
     }
 
     .profilePic {

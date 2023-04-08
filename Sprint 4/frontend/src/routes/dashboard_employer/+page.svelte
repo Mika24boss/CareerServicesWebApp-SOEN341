@@ -89,15 +89,6 @@
 		}
 	}
 
-	// Clear notifications
-	function clearNotifications() {
-		const notificationList = document.getElementById('notificationList');
-		while (notificationList.firstChild) {
-			notificationList.removeChild(notificationList.firstChild);
-		}
-		document.getElementById('notificationBadge').textContent = '0';
-	}
-
 </script>
 
 
@@ -111,7 +102,6 @@
 		<h1 class='badge' id='notificationBadge'>{notificationsPack.length}</h1>
 		<h1 class='label'>Notification(s)</h1>
 	</div>
-
 	{#if notificationsPack.length > 0}
 		<div class='notifications' id='notificationList'>
 			{#each notificationsPack as notification}
@@ -119,16 +109,14 @@
 			{/each}
 		</div>
 	{:else}
-		<p>No new applicants since last login</p>
+		<p>No new applicants since your last login</p>
 	{/if}
-	<button type='button' class='clear-btn' on:click={clearNotifications}>Clear</button>
 </div>
 
 
 <!-- Interviews Section -->
 <div class='interviews-section'>
 	<h1>Upcoming Interviews</h1>
-
 	{#if interviewsPack.length > 0}
 		<div class='interviews'>
 			{#each interviewsPack as interview}
@@ -160,6 +148,7 @@
 
     .interviews-section {
         margin-top: 10%;
+		margin-bottom: 2em;
     }
 
     .interviews, .notifications {
@@ -189,26 +178,6 @@
         text-align: center;
         background: #3A98B9;
         color: white;
-    }
-
-    .clear-btn {
-        display: block;
-        width: 20%;
-        border: solid black;
-        border-radius: 1em;
-        background-color: #3A98B9;
-        color: white;
-        padding: 14px 28px;
-        font-size: 2em;
-        cursor: pointer;
-        text-align: center;
-        margin-top: 1em;
-        right: 20px;
-        float: right;
-    }
-
-    .interviews-section {
-        margin-bottom: 2em;
     }
 
 </style>

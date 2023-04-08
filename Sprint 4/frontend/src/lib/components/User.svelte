@@ -1,32 +1,32 @@
 <script>
-	//import Profile from '$lib/images/profile-logo.png';
-	import { createEventDispatcher } from 'svelte';
+    //import Profile from '$lib/images/profile-logo.png';
+    import {createEventDispatcher} from 'svelte';
 
-	export let name, email, id, role, profilePicture, CV; // todo: Add CV
-	const dispatch = createEventDispatcher();
-	const toggle = () => dispatch('toggle', id);
+    export let name, email, id, role, profilePicture, CV; // todo: Add CV
+    const dispatch = createEventDispatcher();
+    const toggle = () => dispatch('toggle', id);
 
 </script>
 
 
 <div class='user'>
-	<div class='profile'>
-		<img
-			src={"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/544px-Valorant_logo_-_pink_color_version.svg.png?20200516191842"}
-			alt='profile-logo' /> <!-- to change -->
+    <div class='profile'>
+        <img
+                src={"https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png"}
+                alt='profile-logo'/> <!-- to change -->
 
-	</div>
-	<div class='user-info'>
-		<b style='color:#3A98B9;'>{role}</b>
-		<p>{name}</p>
-		<p>{email}</p>
-	</div>
-	<div class='resume'>
-		<button class='btn-resume'>CV</button>
-	</div>
-	<div class='checkbox-div'>
-		<input type='checkbox' class='checkbox' on:change={toggle} />
-	</div>
+    </div>
+    <div class='user-info'>
+        <b style='color:#3A98B9;'>{role}</b>
+        <p>{name}</p>
+        <p>{email}</p>
+    </div>
+    <div class='resume'>
+        <button class='btn-resume'>CV</button>
+    </div>
+    <div class='checkbox-div'>
+        <input type='checkbox' class='checkbox' on:change={toggle}/>
+    </div>
 </div>
 
 
@@ -45,6 +45,30 @@
         border-radius: 1em;
         background: #141414;
         --line-height: 4em;
+        outline: 1px solid gray;
+        position: relative;
+    }
+
+    .user * {
+        z-index: 2;
+    }
+
+    .user:before {
+        z-index: 1;
+        background: linear-gradient(to right, transparent, rgb(87, 41, 24), rgb(255, 127, 80));
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        border-radius: 1em;
+        transition: width 300ms ease;
+    }
+
+    .user:hover:before {
+        width: 100%;
+        transition-duration: 600ms;
     }
 
     .profile {
@@ -105,7 +129,7 @@
         max-height: 30px;
         min-width: 20px;
         max-width: 30px;
-				float: right;
+        float: right;
     }
 
     .checkbox:checked {

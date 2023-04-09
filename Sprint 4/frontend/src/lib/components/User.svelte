@@ -94,7 +94,7 @@
     }
 
     .profile {
-        padding: 1em 1em 1em 1.5em;
+        margin: 1em 1em 1em 1.5em;
         justify-self: center;
         align-self: center;
         object-fit: cover;

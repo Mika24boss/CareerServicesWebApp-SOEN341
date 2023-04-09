@@ -158,7 +158,7 @@
         transform: scale(2);
     }
 
-    .clear {
+    .clear button {
         font-size: 1em;
         color: black;
         background: #3A98B9;
@@ -167,6 +167,39 @@
         height: 100%;
         max-height: 50px;
         max-width: 100px;
+    }
+
+    .btn-resume, .clear {
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        border: 3px solid #3A98B9;
+        cursor: pointer;
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        border-radius: 1em;
+    }
+
+    .btn-resume::before, .clear::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #3A98B9;
+        transform: translateX(-100%);
+        transition: all .3s;
+        z-index: -1;
+    }
+
+    .btn-resume:hover::before, .clear:hover::before {
+        transform: translateX(0);
     }
 
 </style>

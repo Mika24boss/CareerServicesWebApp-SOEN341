@@ -97,9 +97,7 @@
 <div class='usersPage' on:load={consoleUsersPack}>
 	<div class='pageHeader'>
 		<h1>Users</h1>
-		<div class='container-input'>
-			<input type='text' placeholder='Search' name='text' class='input' on:input={updateSearchTerm}>
-		</div>
+		<input type='search' placeholder='Search...' class='search' on:input={updateSearchTerm}>
 	</div>
 
 	{#await usersPack}
@@ -140,9 +138,9 @@
 
     .users {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
         justify-items: stretch;
-        grid-gap: 2em;
+        grid-gap: 3em;
     }
 
     .pageHeader {
@@ -187,12 +185,9 @@
         transform: translateX(0);
     }
 
-    .container-input {
-        position: relative;
-    }
-
-    .input {
-        width: 150px;
+    .search {
+        width: 180px;
+				height: 50%;
         padding: 10px 0 10px 40px;
         border-radius: 9999px;
         border: solid 1px #333;
@@ -203,14 +198,7 @@
 				font-weight: bold;
     }
 
-    .container-input svg {
-        position: absolute;
-        top: 50%;
-        left: 10px;
-        transform: translate(0, -50%);
-    }
-
-    .input:focus {
+    .search:focus {
         opacity: 1;
         width: 250px;
     }

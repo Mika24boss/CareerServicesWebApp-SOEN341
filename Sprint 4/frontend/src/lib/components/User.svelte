@@ -48,7 +48,13 @@
             </a>
         {/if}
     </div>
-    <input type='checkbox' class='checkbox' on:change={toggle}/>
+    <div class='checkbox-div'>
+        <input type='checkbox' class='checkbox' on:change={toggle}/>
+        <div class="plus1">
+            <div class="plus2"></div>
+        </div>
+    </div>
+
 </div>
 
 
@@ -130,28 +136,6 @@
         cursor: pointer;
     }
 
-    .checkbox {
-        align-self: center;
-        justify-self: center;
-        margin: 2.5em;
-        background-color: white;
-        border-radius: 50%;
-        appearance: none;
-        -webkit-appearance: none;
-        outline: none;
-        cursor: pointer;
-        aspect-ratio: 1;
-        min-height: 20px;
-        max-height: 30px;
-        min-width: 20px;
-        max-width: 30px;
-        float: right;
-    }
-
-    .checkbox:checked {
-        background-color: darkred;
-    }
-
     .btn-resume {
         display: inline-block;
         padding: 0.5em;
@@ -184,6 +168,60 @@
 
     .btn-resume:hover::before {
         transform: translateX(0);
+    }
+
+    .checkbox-div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .checkbox-div input {
+        appearance: none;
+        width: 2em;
+        height: 2em;
+        background-color: #171717;
+        box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+        outline: darkgray solid 1px;
+    }
+
+    .checkbox-div input:hover {
+        scale: 1.2;
+        cursor: pointer;
+        box-shadow: none;
+    }
+
+    .checkbox-div .plus1 {
+        position: relative;
+        left: -26.5px;
+        width: 1.3em;
+        height: 0.2em;
+        background-color: #3A98B9;
+        rotate: 45deg;
+        scale: 0;
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkbox-div .plus2 {
+        position: relative;
+        width: 1.3em;
+        height: 0.2em;
+        background-color: #3A98B9;
+        transform: rotate(90deg);
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkbox-div input:checked {
+        box-shadow: none;
+    }
+
+    .checkbox-div input:checked + .plus1 {
+        transform: rotate(180deg);
+        scale: 1;
     }
 
 </style>

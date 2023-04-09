@@ -1,71 +1,78 @@
 <script>
-    import {createEventDispatcher, onMount} from 'svelte';
-    import {DateInput} from 'date-picker-svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { DateInput } from 'date-picker-svelte';
 
-    export let name, email, id, profilePicURL, resumeURL, zIndexSchedule;
-    const dispatch = createEventDispatcher();
-    const toggle = (e) => dispatch('toggle', {id: id, isAccepted: e.target.__value});
-    const clear = () => dispatch('clear', id);
-    const dateChanged = () => dispatch('dateChanged', {id: id, date: date});
+	export let name, email, id, profilePicURL, resumeURL, zIndexSchedule;
+	const dispatch = createEventDispatcher();
+	const toggle = (e) => dispatch('toggle', { id: id, isAccepted: e.target.__value });
+	const clear = () => dispatch('clear', id);
+	const dateChanged = () => dispatch('dateChanged', { id: id, date: date });
 
-    let date = new Date();
-    let maxDate = new Date((date.getFullYear() + 2) + "-" + date.getMonth() + "-" + date.getDate());
-    let isAccepted = "empty";
-    $: date, callDateChanged();
+	let date = new Date();
+	let maxDate = new Date((date.getFullYear() + 2) + '-' + date.getMonth() + '-' + date.getDate());
+	let isAccepted = 'empty';
+	$: date, callDateChanged();
 
-    onMount(() => {
-        document.getElementById("schedule-" + id).style.zIndex = zIndexSchedule;
-    })
+	onMount(() => {
+		document.getElementById('schedule-' + id).style.zIndex = zIndexSchedule;
+	});
 
-    function clearRadio() {
-        document.getElementById('decisionYes-' + id).checked = false;
-        document.getElementById('decisionNo-' + id).checked = false;
-        isAccepted = "empty";
-        clear();
-    }
+	function clearRadio() {
+		document.getElementById('decisionYes-' + id).checked = false;
+		document.getElementById('decisionNo-' + id).checked = false;
+		isAccepted = 'empty';
+		clear();
+	}
 
-    function callDateChanged() {
-        if (isAccepted === "accepted") dateChanged();
-    }
+	function callDateChanged() {
+		if (isAccepted === 'accepted') dateChanged();
+	}
 
 </script>
 
 
-<div class="applicant">
-    <div class="profilePic">
-        <img src={profilePicURL} alt="profile-logo"/>
-    </div>
-    <div class="info">
-        <div>{name}</div>
-        <div>{email}</div>
-    </div>
-    <div class="resume">
-        {#if resumeURL}
-            <a href={resumeURL} target="_blank">
-                <button class="btn-resume" style='font-weight: bold;'>CV</button>
-            </a>
-        {:else}
-            <button class="btn-resume" style='font-weight: bold;'>No CV</button>
-        {/if}
-    </div>
-    <div class="schedule" id="schedule-{id}">
-        Schedule interview:
-        <DateInput min="{new Date()}" max="{maxDate}" bind:value={date} disabled="{isAccepted !== 'accepted'}"
-                   format="yyyy-MM-dd HH:mm" visible="true"/>
-    </div>
-    <div class="checkboxYes">
-        <label for="decisionYes-{id}">✓&nbsp;</label>
-        <input type="radio" id="decisionYes-{id}" name="decision-{id}" value="accepted" on:change={toggle}
-               bind:group={isAccepted}/>
-    </div>
-    <div class="checkboxNo">
-        <label for="decisionNo-{id}">X&nbsp;</label>
-        <input type="radio" id="decisionNo-{id}" name="decision-{id}" value="rejected" on:change={toggle}
-               bind:group={isAccepted}/>
-    </div>
-    <button class="clear" on:click="{clearRadio}">
-        Clear selection
-    </button>
+<div class='applicant'>
+	<div class='profilePic'>
+		<img src={profilePicURL} alt='profile-logo' />
+	</div>
+	<div class='info'>
+		<div>{name}</div>
+		<div>{email}</div>
+	</div>
+	<div class='resume'>
+		{#if resumeURL}
+			<a href={resumeURL} target='_blank'>
+				<button class='btn-resume' style='font-weight: bold;'>CV</button>
+			</a>
+		{:else}
+			<button class='btn-resume' style='font-weight: bold;'>No CV</button>
+		{/if}
+	</div>
+	<div class='schedule' id='schedule-{id}'>
+		Schedule interview:
+		<DateInput min='{new Date()}' max='{maxDate}' bind:value={date} disabled="{isAccepted !== 'accepted'}"
+							 format='yyyy-MM-dd HH:mm'/>
+	</div>
+	<div class='checkboxYes'>
+<!--		<label for='decisionYes-{id}'>✓&nbsp;</label>-->
+		<input type='radio' id='decisionYes-{id}' name='decision-{id}' value='accepted' on:change={toggle}
+					 bind:group={isAccepted} />
+		<div class='plus1'>
+			<div class='plus2'></div>
+		</div>
+	</div>
+
+	<div class='checkboxNo'>
+<!--		<label for='decisionNo-{id}'>X&nbsp;</label>-->
+		<input type='radio' id='decisionNo-{id}' name='decision-{id}' value='rejected' on:change={toggle}
+					 bind:group={isAccepted} />
+		<div class='plus1'>
+			<div class='plus2'></div>
+		</div>
+	</div>
+	<button class='clear' on:click='{clearRadio}'>
+		Clear selection
+	</button>
 </div>
 
 
@@ -218,6 +225,106 @@
 
     .btn-resume:hover::before, .clear:hover::before {
         transform: translateX(0);
+    }
+
+    .checkboxYes, .checkboxNo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .checkboxYes input, .checkboxNo input {
+        appearance: none;
+        width: 0.9em;
+        height: 0.9em;
+        background-color: #171717;
+        box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+        outline: darkgray solid 1px;
+    }
+
+		.checkboxYes input{
+        box-shadow: inset 2px 5px 10px mediumseagreen;
+        outline: mediumseagreen solid 1px;
+		}
+
+    .checkboxNo input{
+        box-shadow: inset 2px 5px 10px #C21807;
+        outline: #C21807 solid 1px;
+    }
+
+    .checkboxYes input:hover, .checkboxNo input:hover {
+        scale: 1.2;
+        cursor: pointer;
+        box-shadow: none;
+    }
+
+    .checkboxYes .plus1 {
+        position: relative;
+        top: 0.3em;
+        left: -19.5px;
+        width: 0.7em;
+        height: 0.2em;
+        background-color: mediumseagreen;
+        rotate: 45deg;
+        scale: 0;
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkboxYes .plus2 {
+        position: relative;
+				top: 0.51em;
+				right: 0.32em;
+        width: 1.1em;
+        height: 0.2em;
+        background-color: mediumseagreen;
+        transform: rotate(75deg);
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkboxNo .plus1 {
+        position: relative;
+				top: 0.08em;
+        left: -19.1px;
+        width: 1.3em;
+        height: 0.2em;
+        background-color: #C21807;
+        rotate: 45deg;
+        scale: 0;
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkboxNo .plus2 {
+        position: relative;
+        width: 1.3em;
+        height: 0.2em;
+        background-color: #C21807;
+        transform: rotate(90deg);
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkboxYes input:checked, .checkboxNo input:checked {
+        box-shadow: none;
+    }
+
+    .checkboxYes input:checked + .plus1 {
+        transform: rotate(180deg);
+        scale: 1;
+    }
+
+    .checkboxNo input:checked + .plus1 {
+        transform: rotate(180deg);
+        scale: 1;
+    }
+
+    label{
+        position: relative;
+        left: -0.5em;
     }
 
 </style>

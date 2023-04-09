@@ -11,7 +11,7 @@
 </script>
 
 
-<div class='interview' id='jobID'>
+<a class='interview' href="/postings/{jobID}/">
     <div class='details'>
         <p style='font-weight: bold'>{title} with {companyName} ({jobID})</p>
         <p>{formatInterviewDate()}</p>
@@ -19,7 +19,7 @@
     <div class='platform'>
         <img src={Zoom} alt='zoom_image'/>
     </div>
-</div>
+</a>
 
 
 <style>
@@ -79,6 +79,10 @@
         position: relative;
         width: 3em;
         height: 3em;
+    }
+
+    a:link{
+        text-decoration: none;
     }
 
 </style>

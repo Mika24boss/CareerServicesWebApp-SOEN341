@@ -235,8 +235,8 @@
 
     .radio-input .plus1 {
         position: relative;
-        top: 0.01em;
-        left: -1.45em;
+        top: 0.07em;
+        left: -29.45px;
         width: 1.3em;
         height: 0.2em;
         background-color: #3A98B9;
@@ -264,4 +264,9 @@
         transform: rotate(180deg);
         scale: 1;
     }
+
+		label{
+				position: relative;
+				left: -0.5em;
+		}
 </style>

@@ -1,10 +1,8 @@
 <script>
-    //import Profile from '$lib/images/profile-logo.png';
-    import {createEventDispatcher} from 'svelte';
-    import {DateInput} from 'date-picker-svelte'
+    import {createEventDispatcher, onMount} from 'svelte';
+    import {DateInput} from 'date-picker-svelte';
 
-
-    export let name, email, id, profilePicture, CV;
+    export let name, email, id, profilePicURL, resumeURL, zIndexSchedule;
     const dispatch = createEventDispatcher();
     const toggle = (e) => dispatch('toggle', {id: id, isAccepted: e.target.__value});
     const clear = () => dispatch('clear', id);
@@ -14,6 +12,10 @@
     let maxDate = new Date((date.getFullYear() + 2) + "-" + date.getMonth() + "-" + date.getDate());
     let isAccepted = "empty";
     $: date, callDateChanged();
+
+    onMount(() => {
+        document.getElementById("schedule-" + id).style.zIndex = zIndexSchedule;
+    })
 
     function clearRadio() {
         document.getElementById('decisionYes-' + id).checked = false;
@@ -31,19 +33,25 @@
 
 <div class="applicant">
     <div class="profilePic">
-        <img src={"https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png"} alt="profile-logo"/>
+        <img src={profilePicURL} alt="profile-logo"/>
     </div>
     <div class="info">
         <div>{name}</div>
         <div>{email}</div>
     </div>
     <div class="resume">
-        <button class="btn-resume" style='font-weight: bold;'>CV</button>
+        {#if resumeURL}
+            <a href={resumeURL} target="_blank">
+                <button class="btn-resume" style='font-weight: bold;'>CV</button>
+            </a>
+        {:else}
+            <button class="btn-resume" style='font-weight: bold;'>No CV</button>
+        {/if}
     </div>
-    <div class="schedule">
+    <div class="schedule" id="schedule-{id}">
         Schedule interview:
         <DateInput min="{new Date()}" max="{maxDate}" bind:value={date} disabled="{isAccepted !== 'accepted'}"
-                   format="yyyy-MM-dd HH:mm"/>
+                   format="yyyy-MM-dd HH:mm" visible="true"/>
     </div>
     <div class="checkboxYes">
         <label for="decisionYes-{id}">✓&nbsp;</label>
@@ -81,6 +89,7 @@
         border-radius: 1em;
         padding-right: 2%;
         position: relative;
+        min-width: 800px;
     }
 
     .applicant * {
@@ -106,6 +115,7 @@
     }
 
     .profilePic {
+        padding-left: 0.5em;
         margin: auto;
         aspect-ratio: 1;
         max-height: 50px;
@@ -141,6 +151,10 @@
         border-radius: 0.5em;
     }
 
+    .btn-resume:hover {
+        cursor: pointer;
+    }
+
     .schedule {
         justify-self: center;
         line-height: 1.6em;
@@ -166,7 +180,11 @@
         width: 100%;
         height: 100%;
         max-height: 50px;
-        max-width: 100px;
+        max-width: 1100px;
+    }
+
+    .clear:hover {
+        cursor: pointer;
     }
 
     .btn-resume, .clear {

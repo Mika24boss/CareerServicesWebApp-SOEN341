@@ -1,15 +1,24 @@
 import axios from 'axios'
-import { env } from '$env/dynamic/public'
+import {env} from '$env/dynamic/public'
+import defaultProfilePic from '$lib/images/default.png'
 
-const API_URL = env.PUBLIC_API_URL
+const API_URL = env.PUBLIC_API_URL + '/'
 
 // Get file
-const getProfilePictureURL = (/** @type {string} */ userID) => {
-    return API_URL + '/ProfileFolder/' + userID + '.png';
+const getProfilePictureURL = async (/** @type {string} */ userID) => {
+    return await axios.get(API_URL + 'ProfileFolder/' + userID + '.png').then(() => {
+        return API_URL + 'ProfileFolder/' + userID + '.png';
+    }).catch(() => {
+        return defaultProfilePic;
+    });
 }
 
-const getResumeURL = (/** @type {string} */ userID) => {
-    return API_URL + '/ResumeFolder/' + userID + '.pdf';
+const getResumeURL = async (/** @type {string} */ userID) => {
+    return await axios.get(API_URL + 'ResumeFolder/' + userID + '.pdf').then(() => {
+        return API_URL + 'ResumeFolder/' + userID + '.pdf';
+    }).catch(() => {
+        return null;
+    });
 }
 
 // Delete file

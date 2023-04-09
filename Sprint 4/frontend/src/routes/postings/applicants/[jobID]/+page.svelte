@@ -14,6 +14,7 @@
     import {crossfade} from 'svelte/transition';
     import {flip} from 'svelte/animate';
     import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+    import fileService from "$lib/features/fileService.js";
 
     const [send, receive] = crossfade({
         fallback(node) {
@@ -62,15 +63,18 @@
         pageTitle = "Applicants - " + data.title;
 
         if (data.applicants) {
-
+            let counter = data.applicants.length + 3;
             for (let appID of data.applicants) {
                 let applicant = await authService.getUserByID(appID, user.token);
+                let appProfilePic = await fileService.getProfilePictureURL(appID);
+                let appResume = await fileService.getResumeURL(appID);
                 if (applicant) applicants.push({
                     name: applicant.name,
                     email: applicant.email,
                     id: applicant._id,
-                    profilePicture: applicant.profilePicture,
-                    CV: applicant.resume
+                    profilePicURL: appProfilePic,
+                    resumeURL: appResume,
+                    zIndexSchedule: counter--,
                 });
             }
 

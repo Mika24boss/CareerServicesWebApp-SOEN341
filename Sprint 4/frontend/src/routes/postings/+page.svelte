@@ -143,8 +143,7 @@
 
         <div class="pageHeader">
             <h1>Job Postings</h1>
-            <input type="search" class="search" placeholder="Search..."
-                   on:input={updateSearchTerm}>
+            <input type="search" class="search" placeholder="Search..." on:input={updateSearchTerm}>
         </div>
 
         {#if user.role === "Employer"}
@@ -238,15 +237,6 @@
         justify-content: space-between;
     }
 
-    .search {
-        margin: auto 0;
-        font-size: 1em;
-        height: 40px;
-        width: 250px;
-        background: lightgray;
-        border-radius: 0.5em;
-    }
-
     .actionButton {
         color: black;
         background: #3A98B9;
@@ -319,5 +309,24 @@
     .actionButton:hover::before {
         transform: translateX(0);
     }
+
+    .search {
+        width: 180px;
+        height: 50%;
+        padding: 10px 0 10px 40px;
+        border-radius: 9999px;
+        border: solid 1px #333;
+        transition: all .2s ease-in-out;
+        outline: none;
+        opacity: 0.8;
+        color: #3A98B9;
+        font-weight: bold;
+    }
+
+    .search:focus {
+        opacity: 1;
+        width: 250px;
+    }
+
 
 </style>

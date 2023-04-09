@@ -20,7 +20,7 @@ router.post('/login', loginUser)
 router.post('/logout', protect, logout)
 
 const Storage = multer.diskStorage({
-    destination: 'profileFolder',
+    destination: 'ProfileFolder',
     filename: (req, file, cb) => {
         cb(null, file.originalname)
     },

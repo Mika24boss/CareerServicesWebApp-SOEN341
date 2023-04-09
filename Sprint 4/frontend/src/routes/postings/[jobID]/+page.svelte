@@ -82,7 +82,7 @@
                 }
             } else {
                 creatorName = creator.name;
-                creatorProfilePic = fileService.getProfilePictureURL(creator._id);
+                creatorProfilePic = await fileService.getProfilePictureURL(creator._id);
             }
 
             const options = {
@@ -187,11 +187,6 @@
         hasChanged = true;
         if (!isNew) pageTitle = '* ' + data.title;
     }
-
-    function imageError() {
-        creatorInfo.creatorImage = fileService.getProfilePictureURL("default");
-    }
-
 </script>
 {#if (!data && isNew) || (!creatorInfo && !isNew)}
     <LoadingAnimation/>
@@ -253,11 +248,15 @@
     <br/>
     {#if creatorInfo}
         <div class='employerInfo'>
-            Posted by: {creatorInfo.creatorName}<br/>
-            Created: {creatorInfo.creationDate}<br/>
-            Updated: {creatorInfo.updateDate}
+            <span class="employerInfoPosted">Posted by:</span>
+            <span class="employerInfoName">{creatorInfo.creatorName}
+                <img class="employerInfoPic" src="{creatorInfo.creatorImage}" alt="Employer picture">
+            </span>
+            <span class="employerInfoCreated">Created:</span>
+            <span class="employerInfoCreatedDate">{creatorInfo.creationDate}</span>
+            <span class="employerInfoUpdated">Updated:</span>
+            <span class="employerInfoUpdatedDate">{creatorInfo.updateDate}</span>
         </div>
-        <img src="{creatorInfo.creatorImage}" on:error={imageError} style="width: 100px">
     {/if}
 {/if}
 
@@ -357,7 +356,7 @@
         white-space: pre-wrap;
     }
 
-    .actionButton{
+    .actionButton {
         display: inline-block;
         padding: 0.9rem 1.8rem;
         font-size: 16px;
@@ -389,5 +388,69 @@
 
     .actionButton:hover::before {
         transform: translateX(0);
+    }
+
+    .employerInfo {
+        width: 50%;
+        display: grid;
+        grid-template-rows: 4fr 1fr 1fr;
+        grid-template-columns: 1fr 5fr;
+        grid-column-gap: 2em;
+        grid-row-gap: 1em;
+        grid-template-areas:
+    "posted name"
+    "created dateC"
+    "updated dateU";
+    }
+
+    .employerInfoPosted {
+        grid-area: posted;
+        font-size: 1.3em;
+        text-decoration: underline;
+        justify-self: end;
+        max-width: 100px;
+        align-self: center;
+    }
+
+    .employerInfoCreated {
+        grid-area: created;
+        font-size: 1em;
+        text-decoration: underline;
+        justify-self: end;
+        max-width: 100px;
+    }
+
+    .employerInfoUpdated {
+        grid-area: updated;
+        font-size: 1em;
+        text-decoration: underline;
+        justify-self: end;
+        max-width: 100px;
+    }
+
+    .employerInfoName {
+        grid-area: name;
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        max-width: 1000px;
+    }
+
+    .employerInfoPic {
+        border-radius: 1em;
+        object-fit: cover;
+        width: 100px;
+        height: 100px;
+    }
+
+    .employerInfoCreatedDate {
+        grid-area: dateC;
+        max-width: 1000px;
+    }
+
+    .employerInfoUpdatedDate {
+        grid-area: dateU;
+        max-width: 1000px;
     }
 </style>

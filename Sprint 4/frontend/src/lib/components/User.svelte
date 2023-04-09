@@ -1,11 +1,10 @@
 <script>
-    //import Profile from '$lib/images/profile-logo.png';
     import {createEventDispatcher, onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {authService} from '$lib/features/authService.js';
     import {fileService} from '$lib/features/fileService.js';
 
-    export let name, email, id, role, profilePicture, CV;
+    export let name, email, id, role;
     let user;
     let profilePictureURL, resumeURL;
     const dispatch = createEventDispatcher();
@@ -18,10 +17,10 @@
         }
     }
 
-    onMount(() => {
-        loadUser();
-        //profilePictureURL = fileService.getProfilePictureURL(id);
-        //resumeURL = fileService.getResumeURL(id);
+    onMount(async () => {
+        await loadUser();
+        profilePictureURL = await fileService.getProfilePictureURL(id);
+        resumeURL = await fileService.getResumeURL(id);
     });
 
 </script>
@@ -29,21 +28,25 @@
 
 <div class='user'>
 
-    <div class='profile'>
-        <img
-                src={profilePictureURL}
-                alt='profile-logo'/> <!-- to change -->
+    <img class='profile'
+         src={profilePictureURL}
+         alt='profile-logo'/> <!-- to change -->
 
-    </div>
     <div class='user-info'>
         <b style='color:#3A98B9;'>{role}</b>
         <p>{name}</p>
         <p>{email}</p>
     </div>
     <div class='resume'>
-        <a href={resumeURL} download target="_blank" style="color: #3A98B9;">
-            <button class='btn-resume'>CV</button>
-        </a>
+        {#if resumeURL}
+            <a href={resumeURL} target="_blank" style="color: #3A98B9;">
+                <button class='btn-resume'>CV</button>
+            </a>
+        {:else}
+            <a style="color: #3A98B9;">
+                <button class='btn-resume'>No CV</button>
+            </a>
+        {/if}
     </div>
     <input type='checkbox' class='checkbox' on:change={toggle}/>
 </div>
@@ -58,9 +61,9 @@
 
     .user {
         display: grid;
-        grid-template-columns: 0.5fr 4fr 2fr 2fr;
+        grid-template-columns: 1.5fr 4fr 2fr 2fr;
         justify-items: stretch;
-        margin: 0.3em;
+        gap: 0.3em;
         border-radius: 1em;
         background: #141414;
         --line-height: 4em;
@@ -91,21 +94,17 @@
     }
 
     .profile {
-        aspect-ratio: 1;
-    }
-
-    img {
-        position: relative;
-        top: 16%;
-        left: 16%;
-        width: 70%;
-        height: 70%;
-        border-radius: 1em;
+        margin: 1em 1em 1em 1.5em;
+        justify-self: center;
         align-self: center;
+        object-fit: cover;
+        width: var(--line-height);
+        height: var(--line-height);
+        border-radius: 1em;
     }
 
     .user-info {
-        padding: 1em;
+        padding: 0.5em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -115,23 +114,20 @@
     }
 
     .resume {
-        height: 2em;
         padding: 2em 1em;
-        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
     }
 
     .btn-resume {
-        position: relative;
-        bottom: 0.8em;
-        width: 100%;
-        height: 180%;
+        width: 100px;
+        aspect-ratio: 1.4;
         font-size: 1em;
         font-weight: bold;
         color: black;
         background: #3A98B9;
         border-radius: 0.5em;
         cursor: pointer;
-        align-self: center;
     }
 
     .checkbox {
@@ -158,7 +154,7 @@
 
     .btn-resume {
         display: inline-block;
-        padding: 0.9rem 1.8rem;
+        padding: 0.5em;
         font-size: 16px;
         font-weight: 700;
         color: white;

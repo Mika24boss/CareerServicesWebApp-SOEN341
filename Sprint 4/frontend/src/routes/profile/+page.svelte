@@ -27,7 +27,11 @@
         formData.append("id", user._id);
         formData.append("profileImage", uploadimage.files[0], user._id + ".png");
         const response = await authService.uploadProfileImage(formData);
-        //	console.log(response);
+        if (response) {
+            alert("Profile picture uploaded!")
+        } else {
+            alert("Error while uploading profile picture.")
+        }
     }
 
     async function uploadCV() {
@@ -36,7 +40,11 @@
         formData.append("id", user._id);
         formData.append("resume", uploadfile.files[0], user._id + ".pdf");
         const response = await authService.uploadCV(formData);
-        //	console.log(response);
+        if (response) {
+            alert("Resume uploaded!")
+        } else {
+            alert("Error while uploading resume.")
+        }
     }
 
     async function loadUser() {

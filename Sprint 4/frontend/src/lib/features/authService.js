@@ -41,6 +41,9 @@ const deleteUser = async (/** @type {any} */userData, /** @type {any} */ token) 
         console.log(reason)
         return reason;
     })
+    await axios.delete(API_URL + "deleteFiles", {data: {id: userData,}}).catch((reason) => {
+        console.log(reason)
+    })
     return {data: response.data, error: response.response?.status};
 }
 

@@ -97,7 +97,7 @@
     {:else}
 
         <!-- Notifications Section-->
-        <div class='notif-section'>
+        <div class='notification-section'>
             <div class='notif'>
                 <h1 class='badge' id='notificationBadge'>{notificationsPack.length}</h1>
                 <h1 class='label'>Notification(s)</h1>
@@ -139,7 +139,7 @@
         color: lightgray;
     }
 
-    .notif-section {
+    .notification-section {
         margin-top: 2%;
     }
 

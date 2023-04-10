@@ -3,13 +3,14 @@
     let  user;
 </script>
 
-
+<a class='notif-link' href="/postings/{jobID}/">
 <div class='notification'>
     <div class='details'>
         <p style='font-weight: bold;'>{title} with {companyName} ({jobID})</p>
         <p>Applicant name: {name}</p>
     </div>
 </div>
+</a>
 
 
 <style>
@@ -19,6 +20,7 @@
     }
 
     .notification {
+        color: white;
         background-color: #141414;
         border-radius: 1em;
         width: 90%;
@@ -54,6 +56,10 @@
 
     .details p{
         position: relative;
+    }
+
+    a:link{
+        text-decoration: none;
     }
 
 </style>

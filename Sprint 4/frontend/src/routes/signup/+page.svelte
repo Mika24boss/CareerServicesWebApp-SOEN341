@@ -1,98 +1,101 @@
 <svelte:head>
-	<title>Sign-up</title>
+    <title>Sign-up</title>
 </svelte:head>
 
 <script>
-	import authService from '$lib/features/authService.js';
-	import { goto } from '$app/navigation';
-	import { env } from '$env/dynamic/public';
-	import { hasUpdated } from '../../lib/stores/updateUser.js';
-	import LoadingAnimation from '$lib/components/LoadingAnimation.svelte';
+    import authService from '$lib/features/authService.js';
+    import {goto} from '$app/navigation';
+    import {env} from '$env/dynamic/public';
+    import {hasUpdated} from '$lib/stores/updateUser.js';
+    import LoadingAnimation from '$lib/components/LoadingAnimation.svelte';
+    import {onMount} from "svelte";
+    import {page} from "$app/stores";
 
-	const API_URL = env.PUBLIC_API_URL + '/api/users/';
+    /*onMount(() => {
+        if (!$page.url.hostname.includes("localhost") && env.PUBLIC_API_URL.includes("localhost")){
+            location.reload();
+        }
+    })*/
 
-	let name, email, password, role;
-	let response;
-	let isWaiting = false;
-	let hasMissingFields = false;
+    let name, email, password, role;
+    let response;
+    let isWaiting = false;
+    let hasMissingFields = false;
 
-	async function onSubmit() {
-		name = document.getElementById('name').value;
-		role = role;
-		email = document.getElementById('email').value;
-		password = document.getElementById('password').value;
-		const userData = {
-			name,
-			email,
-			password,
-			role
-		};
-		isWaiting = true;
-		response = await authService.register(userData);
-		//console.log('Response: ', response);
-		if (!response) {
-			setTimeout(() => {
-				alert('Error when creating your account!');
-				isWaiting = false;
-			}, 100);
-		} else if (response.role === 'Student') {
-			hasUpdated.set(true);
-			await goto('/dashboard_student');
-		} else if (response.role === 'Employer') {
-			hasUpdated.set(true);
-			await goto('/dashboard_employer');
-		}
-	}
+    async function onSubmit() {
+        name = document.getElementById('name').value;
+        role = role;
+        email = document.getElementById('email').value;
+        password = document.getElementById('password').value;
+        const userData = {
+            name,
+            email,
+            password,
+            role
+        };
+        isWaiting = true;
+        response = await authService.register(userData);
+        //console.log('Response: ', response);
+        if (!response) {
+            setTimeout(() => {
+                alert('Error when creating your account!');
+                isWaiting = false;
+            }, 100);
+        } else {
+            hasUpdated.set(true);
+            await goto('/profile');
+        }
+    }
 
 </script>
 
 {#if isWaiting}
-	<LoadingAnimation />
+    <LoadingAnimation/>
 {:else}
-	<section>
-		<div class='signup-title centerBlock' style='padding-bottom:0'>
-			<p style='font-size: 30px'>Sign-Up as a ... </p>
-			{API_URL}
-		</div>
+    <section>
+        <div class='signup-title centerBlock' style='padding-bottom:0'>
+            <p style='font-size: 30px'>Sign-Up as a ... </p>
+        </div>
 
-		<div class='centerBlock'>
-			<div class='signup-form'>
-				<div class='radio-input'>
-					<input type='radio' id='student' name='user-type' value='Student' required bind:group={role}>
-					<div class="plus1">
-						<div class="plus2"></div>
-					</div>
-					<label for='student'>Student</label>
-					<input type='radio' id='employer' name='user-type' value='Employer' required bind:group={role}>
-					<div class="plus1">
-						<div class="plus2"></div>
-					</div>
-					<label for='employer'>Employer</label>
-				</div>
-				<div class='inputs-form centerBlock'>
-					<div class='formGroup'><input type='text' id='name' name='Name' placeholder='Full Name' required
-																				style='color:white'></div>
-					<div class='formGroup'><input type='text' id='email' name='Email' placeholder='Email' required
-																				style='color:white'></div>
-					<div class='formGroup'><input type='password' id='password' name='Password' placeholder='Password' required
-																				style='color:white'></div>
-				</div>
+        <div class='centerBlock'>
+            <div class='signup-form'>
+                <div class='radio-input'>
+                    <input type='radio' id='student' name='user-type' value='Student' required bind:group={role}>
+                    <div class="plus1">
+                        <div class="plus2"></div>
+                    </div>
+                    <label for='student'>Student</label>
+                    <input type='radio' id='employer' name='user-type' value='Employer' required bind:group={role}>
+                    <div class="plus1">
+                        <div class="plus2"></div>
+                    </div>
+                    <label for='employer'>Employer</label>
+                </div>
+                <div class='inputs-form centerBlock'>
+                    <div class='formGroup'><input type='text' id='name' name='Name' placeholder='Full Name' required
+                                                  style='color:white'></div>
+                    <div class='formGroup'><input type='text' id='email' name='Email' placeholder='Email' required
+                                                  style='color:white'></div>
+                    <div class='formGroup'><input type='password' id='password' name='Password' placeholder='Password'
+                                                  required
+                                                  style='color:white'></div>
+                </div>
 
-				{#if hasMissingFields}
-					<div class='missingFields-box'>
-						<p>Please fill all the fields and try again.</p>
-					</div>
-				{/if}
+                {#if hasMissingFields}
+                    <div class='missingFields-box'>
+                        <p>Please fill all the fields and try again.</p>
+                    </div>
+                {/if}
 
-				<div class='btn-container'>
-					<button class='btn-signup centerBlock' type='submit' on:click='{onSubmit}'>Sign-Up</button>
-					<a href='/'>
-						<button class='btn-back centerBlock'>Back</button>
-					</a>
-				</div>
-			</div>
-		</div>
-	</section>
+                <div class='btn-container'>
+                    <button class='btn-signup centerBlock' type='submit' on:click='{onSubmit}'>Sign-Up</button>
+                    <a href='/'>
+                        <button class='btn-back centerBlock'>Back</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 {/if}
 
 <style>
@@ -235,8 +238,8 @@
 
     .radio-input .plus1 {
         position: relative;
-        top: 0.01em;
-        left: -1.45em;
+        top: 0.07em;
+        left: -29.45px;
         width: 1.3em;
         height: 0.2em;
         background-color: #3A98B9;
@@ -264,4 +267,9 @@
         transform: rotate(180deg);
         scale: 1;
     }
+
+		label{
+				position: relative;
+				left: -0.5em;
+		}
 </style>

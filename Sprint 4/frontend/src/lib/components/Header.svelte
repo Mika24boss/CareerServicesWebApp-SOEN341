@@ -63,18 +63,12 @@
                         <li>
                             <a href="/postings">Postings</a>
                         </li>
-                        <li>
-                            <a href="/profile">Profile</a>
-                        </li>
                     {:else if isEmployer}
                         <li>
                             <a href='/dashboard_employer'>Dashboard</a>
                         </li>
                         <li>
                             <a href="/postings">Postings</a>
-                        </li>
-                        <li>
-                            <a href="/profile">Profile</a>
                         </li>
                     {:else if isAdmin}
                         <li>
@@ -84,6 +78,9 @@
                             <a href="/admin_users">Users</a>
                         </li>
                     {/if}
+                    <li>
+                        <a href="/profile">Profile</a>
+                    </li>
                     <li>
                         <a href='/' on:click="{logoutAndAlert}">Logout</a>
                     </li>
@@ -104,13 +101,13 @@
     header {
         display: flex;
         justify-content: space-between;
-        position: fixed;
         left: 50%;
         right: 50%;
         z-index: 10;
     }
 
     nav {
+        position: fixed;
         display: flex;
         justify-content: center;
         --background: #141414;

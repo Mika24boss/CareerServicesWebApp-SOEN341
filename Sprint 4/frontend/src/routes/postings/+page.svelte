@@ -143,8 +143,7 @@
 
         <div class="pageHeader">
             <h1>Job Postings</h1>
-            <input type="search" class="search" placeholder="Search..."
-                   on:input={updateSearchTerm}>
+            <input type="search" class="search" placeholder="Search..." on:input={updateSearchTerm}>
         </div>
 
         {#if user.role === "Employer"}
@@ -238,15 +237,6 @@
         justify-content: space-between;
     }
 
-    .search {
-        margin: auto 0;
-        font-size: 1em;
-        height: 40px;
-        width: 250px;
-        background: lightgray;
-        border-radius: 0.5em;
-    }
-
     .actionButton {
         color: black;
         background: #3A98B9;
@@ -285,5 +275,58 @@
     .separator:not(:empty)::after {
         margin-left: .25em;
     }
+
+    .actionButton{
+        display: inline-block;
+        padding: 0.9rem 1.8rem;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        border: 3px solid #3A98B9;
+        cursor: pointer;
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        border-radius: 1em;
+    }
+
+    .actionButton::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #3A98B9;
+        transform: translateX(-100%);
+        transition: all .3s;
+        z-index: -1;
+    }
+
+    .actionButton:hover::before {
+        transform: translateX(0);
+    }
+
+    .search {
+        width: 180px;
+        height: 50%;
+        padding: 10px 0 10px 40px;
+        border-radius: 9999px;
+        border: solid 1px #333;
+        transition: all .2s ease-in-out;
+        outline: none;
+        opacity: 0.8;
+        color: #3A98B9;
+        font-weight: bold;
+    }
+
+    .search:focus {
+        opacity: 1;
+        width: 250px;
+    }
+
 
 </style>

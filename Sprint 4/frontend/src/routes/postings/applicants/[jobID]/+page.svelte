@@ -14,6 +14,7 @@
     import {crossfade} from 'svelte/transition';
     import {flip} from 'svelte/animate';
     import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+    import fileService from "$lib/features/fileService.js";
 
     const [send, receive] = crossfade({
         fallback(node) {
@@ -62,15 +63,18 @@
         pageTitle = "Applicants - " + data.title;
 
         if (data.applicants) {
-
+            let counter = data.applicants.length + 3;
             for (let appID of data.applicants) {
                 let applicant = await authService.getUserByID(appID, user.token);
+                let appProfilePic = await fileService.getProfilePictureURL(appID);
+                let appResume = await fileService.getResumeURL(appID);
                 if (applicant) applicants.push({
                     name: applicant.name,
                     email: applicant.email,
                     id: applicant._id,
-                    profilePicture: applicant.profilePicture,
-                    CV: applicant.resume
+                    profilePicURL: appProfilePic,
+                    resumeURL: appResume,
+                    zIndexSchedule: counter--,
                 });
             }
 
@@ -242,7 +246,7 @@
             </div>
             <div class='companyName'>{data.companyName}</div>
             <div class='numApplicants'>{applicants.length} applicant{applicants.length > 1 ? 's' : ''}</div>
-            <input type='search' class='search' placeholder='Type a name or email...' on:input={updateSearchTerm}>
+            <input type='search' class='search' placeholder='Search...' on:input={updateSearchTerm}>
         </div>
 
         <div class='applicants'>
@@ -307,19 +311,6 @@
         font-weight: bold;
     }
 
-    .search {
-        justify-self: right;
-        grid-area: search;
-        margin: auto 0;
-        font-size: 1em;
-        height: 40px;
-        width: 100%;
-        background: lightgray;
-        border-radius: 0.5em;
-        max-width: 250px;
-        color: black;
-    }
-
     .deactivatedText {
         color: darkred;
     }
@@ -341,6 +332,60 @@
         font-size: 1.5em;
         left: 35%;
         width: 30%;
+    }
+
+    .submit{
+        display: inline-block;
+        padding: 0.9rem 1.8rem;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        border: 3px solid #3A98B9;
+        cursor: pointer;
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        border-radius: 1em;
+    }
+
+    .submit::before{
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #3A98B9;
+        transform: translateX(-100%);
+        transition: all .3s;
+        z-index: -1;
+    }
+
+    .submit:hover::before {
+        transform: translateX(0);
+    }
+
+    .search {
+        width: 180px;
+        height: 50%;
+        padding: 10px 0 10px 40px;
+        border-radius: 9999px;
+        border: solid 1px #333;
+        transition: all .2s ease-in-out;
+        outline: none;
+        opacity: 0.8;
+        color: #3A98B9;
+        font-weight: bold;
+        justify-self: right;
+        grid-area: search;
+    }
+
+    .search:focus {
+        opacity: 1;
+        width: 250px;
     }
 
 </style>

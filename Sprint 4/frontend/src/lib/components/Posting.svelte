@@ -49,27 +49,26 @@
 
     function appliedUI() {
         buttonText = "Applied!";
-        document.getElementById(jobID).style.background = "linear-gradient(180deg, #AEE2FF, #86C8BC)";
+        document.getElementById(jobID).style.background = "linear-gradient(to right, #AEE2FF, #86C8BC)";
         document.getElementById(jobID).style.borderRadius = "1em";
-        document.getElementById(jobID).style.padding = "0.3em";
+        document.getElementById(jobID).style.padding = "0.2em";
+        document.getElementById(jobID).style.outline = "none";
     }
 
 </script>
 {#await user}
 {:then user}
-    <div id={jobID}>
+    <div class="outline" id={jobID}>
         <div class="posting {role}">
             <div class="action-button">
                 <button on:click={onClick}>
                     {buttonText}
                 </button>
             </div>
-            <div class="title {!isActive ? 'deactivatedText' : ''}">
-                <a class="click-me" href="/postings/{jobID}/">
-                    <b>{title}</b><br/>
-                    {companyName}
-                </a>
-            </div>
+            <a class="click-me title {!isActive ? 'deactivatedText' : ''}" href="/postings/{jobID}/">
+                <b>{title}</b><br/>
+                {companyName}
+            </a>
             <div class="location {!isActive ? 'deactivatedText' : ''}">
                 {location}
             </div>
@@ -78,11 +77,17 @@
                     {nbApps} apps.
                 </div>
             {:else if role === 'Admin'}
-                <input type="checkbox" class="checkbox" on:change={toggle}/>
+                <div class='checkbox-div'>
+                    <input type='checkbox' class='checkbox' on:change={toggle}/>
+                    <div class="plus1">
+                        <div class="plus2"></div>
+                    </div>
+                </div>
             {/if}
         </div>
     </div>
 {/await}
+
 
 <style>
 
@@ -91,13 +96,39 @@
         color: white;
     }
 
+    .outline {
+        outline: 1px solid gray;
+        border-radius: 1em;
+    }
+
+    .posting * {
+        z-index: 1;
+    }
+
     .posting {
-        display: grid;
-        justify-items: stretch;
+        position: relative;
         background: #141414;
         border-radius: 1em;
-
+        display: grid;
+        justify-items: stretch;
         --line-height: 4em;
+    }
+
+    .posting:before {
+        background: linear-gradient(to right, transparent, rgb(0, 90, 0), rgb(0, 150, 0));
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        border-radius: 1em;
+        transition: width 300ms ease;
+    }
+
+    .posting:hover:before {
+        width: 100%;
+        transition-duration: 600ms;
     }
 
     .posting.Student {
@@ -114,6 +145,7 @@
 
     .action-button {
         padding: 0.69em;
+        font-size: 1.15em;
     }
 
     .action-button button {
@@ -132,21 +164,10 @@
         cursor: pointer;
     }
 
-    a, b {
-        text-decoration: none;
-        color: inherit;
+    .title:hover *, .title:hover {
+        color: rgb(155, 212, 155);
+        text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.42);
     }
-
-    /*.posting:hover .action-button:not(:hover) ~ div span {
-        color: #3A98B9;
-    }*/
-    a:hover {
-        color: #3A98B9;
-    }
-
-    /*.posting:hover {
-        cursor: pointer;
-    }*/
 
     .title {
         align-self: center;
@@ -155,6 +176,8 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-decoration: none;
+        color: inherit;
     }
 
     .location {
@@ -168,32 +191,100 @@
         text-overflow: ellipsis;
     }
 
-    .checkbox {
-        align-self: center;
-        margin: 2.5em;
-        background-color: white;
-        border-radius: 50%;
-        appearance: none;
-        -webkit-appearance: none;
-        outline: none;
-        cursor: pointer;
-        aspect-ratio: 1;
-        min-height: 20px;
-        max-height: 30px;
-        min-width: 20px;
-        max-width: 30px;
-    }
-
-    .checkbox:checked {
-        background-color: darkred;
-    }
-
     .nbApps {
         justify-self: center;
         align-self: center;
     }
 
-    .deactivatedText {
+    .deactivatedText *, .deactivatedText {
         color: lightcoral;
+    }
+
+    .action-button button {
+        display: inline-block;
+        padding: 0.9rem 1.8rem;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        border: 3px solid #3A98B9;
+        cursor: pointer;
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        border-radius: 1em;
+    }
+
+    .action-button button::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #3A98B9;
+        transform: translateX(-100%);
+        transition: all .3s;
+        z-index: -1;
+    }
+
+    .action-button button:hover::before {
+        transform: translateX(0);
+    }
+
+    .checkbox-div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .checkbox-div input {
+        appearance: none;
+        width: 2em;
+        height: 2em;
+        background-color: #171717;
+        box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+        outline: darkgray solid 1px;
+    }
+
+    .checkbox-div input:hover {
+        scale: 1.2;
+        cursor: pointer;
+        box-shadow: none;
+    }
+
+    .checkbox-div .plus1 {
+        position: relative;
+        left: -26.5px;
+        width: 1.3em;
+        height: 0.2em;
+        background-color: #3A98B9;
+        rotate: 45deg;
+        scale: 0;
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkbox-div .plus2 {
+        position: relative;
+        width: 1.3em;
+        height: 0.2em;
+        background-color: #3A98B9;
+        transform: rotate(90deg);
+        border-radius: 5px;
+        transition: .4s ease-in-out;
+    }
+
+    .checkbox-div input:checked {
+        box-shadow: none;
+    }
+
+    .checkbox-div input:checked + .plus1 {
+        transform: rotate(180deg);
+        scale: 1;
     }
 </style>

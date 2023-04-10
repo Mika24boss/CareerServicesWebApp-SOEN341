@@ -41,6 +41,9 @@ const deleteUser = async (/** @type {any} */userData, /** @type {any} */ token) 
         console.log(reason)
         return reason;
     })
+    await axios.delete(API_URL + "deleteFiles", {data: {id: userData,}}).catch((reason) => {
+        console.log(reason)
+    })
     return {data: response.data, error: response.response?.status};
 }
 
@@ -142,14 +145,9 @@ const deleteInterview = async (/** @type {string} */ applicantID, /** @type {any
     return {data: response.data, error: response.response?.status};
 }
 
-const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any} */ token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+const uploadProfileImage = async (/** @type {string} */ userData) => {
     try {
-        const response = await axios.patch(API_URL + 'uploadProfileImage', userData, config);
+        const response = await axios.patch(API_URL + 'uploadProfileImage', userData);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -157,14 +155,9 @@ const uploadProfileImage = async (/** @type {string} */ userData, /** @type {any
     }
 }
 
-const uploadCV = async (/** @type {string} */ userData, /** @type {any} */ token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+const uploadCV = async (/** @type {string} */ userData) => {
     try {
-        const response = await axios.patch(API_URL + '/uploadResume', userData, config);
+        const response = await axios.patch(API_URL + 'uploadResume', userData);
         return response.data;
     } catch (error) {
         console.log(error);

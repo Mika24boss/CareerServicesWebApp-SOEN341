@@ -196,7 +196,7 @@
         align-self: center;
     }
 
-    .deactivatedText {
+    .deactivatedText *, .deactivatedText {
         color: lightcoral;
     }
 

@@ -38,7 +38,7 @@ router.patch('/uploadLogo', async (req, res) => {
                 return res.status(404).json({ error: 'User not found' });
             }
             const image = new Image({
-                name: "logo" + user.id,
+                name: "logo-" + user.id,
                 image: {
                     data: req.file.filename,
                     contentType: "image/png"

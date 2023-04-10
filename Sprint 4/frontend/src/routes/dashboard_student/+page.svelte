@@ -37,16 +37,20 @@
                 //console.log(res);
             }
 
-            const job = await jobService.getJobByID(interviews[i].job, user.token);
+            const job = (await jobService.getJobByID(interviews[i].job, user.token))[0];
+            console.log(job)
+            if (job == null) {
+                await authService.deleteInterview(user._id, interviews[i].job, user.token);
+            } else {
+                interviewsPack.push({
+                    jobID: job.jobID,
+                    title: job.title,
+                    companyName: job.companyName,
+                    interviewDate: date
+                });
 
-            interviewsPack.push({
-                jobID: job[0].jobID,
-                title: job[0].title,
-                companyName: job[0].companyName,
-                interviewDate: date
-            });
-
-            interviewsPack = interviewsPack;
+                interviewsPack = interviewsPack;
+            }
         }
         finishedLoading = true;
     }

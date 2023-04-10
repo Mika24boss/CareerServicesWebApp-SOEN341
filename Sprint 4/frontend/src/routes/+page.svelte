@@ -3,11 +3,20 @@
     import {goto} from "$app/navigation";
     import {hasUpdated} from "../lib/stores/updateUser.js";
     import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
+    import {onMount} from "svelte";
+    import {page} from "$app/stores";
+    import {env} from "$env/dynamic/public";
 
     let email, password;
     let response;
     let hasInvalidCredentials = false;
     let isWaiting = false;
+
+    /*onMount(() => {
+        if (!$page.url.hostname.includes("localhost") && env.PUBLIC_API_URL.includes("localhost")){
+            location.reload();
+        }
+    })*/
 
     async function onSubmit() {
         email = document.getElementById("email").value;
@@ -54,7 +63,6 @@
                                           style='color:white'></div>
             <div class='btn-container'>
                 <button class="btn-signin centerBlock" type="submit" on:click="{onSubmit}">Sign-In</button>
-
             </div>
 
             {#if hasInvalidCredentials}

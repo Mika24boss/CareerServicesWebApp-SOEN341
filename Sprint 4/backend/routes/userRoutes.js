@@ -20,7 +20,7 @@ router.post('/login', loginUser)
 router.post('/logout', protect, logout)
 
 const Storage = multer.diskStorage({
-    destination: 'profileFolder',
+    destination: 'ProfileFolder',
     filename: (req, file, cb) => {
         cb(null, file.originalname)
     },
@@ -98,6 +98,32 @@ router.patch('/uploadResume', async (req, res) => {
             return res.status(500).json({ error: 'Server error' });
         }
     })
+});
+
+const fs = require('fs');
+router.delete('/deleteFiles', async (req, res) => {
+    fs.unlink("ProfileFolder/" + req.body.id + ".png", (err) => {
+        if (err) {
+            console.log("Profile picture doesn't exist or something went wrong.");
+            return;
+        }
+        console.log("Deleted profile picture successfully.");
+    });
+    fs.unlink("ProfileFolder/logo-" + req.body.id + ".png", (err) => {
+        if (err) {
+            console.log("Logo picture doesn't exist or something went wrong.");
+            return;
+        }
+        console.log("Deleted logo picture successfully.");
+    });
+    fs.unlink("ResumeFolder/" + req.body.id + ".pdf", (err) => {
+        if (err) {
+            console.log("CV doesn't exist or something went wrong.");
+            return;
+        }
+        console.log("Deleted CV successfully.");
+    });
+    return res.status(200).json({ message: 'Files deleted' });
 });
 
 module.exports = router

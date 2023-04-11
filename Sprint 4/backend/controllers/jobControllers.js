@@ -39,10 +39,6 @@ const setJobs = asyncHandler(async (req, res) => {
         user: req.user.id,
         interviewDate: req.body.interviewDate,
         currentView: 0,
-        vision: req.body.vision,
-        industry: req.body.industry,
-        website: req.body.website,
-        size: req.body.size,
     })
     res.status(200).json(job)
 })

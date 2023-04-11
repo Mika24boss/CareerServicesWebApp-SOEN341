@@ -127,6 +127,7 @@
         aspect-ratio: 1;
         max-height: 50px;
         max-width: 50px;
+		object-fit: cover;
     }
 
     img {

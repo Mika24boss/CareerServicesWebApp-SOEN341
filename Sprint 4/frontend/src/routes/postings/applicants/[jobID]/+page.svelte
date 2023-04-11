@@ -190,6 +190,7 @@
             await jobService.updateJob(jobID, {applicants: applicants.map((applicant) => applicant.id).toString()}, user.token);
         }
 
+        await jobService.updateJob(jobID, {currentView: applicants.length}, user.token);
         hasChanges = false;
     }
 

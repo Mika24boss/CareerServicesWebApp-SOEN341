@@ -38,7 +38,7 @@
             }
 
             const job = (await jobService.getJobByID(interviews[i].job, user.token))[0];
-            console.log(job)
+            //console.log(job)
             if (job == null) {
                 await authService.deleteInterview(user._id, interviews[i].job, user.token);
             } else {

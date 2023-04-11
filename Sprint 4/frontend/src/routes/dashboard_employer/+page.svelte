@@ -139,6 +139,11 @@
         color: lightgray;
     }
 
+    .employer-dashboard {
+        width: 80%;
+        margin-left: 10%;
+    }
+
     .notification-section {
         margin-top: 2%;
     }

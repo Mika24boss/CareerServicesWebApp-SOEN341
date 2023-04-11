@@ -54,9 +54,13 @@
     <LoadingAnimation/>
 {:else}
     <section>
-        <div class="welcome centerBlock">
-            <p style="font-size: 30px;">Welcome to AsianQuadPower! </p>
-        </div>
+        <span class="welcome centerBlock">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <p style="font-size: 30px;">Welcome to AsianQuadPower!</p>
+        </span>
         <form class='centerBlock'>
             <div class='formGroup'><input type="text" id="email" placeholder="Email" required style='color:white'></div>
             <div class='formGroup'><input type="password" id="password" placeholder="Password" required
@@ -88,19 +92,7 @@
         height: auto;
         position: relative;
         text-align: center;
-        margin: 5em auto auto;
-    }
-
-    .welcome {
-        display: block;
-        position: relative;
-        width: 100%;
-    }
-
-    .welcome p {
-        margin: 2px;
-        font-weight: bold;
-        padding-bottom: 1em;
+        margin: 3em auto auto;
     }
 
     * a:link, a:visited {
@@ -116,7 +108,7 @@
         color: #3A98B9;
     }
 
-    .signup{
+    .signup {
         font-size: 15px;
         color: #3A98B9;
     }
@@ -188,6 +180,86 @@
 
     .btn-signin:hover::before {
         transform: translateX(0);
+    }
+
+    .welcome {
+        position: relative;
+        letter-spacing: 2px;
+        overflow: hidden;
+        transition: 0.2s;
+        width: 500px;
+        margin: 0 auto 3em;
+        user-select: none;
+        border-radius: 1em;
+    }
+
+    .welcome * {
+        color: #3A98B9;
+    }
+
+    .welcome:hover {
+        box-shadow: 0 0 10px #FFFFFF, 0 0 25px #008080, 0 0 50px #008080;
+        transition-delay: 0.6s;
+        cursor: default;
+    }
+
+    .welcome span {
+        position: absolute;
+    }
+
+    .welcome span:nth-child(1) {
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #008080);
+    }
+
+    .welcome:hover span:nth-child(1) {
+        left: 100%;
+        transition: 0.7s;
+    }
+
+    .welcome span:nth-child(3) {
+        bottom: 0;
+        right: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #001eff);
+    }
+
+    .welcome:hover span:nth-child(3) {
+        right: 100%;
+        transition: 0.7s;
+        transition-delay: 0.35s;
+    }
+
+    .welcome span:nth-child(2) {
+        top: -100%;
+        right: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(180deg, transparent, #008080);
+    }
+
+    .welcome:hover span:nth-child(2) {
+        top: 100%;
+        transition: 0.7s;
+        transition-delay: 0.17s;
+    }
+
+    .welcome span:nth-child(4) {
+        bottom: -100%;
+        left: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(360deg, transparent, #001eff);
+    }
+
+    .welcome:hover span:nth-child(4) {
+        bottom: 100%;
+        transition: 0.7s;
+        transition-delay: 0.52s;
     }
 
 </style>

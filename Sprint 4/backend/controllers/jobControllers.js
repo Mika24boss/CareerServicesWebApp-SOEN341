@@ -39,6 +39,10 @@ const setJobs = asyncHandler(async (req, res) => {
         user: req.user.id,
         interviewDate: req.body.interviewDate,
         currentView: 0,
+        vision: req.body.vision,
+        industry: req.body.industry,
+        website: req.body.website,
+        size: req.body.size,
     })
     res.status(200).json(job)
 })
@@ -84,6 +88,10 @@ const updateJobsID = asyncHandler(async (req, res) => {
     job.isActive = req.body.isActive == null ? job.isActive : req.body.isActive;
     job.interviewDate = req.body.interviewDate || job.interviewDate;
     job.jobID = req.body.jobID || job.jobID;
+    job.size = req.body.size || job.size;
+    job.vision = req.body.vision || job.vision;
+    job.industry = req.body.industry || job.industry;
+    job.website = req.body.website || job.website;
     job.currentView = req.body.currentView === 0 ? 0 : (req.body.currentView || job.currentView);
     const updatedJobsID = await job.save();
     res.status(200).json(updatedJobsID)

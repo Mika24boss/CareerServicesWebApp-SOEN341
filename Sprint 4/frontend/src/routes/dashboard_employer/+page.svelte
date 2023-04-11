@@ -73,13 +73,13 @@
                 //console.log(allJobs[i].applicants);
 
                 for (let j = allJobs[i].currentView; j < myApps.length; j++) {
-                    console.log(j + ' app: ' + myApps[j]);
+                    //console.log(j + ' app: ' + myApps[j]);
                     student = await authService.getUserByID(myApps[j], user.token);
 
                     notificationsPack.push({
-                        jobID: allJobs[j].jobID,
-                        title: allJobs[j].title,
-                        companyName: allJobs[j].companyName,
+                        jobID: allJobs[i].jobID,
+                        title: allJobs[i].title,
+                        companyName: allJobs[i].companyName,
                         name: student.name
                     });
                     notificationsPack = notificationsPack;

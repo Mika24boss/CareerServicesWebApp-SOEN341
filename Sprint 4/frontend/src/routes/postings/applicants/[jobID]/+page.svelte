@@ -61,6 +61,7 @@
         }
 
         pageTitle = "Applicants - " + data.title;
+        await jobService.updateJob(jobID, {currentView: data.applicants.length}, user.token);
 
         if (data.applicants) {
             let counter = data.applicants.length + 3;
@@ -84,7 +85,7 @@
                 else {
                     await jobService.updateJob(jobID, {applicants: applicants.map((applicant) => applicant.id).toString()}, user.token);
                 }
-                console.log('Removed ids belonging to deleted accounts.');
+                //console.log('Removed ids belonging to deleted accounts.');
             }
         }
 

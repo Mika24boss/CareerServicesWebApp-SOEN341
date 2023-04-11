@@ -238,7 +238,7 @@
     <br/>
 
     {#if canEdit}
-        <textarea class='description' id='description' placeholder='Description' use:autoresize
+        <textarea class='description' id='description' placeholder='Description (html syntax supported)' use:autoresize
                   bind:value={descriptionText} bind:this={descriptionElement} on:keydown={changedText}></textarea>
     {:else}
         <div class='description'>

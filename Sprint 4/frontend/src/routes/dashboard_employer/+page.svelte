@@ -39,18 +39,19 @@
             if (date < todayDate) {
                 let res = await authService.deleteInterview(user._id, interviews[i].job, user.token);
                 //console.log(res);
+            } else {
+
+                const job = await jobService.getJobByID(interviews[i].job, user.token);
+
+                interviewsPack.push({
+                    jobID: job[0].jobID,
+                    title: job[0].title,
+                    companyName: job[0].companyName,
+                    interviewDate: date
+                });
+
+                interviewsPack = interviewsPack;
             }
-
-            const job = await jobService.getJobByID(interviews[i].job, user.token);
-
-            interviewsPack.push({
-                jobID: job[0].jobID,
-                title: job[0].title,
-                companyName: job[0].companyName,
-                interviewDate: date
-            });
-
-            interviewsPack = interviewsPack;
         }
         finishedLoading = true;
     }

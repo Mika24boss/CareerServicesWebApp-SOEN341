@@ -35,21 +35,22 @@
             if (date < todayDate) {
                 let res = await authService.deleteInterview(user._id, interviews[i].job, user.token);
                 //console.log(res);
-            }
-
-            const job = (await jobService.getJobByID(interviews[i].job, user.token))[0];
-            //console.log(job)
-            if (job == null) {
-                await authService.deleteInterview(user._id, interviews[i].job, user.token);
             } else {
-                interviewsPack.push({
-                    jobID: job.jobID,
-                    title: job.title,
-                    companyName: job.companyName,
-                    interviewDate: date
-                });
 
-                interviewsPack = interviewsPack;
+                const job = (await jobService.getJobByID(interviews[i].job, user.token))[0];
+                //console.log(job)
+                if (job == null) {
+                    await authService.deleteInterview(user._id, interviews[i].job, user.token);
+                } else {
+                    interviewsPack.push({
+                        jobID: job.jobID,
+                        title: job.title,
+                        companyName: job.companyName,
+                        interviewDate: date
+                    });
+
+                    interviewsPack = interviewsPack;
+                }
             }
         }
         finishedLoading = true;

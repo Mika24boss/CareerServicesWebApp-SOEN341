@@ -43,19 +43,15 @@ const jobSchema = mongoose.Schema({
     },
     vision: {
         type: String,
-        required: true
     },
     industry: {
         type: String,
-        required: true
     },
     website: {
         type: String,
-        required: true
     },
     size: {
         type: String,
-        required: true
     },
     logo: {
         type: mongoose.Schema.Types.ObjectId,

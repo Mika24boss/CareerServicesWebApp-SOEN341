@@ -85,6 +85,11 @@
         };
         const response = await authService.edit(userData, user.token);
         //	console.log(response);
+        if (response) {
+            alert("Information updated!")
+        } else {
+            alert("Error while updating information.")
+        }
     }
     async function editCompany() {
         const userData = {
@@ -95,8 +100,12 @@
             location: document.getElementById('location').value
         };
         const response = await authService.edit(userData, user.token);
-        //  user.token = user.token;
         //	console.log(response);
+        if (response) {
+            alert("Company information updated!")
+        } else {
+            alert("Error while updating company information.")
+        }
     }
 
     onMount(async () => {

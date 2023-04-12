@@ -158,6 +158,11 @@ const updateUser = asyncHandler(async (req, res) => {
         }
         user.name = req.body.name || user.name;
         user.profilePicture = req.body.profilePicture || user.profilePicture;
+        user.resume = req.body.resume || user.resume;
+        user.companyName = req.body.companyName|| user.companyName;
+        user.vision = req.body.vision || user.vision;
+        user.industry = req.body.industry || user.industry;
+        user.location = req.body.location || user.location;
         const updatedUser = await user.save();
         res.json(updatedUser);
     } else {
@@ -199,9 +204,7 @@ const loginUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
-            token: generateToken(user._id),
-            profilePicture: user.profilePicture,
-            resume: user.resume
+            token: generateToken(user._id)
         })
     } else {
         res.status(401)
@@ -241,8 +244,6 @@ const generateToken = (id) => {
         expiresIn: '30d',
     })
 }
-
-
 
 module.exports = {
     registerUser,

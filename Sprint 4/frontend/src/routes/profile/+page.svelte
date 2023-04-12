@@ -10,7 +10,7 @@
     import LoadingAnimation from "$lib/components/LoadingAnimation.svelte";
 
     let user;
-    let profilePictureURL, resumeURL;
+    let profilePictureURL, resumeURL, logoURL;
 
     function handleImageChange(event) {
         const file = event.target.files[0];
@@ -21,6 +21,14 @@
         reader.readAsDataURL(file);
     }
 
+    function handleImageChange1(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            logoURL = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
     async function uploadPic() {
         const uploadimage = document.getElementById('image')
         const formData = new FormData();
@@ -34,6 +42,19 @@
         }
     }
 
+    async function uploadLogo() {
+        const uploadimage = document.getElementById('image1')
+        const formData = new FormData();
+        formData.append("id", user._id);
+        formData.append("profileImage", uploadimage.files[0], "logo-" + user._id + ".png");
+        const response = await authService.uploadProfileImage(formData);
+        if (response) {
+            alert("Logo uploaded!")
+        } else {
+            alert("Error while uploading logo.")
+        }
+    }
+
     async function uploadCV() {
         const uploadfile = document.getElementById('cv')
         const formData = new FormData();
@@ -41,7 +62,8 @@
         formData.append("resume", uploadfile.files[0], user._id + ".pdf");
         const response = await authService.uploadCV(formData);
         if (response) {
-            alert("Resume uploaded!")
+            location.reload();
+            alert("Resume uploaded!");
         } else {
             alert("Error while uploading resume.")
         }
@@ -64,11 +86,26 @@
         const response = await authService.edit(userData, user.token);
         //	console.log(response);
     }
+    async function editCompany() {
+        const userData = {
+            id: user._id,
+            companyName: document.getElementById('companyName').value,
+            vision: document.getElementById('vision').value,
+            industry: document.getElementById('industry').value,
+            location: document.getElementById('location').value
+        };
+        const response = await authService.edit(userData, user.token);
+        //  user.token = user.token;
+        //	console.log(response);
+    }
 
     onMount(async () => {
         await loadUser();
         profilePictureURL = await fileService.getProfilePictureURL(user._id);
-        resumeURL = await fileService.getResumeURL(user._id);
+        if (user.role === "Student"){
+        resumeURL = await fileService.getResumeURL(user._id);}
+        if (user.role === "Employer"){
+        logoURL = await fileService.getLogoURL(user._id);}
     });
 
 </script>
@@ -78,53 +115,48 @@
 {:else}
 
     <div class='profile-page'>
-        <h1 style='text-align: left;'>Profile</h1>
+        <h1>Profile</h1>
         <div class='profile'>
             <div class='avatar-upload'>
                 <h3>Avatar</h3>
-
                 <div class='image-container'>
-                    <label id='image-btn' for='image'>
+                    <label class='image-btn' for='image'>
                         <input type='file' name='image' id='image' style='display: none;' accept='image/*'
                                on:change={handleImageChange}>
                         <img id='previewImage' src={profilePictureURL} alt='Click to upload image'>
                     </label>
                 </div>
-
                 <div class='btn' style='padding-top: 10px;'>
-                    <button on:click={uploadPic}>Change</button>
+                    <button on:click={uploadPic}>Submit</button>
                 </div>
             </div>
 
             <div class='information'>
                 {#if user.role === "Student"}
-                    <h3>Student information</h3>
+                    <h3>Student Information</h3>
                 {:else if user.role === "Employer"}
-                    <h3>Employer information</h3>
+                    <h3>Employer Information</h3>
                 {:else if user.role === "Admin"}
-                    <h3>Admin information</h3>
+                    <h3>Admin Information</h3>
                 {/if}
                 <label for='name'>Full Name</label>
                 <div class='formGroup'><input type='text' id='name' name='name' value={user.name}></div>
                 <label for='email'>Email Address</label>
                 <div class='formGroup'><input type='email' id='email' name='email' value={user.email}></div>
                 <label for='password'>Password</label>
-                <div class='formGroup'><input type='new-password' id='password' name='password'
-                                              placeholder='Leave empty if no change'></div>
-
-                <div class='btn'>
-                    <button class='save' on:click={editUser}>Save</button>
-                </div>
+                <div class='formGroup'><input type='new-password' id='password'
+                                              name='password' placeholder='Leave empty if no change'></div>
+                <div class='btn'><button class='save' on:click={editUser}>Save</button></div>
             </div>
+
             {#if user.role === "Student"}
                 <div class='cv-upload'>
                     <h3>Resume</h3>
-
                     <div id="currentCV">
                         <div class='btn' style='text-align: left;padding-bottom: 15px'>
                             {#if resumeURL}
                                 <a href={resumeURL} target="_blank" style="color: #3A98B9;">
-                                    <button>Open your CV</button>
+                                    <button>Open current CV</button>
                                 </a>
                             {:else}
                                 <button>No CV uploaded</button>
@@ -142,9 +174,42 @@
                         </div>
                     </div>
                 </div>
+            {:else if user.role === "Employer"}
+                <div class='logo-upload'>
+                    <h3>Logo</h3>
+                    <div class='image-container'>
+                        <label class='image-btn' for='image1'>
+                            <input type='file' name='image1' id='image1' style='display: none;' accept='image/*'
+                                   on:change={handleImageChange1}>
+                            <img id='previewImage1' src={logoURL} alt='Click to upload image'>
+                        </label>
+                    </div>
+                    <div class='btn' style='padding-top: 10px;'>
+                        <button on:click={uploadLogo}>Submit</button>
+                    </div>
+                </div>
+                <div class="companyInfo">
+                    <h3>Company Information</h3>
+                    <label for='companyName'>Company Name</label>
+                    <div class='formGroup'><input type='text' id='companyName' name='companyName' value={user.companyName}></div>
+                    <label for='vision'>Vision</label>
+                    <div class='formGroup'><input type='text' id='vision' name='vision' value={user.vision}></div>
+                    <label for='industry'>Industry/Sector</label>
+                    <div class='formGroup'><input type='text' id='industry' name='industry' value={user.industry}></div>
+                    <label for='location'>Location</label>
+                    <div class='formGroup'><input type='text' id='location' name='location' value={user.location}></div>
+                    <div class='btn'><button class='save' on:click={editCompany}>Save</button></div>
+                </div>
+            {:else if user.role === "Admin"}
+                <div class="adminInfo">
+                    <h3>Admin Permissions</h3>
+                    <ul>
+                        <li>You can manage and delete users</li>
+                        <li>You can manage and delete job offers</li>
+                    </ul>
+                </div>
             {/if}
         </div>
-
     </div>
 {/if}
 
@@ -208,7 +273,7 @@
         padding: 10px 20px 10px;
     }
 
-    #previewImage {
+    #previewImage, #previewImage1 {
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -221,7 +286,7 @@
         transition: 0.5s ease;
     }
 
-    #previewImage:hover {
+    #previewImage:hover, #previewImage1:hover {
         opacity: 0.5;
         transition: 0.5s ease;
     }
@@ -238,7 +303,8 @@
 
     .formGroup input, .formGroup input:focus {
         border: none;
-        width: 100%;
+        width: 90%;
+        margin-left: 10px;
         border-bottom: 2px solid #3A98B9;
         font-size: 14px;
         font-weight: bold;
@@ -269,6 +335,25 @@
         border-radius: 10px;
         padding: 5px;
         color: #3A98B9;
+    }
+
+    .companyInfo {
+        background-color: #141414;
+        display: flex;
+        flex-direction: column;
+        border-radius: 1em;
+        grid-area: auto;
+        grid-gap: 10px;
+        padding: 10px 30px 10px;
+    }
+
+    .logo-upload {
+        background-color: #141414;
+        display: flex;
+        flex-direction: column;
+        border-radius: 1em;
+        grid-area: auto;
+        padding: 10px 20px 10px;
     }
 </style>
 

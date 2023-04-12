@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {env} from '$env/dynamic/public'
 import defaultProfilePic from '$lib/images/default.png'
+import defaultLogo from '$lib/images/logo-default.png'
 
 const API_URL = env.PUBLIC_API_URL + '/'
 
@@ -21,6 +22,13 @@ const getResumeURL = async (/** @type {string} */ userID) => {
     });
 }
 
+const getLogoURL = async (/** @type {string} */ userID) => {
+    return await axios.get(API_URL + 'ProfileFolder/logo-' + userID + '.png').then(() => {
+        return API_URL + 'ProfileFolder/logo-' + userID + '.png';
+    }).catch(() => {
+        return defaultLogo;
+    });
+}
 // Delete file
 const deleteFile = async (/** @type {string} */ fileID, /** @type {any} */ token) => {
     const config = {
@@ -37,6 +45,7 @@ const deleteFile = async (/** @type {string} */ fileID, /** @type {any} */ token
 export const fileService = {
     getProfilePictureURL,
     getResumeURL,
+    getLogoURL,
     deleteFile,
 }
 

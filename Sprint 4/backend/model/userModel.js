@@ -19,13 +19,17 @@ const userSchema = mongoose.Schema(
             enum: ['Admin', 'Employer', 'Student'],
             required: true
         },
-        profilePicture: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'File',
+        companyName:{
+            type: String,
         },
-        resume: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'File',
+        vision:{
+            type: String,
+        },
+        industry:{
+            type: String,
+        },
+        location:{
+            type: String,
         },
         interview: [{
             job: {

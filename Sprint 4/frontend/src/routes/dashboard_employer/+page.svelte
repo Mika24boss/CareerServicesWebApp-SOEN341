@@ -41,16 +41,19 @@
                 //console.log(res);
             } else {
 
-                const job = await jobService.getJobByID(interviews[i].job, user.token);
+                const job = (await jobService.getJobByID(interviews[i].job, user.token))[0];
+                if (job == null) {
+                    await authService.deleteInterview(user._id, interviews[i].job, user.token);
+                } else {
+                    interviewsPack.push({
+                        jobID: job.jobID,
+                        title: job.title,
+                        companyName: job.companyName,
+                        interviewDate: date
+                    });
 
-                interviewsPack.push({
-                    jobID: job[0].jobID,
-                    title: job[0].title,
-                    companyName: job[0].companyName,
-                    interviewDate: date
-                });
-
-                interviewsPack = interviewsPack;
+                    interviewsPack = interviewsPack;
+                }
             }
         }
         finishedLoading = true;
@@ -81,7 +84,7 @@
                         jobID: allJobs[i].jobID,
                         title: allJobs[i].title,
                         companyName: allJobs[i].companyName,
-                        name: student.name
+                        name: student == null ? "Deleted account" : student.name,
                     });
                     notificationsPack = notificationsPack;
                 }

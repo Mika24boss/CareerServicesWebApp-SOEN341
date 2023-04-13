@@ -84,7 +84,6 @@
             password: document.getElementById('password').value
         };
         const response = await authService.edit(userData, user.token);
-        //	console.log(response);
         if (response) {
             alert("Information updated!")
         } else {
@@ -100,7 +99,6 @@
             location: document.getElementById('location').value
         };
         const response = await authService.edit(userData, user.token);
-        //	console.log(response);
         if (response) {
             alert("Company information updated!")
         } else {
@@ -110,7 +108,6 @@
 
     onMount(async () => {
         await loadUser();
-        console.log(user.companyName);
         profilePictureURL = await fileService.getProfilePictureURL(user._id);
         if (user.role === "Student"){
         resumeURL = await fileService.getResumeURL(user._id);}

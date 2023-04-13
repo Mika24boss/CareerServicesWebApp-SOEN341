@@ -204,7 +204,11 @@ const loginUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
-            token: generateToken(user._id)
+            token: generateToken(user._id),
+            companyName: user.companyName,
+            vision: user.vision,
+            industry: user.industry,
+            location: user.location
         })
     } else {
         res.status(401)

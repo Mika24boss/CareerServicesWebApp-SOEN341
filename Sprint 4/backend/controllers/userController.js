@@ -105,15 +105,11 @@ const deleteInterview = asyncHandler(async (req, res) => {
     }
 
     const jobID = req.body.jobID;
-    const jobSearch = await Job.findOne({ jobID: { $eq: parseInt(jobID) } });
-    if (!jobSearch) {
-        res.status(404);
-        throw new Error(`Job not found with ID: ${jobID}`);
-    }
-    let interview;
+    let interview, index;
     for (let i = 0; i < user.interview.length; i++) {
-        if (user.interview[i].job.toString() === jobSearch.jobID.toString()) {
+        if (user.interview[i].job.toString() === jobID.toString()) {
             interview = user.interview[i];
+            index = i;
             break;
         }
     }
@@ -123,12 +119,7 @@ const deleteInterview = asyncHandler(async (req, res) => {
     }
 
     // Remove the interview from the user's array of interviews
-    for (let i = 0; i < user.interview.length; i++) {
-        if (user.interview[i].job.toString() === jobSearch.jobID.toString()) {
-            user.interview.splice(i, 1);
-            break;
-        }
-    }
+    user.interview.splice(index, 1);
 
     await user.save();
 

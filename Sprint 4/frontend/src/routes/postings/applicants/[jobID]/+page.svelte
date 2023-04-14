@@ -142,6 +142,8 @@
             return;
         }
 
+        let stillHasChanges = false;
+
         const idArray = interviewDates.map((interview) => interview.id);
         for (let i = 0; i < accepted.length; i++) {
             if (!idArray.includes(accepted[i])) {
@@ -153,10 +155,11 @@
                 return;
             }
         }
-
+        let counterAccepted = accepted.length;
         // Handle all accepted applicants
-        while (accepted.length > 0) {
-            let date, acceptedID = accepted.pop();
+        while (counterAccepted > 0) {
+            counterAccepted--;
+            let date, acceptedID = accepted.shift();
 
             for (let interviewDate of interviewDates) {
                 if (interviewDate.id === acceptedID) {
@@ -165,9 +168,26 @@
                 }
             }
             let response = await authService.addInterview(acceptedID, jobID, date, user.token); // add student's interview
-            await handleAddInterviewResponse(response, acceptedID, date);
-            response = await authService.addInterview(user._id, jobID, date, user.token); // add employer's interview
-            await handleAddInterviewResponse(response, user._id, date);
+            if (await handleAddInterviewResponse(response, acceptedID, date)) { // successfully added student's interview
+
+                response = await authService.addInterview(user._id, jobID, date, user.token); // add employer's interview
+
+                if (!(await handleAddInterviewResponse(response, user._id, date))) { // failed to add employer's interview
+                    await authService.deleteInterview(acceptedID, jobID, user.token);
+                    stillHasChanges = true;
+                    continue;
+                }
+
+                // successfully added employer's interview
+                let applicantsClone = applicants;
+                for (let index = 0; index < applicantsClone.length; index++) {
+                    if (applicantsClone[index].id === acceptedID) {
+                        applicantsClone.splice(index, 1);
+                        applicants = applicantsClone;
+                        break;
+                    }
+                }
+            }
         }
 
         // Handle all rejected applicants
@@ -191,30 +211,24 @@
         }
 
         await jobService.updateJob(jobID, {currentView: applicants.length}, user.token);
-        hasChanges = false;
+
+        hasChanges = stillHasChanges;
     }
 
     async function handleAddInterviewResponse(response, interviewUserID, date) {
         if (response.data) { // interview was added successfully
-            let applicantsClone = applicants;
-            for (let index = 0; index < applicantsClone.length; index++) {
-                if (applicantsClone[index].id === interviewUserID) {
-                    applicantsClone.splice(index, 1);
-                    applicants = applicantsClone;
-                    break;
-                }
-            }
+            return true;
         } else if (!response.error) { // what happened? No error and no data?
-            if (interviewUserID !== user._id) //we're adding the student's interview
-                accepted.push(interviewUserID); // add it back
+            accepted.push(interviewUserID); // add it back
             alert('Unknown error when adding the interview. Please contact an admin if this persists.');
+            return false;
         } else { // an error occurred
-            if (interviewUserID !== user._id) //we're adding the student's interview
-                accepted.push(interviewUserID); // add it back
+
+            accepted.push(interviewUserID); // add it back
 
             if (response.error === 409) { // time conflict
                 if (interviewUserID === user._id) //we're adding the employer's interview
-                    alert('You already has an interview scheduled at ' + date.toLocaleDateString('en-US', {
+                    alert('You already have an interview scheduled at ' + date.toLocaleDateString('en-US', {
                         year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'
                     }) + '. Please choose another date.');
                 else {
@@ -229,6 +243,7 @@
             } else {
                 alert('Error ' + response.error + ' when adding the interview. Please try again or contact an admin if this error persists.');
             }
+            return false;
         }
     }
 
@@ -336,7 +351,7 @@
         width: 30%;
     }
 
-    .submit{
+    .submit {
         display: inline-block;
         padding: 0.9rem 1.8rem;
         font-size: 16px;
@@ -353,7 +368,7 @@
         border-radius: 1em;
     }
 
-    .submit::before{
+    .submit::before {
         content: "";
         position: absolute;
         left: 0;

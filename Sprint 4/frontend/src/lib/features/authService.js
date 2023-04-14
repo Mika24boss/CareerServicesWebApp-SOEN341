@@ -66,12 +66,16 @@ const edit = async (/** @type {any} */ userData, /** @type {any} */ token) => {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.put(API_URL, userData, config)
+    const response = await axios.put(API_URL, userData, config);
     if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
+        const updatedUser = {
+            ...response.data,
+            token: token,
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
     }
-    return response.data
-}
+    return response.data;
+};
 
 // Logout user
 const logout = async (/** @type {any} */userData, /** @type {any} */token) => {

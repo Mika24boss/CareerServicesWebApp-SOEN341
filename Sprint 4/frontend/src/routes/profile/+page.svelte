@@ -84,7 +84,6 @@
             password: document.getElementById('password').value
         };
         const response = await authService.edit(userData, user.token);
-        //	console.log(response);
         if (response) {
             alert("Information updated!")
         } else {
@@ -100,7 +99,6 @@
             location: document.getElementById('location').value
         };
         const response = await authService.edit(userData, user.token);
-        //	console.log(response);
         if (response) {
             alert("Company information updated!")
         } else {
@@ -200,13 +198,13 @@
                 <div class="companyInfo">
                     <h3>Company Information</h3>
                     <label for='companyName'>Company Name</label>
-                    <div class='formGroup'><input type='text' id='companyName' name='companyName' value={user.companyName}></div>
+                    <div class='formGroup'><input type='text' id='companyName' name='companyName' value={user.companyName || ''}></div>
                     <label for='vision'>Vision</label>
-                    <div class='formGroup'><input type='text' id='vision' name='vision' value={user.vision}></div>
+                    <div class='formGroup'><input type='text' id='vision' name='vision' value={user.vision || ''}></div>
                     <label for='industry'>Industry/Sector</label>
-                    <div class='formGroup'><input type='text' id='industry' name='industry' value={user.industry}></div>
+                    <div class='formGroup'><input type='text' id='industry' name='industry' value={user.industry || ''}></div>
                     <label for='location'>Location</label>
-                    <div class='formGroup'><input type='text' id='location' name='location' value={user.location}></div>
+                    <div class='formGroup'><input type='text' id='location' name='location' value={user.location || ''}></div>
                     <div class='btn'><button class='save' on:click={editCompany}>Save</button></div>
                 </div>
             {:else if user.role === "Admin"}

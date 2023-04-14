@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "test": "mocha --timeout 10000"
+    "test": "mocha UT/test.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Mika24boss/AsianQuadPower-soen341project2023#readme",
   "dependencies": {
+    "@types/mocha": "^10.0.1",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
@@ -33,13 +34,15 @@
     "mongoose": "^6.8.4",
     "mongoose-sequence": "^5.3.1",
     "multer": "^1.4.5-lts.1",
+    "node": "^19.8.1",
+    "request": "^2.88.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0",
-    "nodemon": "^2.0.20",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
-    "mocha": "^10.2.0"
+    "concurrently": "^7.6.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.20"
   }
 }

@@ -75,6 +75,7 @@
                     'Our apologies for the inconvenience.');
                 if (ans) {
                     creatorName = 'DELETED USER';
+                    creatorProfilePic = await fileService.getProfilePictureURL("some id which will never exist");
                     if (user.role === 'Student') user.role = 'Employer'; //So the apply button doesn't appear
                 } else {
                     await goto('/postings');

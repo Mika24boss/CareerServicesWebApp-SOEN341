@@ -59,22 +59,22 @@
 
 {#if !finishedLoading}
     <LoadingAnimation/>
+{:else}
+
+    <div class='student-dashboard'>
+        <h1>Upcoming Interviews</h1>
+
+        {#if interviewsPack.length > 0}
+            <div class='interviews'>
+                {#each interviewsPack as interview}
+                    <Interview {...interview}/>
+                {/each}
+            </div>
+        {:else}
+            <p>No upcoming interviews</p>
+        {/if}
+    </div>
 {/if}
-
-<div class='student-dashboard'>
-    <h1>Upcoming Interviews</h1>
-
-    {#if interviewsPack.length > 0}
-        <div class='interviews'>
-            {#each interviewsPack as interview}
-                <Interview {...interview}/>
-            {/each}
-        </div>
-    {:else}
-        <p>No upcoming interviews</p>
-    {/if}
-</div>
-
 
 <style>
 

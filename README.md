@@ -1,6 +1,12 @@
+# [Website Link](https://firmic.dynv6.net/)
+<br/>
+
 # Career Services Application
 Repository for the career website for the SOEN 341 project - Winter 2023.
 <hr>
+
+<h2>Demo video for user story https://github.com/Mika24boss/AsianQuadPower-soen341project2023/issues/9</h2>
+https://youtu.be/jVHXtaIsV-w
 
 <h2>Demo video for sprint 3</h2>
 https://youtu.be/1rZoLTKiDDs
@@ -10,8 +16,8 @@ https://youtu.be/I_gJ_B7XvvU
 
 <h2>Project Description</h2> 
 <ul>
-  <li>In this project, we will develop a career service website where core features will be implemented. Students will be able to post their portfolio      and employers will be able to create the job offers.</li>
-  <li>Objective: Create a career service website, work on our software project management skills by taking the different advantages of the tools that       were introduced in the lectures.</li>
+  <li>In this project, we will develop a career service website where core features will be implemented. Students will be able to post their portfolio and employers will be able to create the job offers.</li>
+  <li>Objective: Create a career service website, work on our software project management skills by taking the different advantages of the tools that were introduced in the lectures.</li>
 </ul>
 
 <h2>Core Features</h2>
@@ -72,6 +78,4 @@ https://youtu.be/I_gJ_B7XvvU
 </ul>
 <hr>
 Google Drive Folder : https://drive.google.com/drive/folders/19gJMnSu9UXPethGoDht5VrpiM35O2rA7?usp=share_link
-<br/>
-Website Link: https://firmic.dynv6.net/
 

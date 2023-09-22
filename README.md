@@ -76,6 +76,3 @@ https://youtu.be/I_gJ_B7XvvU
         </ul>
     </li>
 </ul>
-<hr>
-Google Drive Folder : https://drive.google.com/drive/folders/19gJMnSu9UXPethGoDht5VrpiM35O2rA7?usp=share_link
-

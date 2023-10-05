@@ -2,7 +2,7 @@
 <br/>
 
 # Career Services Application
-Repository for the career website for the SOEN 341 project - Winter 2023.
+Repository for the career website for the Software Process class project.
 <hr>
 
 <h2>Demo video for user story https://github.com/Mika24boss/AsianQuadPower-soen341project2023/issues/9</h2>
@@ -51,28 +51,28 @@ https://youtu.be/I_gJ_B7XvvU
 
 <h2>Team Members:</h2>
 <ul>
-    <li>Michaël Gugliandolo (40213419)
+    <li>Michaël Gugliandolo
         <ul>
             <li>Username: Mika24boss</li>
-            <li>Role/Strength: Frontend Developer</li>
+            <li>Role: Frontend Developer</li>
         </ul>
     </li>
-    <li>Jessey Thach (40210440)
+    <li>Jessey Thach
         <ul>
             <li>Username: jesseythach</li>
-            <li>Role/Strength: Frontend Developer</li>
+            <li>Role: Frontend Developer</li>
         </ul>
     </li>
-    <li>Anh-Tuan Nguyen (40177349)
+    <li>Anh-Tuan Nguyen
         <ul>
             <li>Username: anhtuann</li>
-            <li>Role/Strength: Frontend Developer</li>
+            <li>Role: Frontend Developer</li>
         </ul>
     </li>
-    <li>Hoang Minh Khoi Pham (40162551)
+    <li>Hoang Minh Khoi Pham
         <ul>
             <li>Username: HoangMinhKhoiPham</li>
-            <li>Role/Strength: Backend Developer</li>
+            <li>Role: Backend Developer</li>
         </ul>
     </li>
 </ul>

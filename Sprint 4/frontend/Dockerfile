@@ -1,7 +1,7 @@
 FROM node:18-alpine as builder
 COPY . /temp
 WORKDIR /temp
-ENV PUBLIC_API_URL="https://bcareers.happyfir.com/"
+ENV PUBLIC_API_URL="https://bcareers.happyfir.com"
 RUN npm install
 RUN npm run build
 
